@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
     {
         if (waypoints.Length == 0) return;
 
-        if (!agent.pathPending)
+        if (!agent.pathPending && agent.remainingDistance < 0.1f)
         {
             agent.destination = waypoints[waypointIndex].position;
             waypointIndex = (waypointIndex + 1) % waypoints.Length;
@@ -79,11 +79,6 @@ public class EnemyController : MonoBehaviour
         {
             currentState = EnemyState.Patrol;
             Debug.Log("Lost player");
-        }
-        else
-        {
-            Debug.Log("Player out of range");
-            return;
         }
     }
 
