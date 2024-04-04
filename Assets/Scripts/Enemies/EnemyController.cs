@@ -11,58 +11,59 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float pursuitRadius = 15f;
 
     private EnemyState currentState = EnemyState.Patrol;
-    private int waypointIndex = 0;
-
+    private int waypointIndex;
     private NavMeshAgent agent; 
+    private EnemyAttack enemyAttack;
 
-    private static List<EnemyController> allEnemies = new List<EnemyController>();
-
-    void Awake()
+    void Start()
     {
+        waypointIndex = 0;
+        enemyAttack = GetComponent<EnemyAttack>();
         agent = GetComponent<NavMeshAgent>(); 
-        allEnemies.Add(this);
-    }
-
-    void OnDestroy()
-    {
-        allEnemies.Remove(this);
     }
 
     void Update()
     {
+        DetectPlayer();
+
         switch (currentState)
         {
             case EnemyState.Patrol:
                 Patrol();
                 break;
-            case EnemyState.Alert:
-                AlertOthers();
-                PursuePlayer();
-                break;
             case EnemyState.Pursuit:
+                AlertOthers();
                 PursuePlayer();
                 break;
             case EnemyState.Combat:
                 Combat();
                 break;
         }
-
-        DetectPlayer();
     }
 
     void Patrol()
     {
+        agent.isStopped = false;
+
         if (waypoints.Length == 0) return;
 
-        if (!agent.pathPending && agent.remainingDistance < 0.1f)
+        if (currentState == EnemyState.Patrol)
         {
-            agent.destination = waypoints[waypointIndex].position;
-            waypointIndex = (waypointIndex + 1) % waypoints.Length;
+            if (!agent.pathPending && agent.remainingDistance < 0.1f)
+            {
+                waypointIndex = (waypointIndex + 1) % waypoints.Length;
+                agent.destination = waypoints[waypointIndex].position;
+            }
+            else if (agent.destination != waypoints[waypointIndex].position)
+            {
+                agent.destination = waypoints[waypointIndex].position;
+            }
         }
     }
 
     void PursuePlayer()
     {
+        agent.isStopped = false;
         agent.destination = player.position;
     }
 
@@ -70,32 +71,43 @@ public class EnemyController : MonoBehaviour
     {
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
         
-        if (distanceToPlayer <= detectionRadius)
+        if (distanceToPlayer <= enemyAttack.GetAttackRadius())
+        {
+            currentState = EnemyState.Combat;
+        }
+        else if (distanceToPlayer <= detectionRadius)
         {
             currentState = EnemyState.Pursuit;
-            Debug.Log("Player detected");
         }
-        else if (distanceToPlayer > pursuitRadius)
+        else if (distanceToPlayer >= pursuitRadius)
         {
             currentState = EnemyState.Patrol;
-            Debug.Log("Lost player");
         }
     }
 
     void AlertOthers()
     {
-        foreach (var enemy in allEnemies)
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, alertRadius);
+
+        foreach (var hitCollider in hitColliders)
         {
-            if (enemy != this && Vector3.Distance(transform.position, enemy.transform.position) <= alertRadius)
+            if (hitCollider.CompareTag("Enemy") && hitCollider.gameObject != this.gameObject)
             {
-                enemy.currentState = EnemyState.Alert;
+                EnemyController enemyController = hitCollider.GetComponent<EnemyController>();
+
+                if (enemyController != null && enemyController.currentState != EnemyState.Pursuit)
+                {
+                    enemyController.currentState = EnemyState.Pursuit;
+                }
             }
         }
     }
 
     void Combat()
     {
-        // Placeholder for combat logic
+        agent.isStopped = true;
+        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
+        enemyAttack.AttemptAttack();
     }
 
     void OnDrawGizmos()
