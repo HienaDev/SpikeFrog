@@ -5,6 +5,8 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] private Transform[] waypoints;
+    [SerializeField] private float patrolSpeed = 5.0f;
+    [SerializeField] private float chaseSpeed = 7.0f;
     [SerializeField] private float detectionRadius = 5.0f;
     [SerializeField] private float alertRadius = 10f;
     [SerializeField] private float pursuitRadius = 15f;
@@ -13,15 +15,19 @@ public class EnemyController : MonoBehaviour
     private int waypointIndex;
     private NavMeshAgent agent; 
     private EnemyAttack enemyAttack;
+    private Animator animator;
+    private NavMeshAgent navMeshAgent;
 
-    void Start()
+    private void Start()
     {
         waypointIndex = 0;
         enemyAttack = GetComponent<EnemyAttack>();
-        agent = GetComponent<NavMeshAgent>(); 
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>(); 
+        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    void Update()
+    private void Update()
     {
         DetectPlayer();
 
@@ -40,9 +46,21 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Patrol()
+    private void Patrol()
     {
         agent.isStopped = false;
+        agent.speed = patrolSpeed;
+
+        animator.SetBool("isChasing", false);
+
+        if (agent.velocity.magnitude > 0)
+        {
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
 
         if (waypoints.Length == 0) return;
 
@@ -60,13 +78,15 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void PursuePlayer()
+    private void PursuePlayer()
     {
         agent.isStopped = false;
+        agent.speed = chaseSpeed;
         agent.destination = player.position;
+        animator.SetBool("isChasing", true);
     }
 
-    void DetectPlayer()
+    private void DetectPlayer()
     {
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
         
@@ -84,7 +104,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void AlertOthers()
+    private void AlertOthers()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, alertRadius);
 
@@ -102,14 +122,14 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Combat()
+    private void Combat()
     {
         agent.isStopped = true;
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
         enemyAttack.AttemptAttack();
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);

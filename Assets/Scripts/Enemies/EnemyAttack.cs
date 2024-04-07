@@ -16,7 +16,7 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    void Attack()
+    private void Attack()
     {
         // Attack logic here
         Debug.Log("Attacking the player.");
@@ -27,7 +27,7 @@ public class EnemyAttack : MonoBehaviour
         return attackRadius;
     }
 
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
