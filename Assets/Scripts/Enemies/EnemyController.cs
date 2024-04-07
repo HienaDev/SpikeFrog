@@ -16,7 +16,6 @@ public class EnemyController : MonoBehaviour
     private NavMeshAgent agent; 
     private EnemyAttack enemyAttack;
     private Animator animator;
-    private NavMeshAgent navMeshAgent;
 
     private void Start()
     {
@@ -24,7 +23,6 @@ public class EnemyController : MonoBehaviour
         enemyAttack = GetComponent<EnemyAttack>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>(); 
-        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
