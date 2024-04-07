@@ -398,8 +398,8 @@ public class PlayerMovement : MonoBehaviour
 
             DecStamina(sprintStaminaCost * Time.fixedDeltaTime);
 
-            Debug.Log(stamina);
-            Debug.Log(sprintStaminaCost * Time.fixedDeltaTime);
+            //Debug.Log(stamina);
+            //Debug.Log(sprintStaminaCost * Time.fixedDeltaTime);
 
 
             if (stamina <= sprintStaminaCost * Time.fixedDeltaTime)
@@ -485,7 +485,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("Grounded", grounded.Grounded);
 
         rb.AddForce(forceToGoDown * Vector3.down, ForceMode.Force);
-        Debug.Log(forceToGoDown);
+        //Debug.Log(forceToGoDown);
     }
 
     private void UpdateMotion()

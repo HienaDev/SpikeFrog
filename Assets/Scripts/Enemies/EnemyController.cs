@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class EnemyController : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class EnemyController : MonoBehaviour
         waypointIndex = 0;
         enemyAttack = GetComponent<EnemyAttack>();
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -46,7 +47,6 @@ public class EnemyController : MonoBehaviour
 
     private void Patrol()
     {
-        agent.isStopped = false;
         agent.speed = patrolSpeed;
 
         animator.SetBool("isChasing", false);
@@ -78,7 +78,6 @@ public class EnemyController : MonoBehaviour
 
     private void PursuePlayer()
     {
-        agent.isStopped = false;
         agent.speed = chaseSpeed;
         agent.destination = player.position;
         animator.SetBool("isChasing", true);
@@ -122,9 +121,17 @@ public class EnemyController : MonoBehaviour
 
     private void Combat()
     {
-        agent.isStopped = true;
+        StartCoroutine(StopAndPunch());
+    }
+
+    private IEnumerator StopAndPunch()
+    {
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
-        enemyAttack.AttemptAttack();
+        enemyAttack.AttemptAttack(animator);
+
+        agent.isStopped = true;
+        yield return new WaitForSeconds(enemyAttack.GetAttackCooldown());
+        agent.isStopped = false;
     }
 
     private void OnDrawGizmos()
