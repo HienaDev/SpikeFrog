@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using TMPro.EditorUtilities;
 using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]                            private float extraGravity;
     private float forceToGoDown;
     private float heightOfJump;
-    private float defaultMass;
+    private Vector3 defaultGravity;
     
 
 
@@ -56,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     private TongueScript grappling;
 
     private Animator animator;
+    public Animator Animator {  get { return animator; } }
 
     //private CharacterController characterController;
 
@@ -88,8 +90,10 @@ public class PlayerMovement : MonoBehaviour
     private bool moving;
 
     private float   sin90;
-    
-    
+
+    private bool freeze;
+    private bool activeGrapple;
+    public bool ActiveGrapple { get {  return activeGrapple; } }
 
     // Start is called before the first frame update
     private void Start()
@@ -103,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
 
         grounded = GetComponentInChildren<CheckGrounded>();
         rb = GetComponent<Rigidbody>();
-        defaultMass = rb.mass;
+        defaultGravity = Physics.gravity;
         forceToGoDown = 0;
 
         extraAngleForDirection = 0;
@@ -132,31 +136,54 @@ public class PlayerMovement : MonoBehaviour
 
         sin90 = Mathf.Sin(Mathf.PI / 4);
 
+        freeze = false;
+        activeGrapple = false;
+
         UpdateUI();
         HideCursor();
     }
 
     private void FixedUpdate()
     {
-        UpdateAcceleration();
-        UpdateVelocity();
-        UpdateMotion();
+        
 
-        RegenStamina();
+        if (!freeze && !activeGrapple)
+        {
+            UpdateAcceleration();
+            UpdateVelocity();
+            UpdateMotion();
 
-        RotateSkate();
+            RegenStamina();
+
+            RotateSkate();
+        }
+        else if (!activeGrapple)
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     // Update is called once per frame
     private void Update()
     {
-        
-        UpdateRotation();
 
-        CheckForJump();
-        CheckForSprint();
-        CheckForSprintRest();
-        CheckForDash();
+
+        if (!freeze && !activeGrapple)
+        {
+            UpdateRotation();
+
+            CheckForJump();
+            CheckForSprint();
+            CheckForSprintRest();
+            //CheckForDash();
+        }
+        else if (!activeGrapple)
+        {
+            rb.velocity = Vector3.zero;
+        }
+
+        
+
 
         //if( PLAYER NOT)
         currentAngle = GetCurrentAngleBetweenCameraAndPlayer();
@@ -164,19 +191,7 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetBool("Swinging", grappling.IsGrappling());
         
-        if(Input.GetKeyDown(KeyCode.F)) {
-            animator.SetTrigger("Punch Right");
-        }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            animator.SetTrigger("Punch Left");
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            animator.SetTrigger("Upper Cut");
-        }
+        
     }
 
     private void UpdateRotation()
@@ -200,6 +215,8 @@ public class PlayerMovement : MonoBehaviour
                 compensationAngleForCamera = 0;
             }
 
+            UpdateCamera();
+
         }
         else if (Input.GetKey(KeyCode.S))
         {
@@ -218,17 +235,23 @@ public class PlayerMovement : MonoBehaviour
                 extraAngleForDirection = -180;
                 compensationAngleForCamera = 0;
             }
+
+            UpdateCamera();
         }
         else if (Input.GetKey(KeyCode.A))
         {
             extraAngleForDirection = 0;
             compensationAngleForCamera = -90;
+
+            UpdateCamera();
         }
         else if (Input.GetKey(KeyCode.D))
         {
 
             extraAngleForDirection = 0;
             compensationAngleForCamera = 90;
+
+            UpdateCamera();
         }
 
 
@@ -236,11 +259,16 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.anyKey)
         { 
-            targetAngle = cameraTransform.rotation.eulerAngles.y - extraAngleForDirection + compensationAngleForCamera;
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, targetAngle, transform.eulerAngles.z);
-
-            cameraTransform.eulerAngles = new Vector3(cameraTransform.eulerAngles.x, targetAngle - extraAngleForDirection - compensationAngleForCamera, cameraTransform.eulerAngles.z);
+            //UpdateCamera(); 
         }
+    }
+
+    public void UpdateCamera()
+    {
+        targetAngle = cameraTransform.rotation.eulerAngles.y - extraAngleForDirection + compensationAngleForCamera;
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, targetAngle, transform.eulerAngles.z);
+
+        cameraTransform.eulerAngles = new Vector3(cameraTransform.eulerAngles.x, targetAngle - extraAngleForDirection - compensationAngleForCamera, cameraTransform.eulerAngles.z);
     }
 
     private float GetCurrentAngleBetweenCameraAndPlayer()
@@ -258,6 +286,8 @@ public class PlayerMovement : MonoBehaviour
         {
             jump = true;
             skateRotating = true;
+
+            animator.SetTrigger("Jump");
         }
     }
 
@@ -466,7 +496,8 @@ public class PlayerMovement : MonoBehaviour
         
         if (grounded)
         {
-            forceToGoDown = 0;
+            Physics.gravity = defaultGravity;
+            
         }
 
         if (jump && grounded.Grounded)
@@ -476,16 +507,46 @@ public class PlayerMovement : MonoBehaviour
             jump = false;
         }
 
-        if (transform.position.y > heightOfJump + maxJumpHeight)
+        if (transform.position.y > heightOfJump + maxJumpHeight || rb.velocity.y < 0)
         {
-            rb.velocity = new Vector3(rb.velocity.x, Mathf.Min(rb.velocity.y, 5f), rb.velocity.z);
-            forceToGoDown = extraGravity;
+            //rb.velocity = new Vector3(rb.velocity.x, Mathf.Min(rb.velocity.y, 5f), rb.velocity.z);
+            //forceToGoDown = extraGravity;
+            Physics.gravity = -new Vector3 (0f, extraGravity, 0f);
         }
 
+        if (grounded.Grounded)
+            activeGrapple = false;
+       
         animator.SetBool("Grounded", grounded.Grounded);
+
 
         rb.AddForce(forceToGoDown * Vector3.down, ForceMode.Force);
         //Debug.Log(forceToGoDown);
+    }
+
+    public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
+    {
+
+        activeGrapple = true;
+
+        rb.velocity = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
+
+        
+    }
+
+    public Vector3 CalculateJumpVelocity(Vector3 startPoint, Vector3 endPoint, float trajectoryHeight)
+    {
+        float gravity = Physics.gravity.y;
+        float displacementY = endPoint.y - startPoint.y;
+
+        Vector3 displacementXZ = new Vector3(endPoint.x- startPoint.x, 0f, endPoint.z -startPoint.z);
+
+        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajectoryHeight);
+
+        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity)
+            + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
+
+        return (velocityXZ + velocityY);
     }
 
     private void UpdateMotion()
@@ -511,7 +572,24 @@ public class PlayerMovement : MonoBehaviour
         moving = motion.z != 0f || motion.x != 0f;
     }
 
+    public void ActivateGrapple()
+    {
+
+
+
+        extraAngleForDirection = 0;
+        compensationAngleForCamera = 0;
+
+        UpdateCamera();
+
+        animator.SetTrigger("Grapple");
+    }
+
     private void HideCursor() => Cursor.lockState = CursorLockMode.Locked;
 
+    public void EnableFreeze() => freeze = true;
 
+    public void DisableFreeze() => freeze = false;  
+
+    private void DeactiveGrapple() => activeGrapple = false;
 }
