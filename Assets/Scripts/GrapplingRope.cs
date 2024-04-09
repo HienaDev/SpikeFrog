@@ -83,4 +83,11 @@ public class GrapplingRope : MonoBehaviour
             lineRenderer.SetPosition(i, Vector3.Lerp(gunTipPosition, currentGrapplePosition, delta) + offset);
         }
     }
+
+    public void ResetRope()
+    {
+        //currentGrapplePosition = grapplingScript.GunTip.position;
+        lineRenderer.positionCount = 0;
+        spring.Reset();
+    }
 }

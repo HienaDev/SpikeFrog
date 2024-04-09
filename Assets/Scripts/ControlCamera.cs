@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,46 +22,109 @@ public class ControlCamera : MonoBehaviour
     [SerializeField] private float zoomMinDistance;
     [SerializeField] private float zoomMaxDistance;
 
-    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private GameObject cameraBrain;
+    private Transform cameraTransform;
     private float zoomAcceleration;
     private float zoomVelocity;
     private float zoomPosition;
+    private float zoomTargetCameraLevel;
+
     private Vector3 deocclusionVector;
+
+    [SerializeField] private bool targetting;
+
+    [SerializeField] private GameObject normalCamera;
+    [SerializeField] private GameObject targetCamera;
 
     private void Start()
     {
         //cameraTransform = GetComponentInChildren<Camera>().transform;
+        cameraTransform = targetCamera.transform;
+
+        zoomTargetCameraLevel = GetTargetCameraOffset();
 
         zoomVelocity = 0f;
 
         deocclusionVector = new Vector3(0, 0, deocclusionThreshold);
     }
 
+    private float GetTargetCameraOffset()
+    {
+        return (targetCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance);
+    }
+
+    private void SetTargetCameraOffset(float value)
+    {
+        targetCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = value;
+    }
+
     private void Update()
     {
-        UpdatePitch(); // Look up and down
-        UpdateYaw(); // Look around
+
+        SwapCameras();
+
+        if (!targetting)
+        {
+            UpdatePitch(); // Look up and down
+            UpdateYaw(); // Look around
+
+        }
+        else
+        {
+            transform.rotation = targetCamera.transform.rotation;
+        }
+
         UpdateZoom();
 
         PreventOcclusion();
+
     }
 
+
+    private void SwapCameras()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            targetCamera.SetActive(!targetCamera.activeSelf);
+            normalCamera.SetActive(!normalCamera.activeSelf);
+
+            if (targetCamera.activeSelf)
+            {
+                targetting = true;
+                targetCamera.transform.position = normalCamera.transform.position;
+                targetCamera.transform.rotation = normalCamera.transform.rotation;
+                cameraTransform = targetCamera.transform;
+            }
+            else
+            {
+                targetting = false;
+                normalCamera.transform.position = targetCamera.transform.position;
+                normalCamera.transform.rotation = targetCamera.transform.rotation;
+                cameraTransform = normalCamera.transform;
+            }
+        }
+    }
 
 
     private void PreventOcclusion()
     {
 
-        Debug.DrawLine(occlusionPivot.position, cameraTransform.position - cameraTransform.TransformDirection(deocclusionVector));
+        Debug.DrawLine(occlusionPivot.position, cameraTransform.position - cameraTransform.TransformDirection(deocclusionVector), Color.red);
 
         if (Physics.Linecast(occlusionPivot.position, cameraTransform.position - cameraTransform.TransformDirection(deocclusionVector), out RaycastHit hitInfo))
         {
 
-            if(hitInfo.collider.CompareTag("WorldBoundary"))
+            if (hitInfo.collider.CompareTag("WorldBoundary"))
             {
                 cameraTransform.position = hitInfo.point + cameraTransform.TransformDirection(deocclusionVector);
+
+                SetTargetCameraOffset(GetTargetCameraOffset() - Vector3.Distance(hitInfo.point, cameraTransform.position));
             }
             else
             {
+                Debug.Log(GetTargetCameraOffset());
+                SetTargetCameraOffset(GetTargetCameraOffset() - deocclusionVelocity * Time.deltaTime);
+
                 Vector3 position = cameraTransform.localPosition;
 
                 position.z += deocclusionVelocity * Time.deltaTime;
@@ -77,17 +141,36 @@ public class ControlCamera : MonoBehaviour
 
     private void RevertDeocclusion()
     {
-        Vector3 localPosition = cameraTransform.localPosition;
-
-        if(localPosition.z > zoomPosition)
+        if (!targetCamera.activeSelf)
         {
-            localPosition.z = Mathf.Max(localPosition.z - deocclusionVelocity * Time.deltaTime, zoomPosition);
+            Vector3 localPosition = cameraTransform.localPosition;
 
-            Vector3 worldPosition = transform.TransformPoint(localPosition);
-
-            if(!Physics.Linecast(occlusionPivot.position, worldPosition - cameraTransform.TransformDirection(deocclusionVector)))
+            if (localPosition.z > zoomPosition)
             {
-                cameraTransform.localPosition = localPosition;
+                localPosition.z = Mathf.Max(localPosition.z - deocclusionVelocity * Time.deltaTime, zoomPosition);
+
+                Vector3 worldPosition = transform.TransformPoint(localPosition);
+
+                if (!Physics.Linecast(occlusionPivot.position, worldPosition - cameraTransform.TransformDirection(deocclusionVector)))
+                {
+                    cameraTransform.localPosition = localPosition;
+                }
+            }
+        }
+        else
+        {
+            Vector3 localPosition = cameraTransform.localPosition;
+
+            if (GetTargetCameraOffset() < zoomPosition)
+            {
+                SetTargetCameraOffset(Mathf.Min(GetTargetCameraOffset() - deocclusionVelocity * Time.deltaTime, zoomTargetCameraLevel));
+
+                Vector3 worldPosition = transform.TransformPoint(localPosition);
+
+                if (!Physics.Linecast(occlusionPivot.position, worldPosition - cameraTransform.TransformDirection(deocclusionVector)))
+                {
+                    SetTargetCameraOffset(GetTargetCameraOffset());
+                }
             }
         }
     }
@@ -101,7 +184,7 @@ public class ControlCamera : MonoBehaviour
 
     private void UpdateZoomAcceleration()
     {
-        zoomAcceleration = Input.GetAxis("Zoom") * zoomAccelerationFactor;  
+        zoomAcceleration = Input.GetAxis("Zoom") * zoomAccelerationFactor;
     }
 
     private void UpdateZoomVelocity()
@@ -109,6 +192,8 @@ public class ControlCamera : MonoBehaviour
         if (zoomAcceleration != 0f)
         {
             zoomVelocity += zoomAcceleration * Time.deltaTime;
+
+
         }
         else if (zoomVelocity > 0f)
         {
@@ -130,21 +215,41 @@ public class ControlCamera : MonoBehaviour
             Vector3 position = cameraTransform.localPosition;
 
             position.z += zoomVelocity * Time.deltaTime;
+            SetTargetCameraOffset(GetTargetCameraOffset() - zoomVelocity * Time.deltaTime);
 
-            if(position.z < -zoomMaxDistance || position.z > -zoomMinDistance) 
-            {
-                zoomVelocity = 0f;
+            if (!targetCamera.activeSelf)
+            { 
+                if (position.z < -zoomMaxDistance || position.z > -zoomMinDistance)
+                {
+                    zoomVelocity = 0f;
 
-                position.z = Mathf.Clamp(position.z, -zoomMaxDistance, -zoomMinDistance);
+                    position.z = Mathf.Clamp(position.z, -zoomMaxDistance, -zoomMinDistance);
+                }
+            }
+            else
+            { 
+                if (GetTargetCameraOffset() > zoomMaxDistance || GetTargetCameraOffset() < zoomMinDistance)
+                {
+                    zoomVelocity = 0f;
+
+                    SetTargetCameraOffset(Mathf.Clamp(GetTargetCameraOffset(), zoomMinDistance, zoomMaxDistance));
+                }
             }
 
+
             cameraTransform.localPosition = position;
+
+            Debug.Log(zoomVelocity);
+
+
+
+            zoomTargetCameraLevel = GetTargetCameraOffset();
 
             zoomPosition = position.z;
         }
     }
 
-    
+
 
     private void UpdatePitch()
     {
@@ -152,47 +257,22 @@ public class ControlCamera : MonoBehaviour
 
         rotation.x -= Input.GetAxis("Mouse Y") * rotationVelocityFactor;
 
-        if(rotation.x < 180f) 
+        if (rotation.x < 180f)
             rotation.x = Mathf.Min(rotation.x, maxPitchUpAngle);
         else
             rotation.x = Mathf.Max(rotation.x, maxPitchDownAngle);
 
-        transform.localEulerAngles = (rotation); 
+        transform.localEulerAngles = (rotation);
     }
 
     private void UpdateYaw()
     {
-        // Rotates camera
-        //if (Input.GetButton("Camera"))
-        //{
-        //    Vector3 rotation = transform.localEulerAngles;
-
-        //    rotation.y += Input.GetAxis("Mouse X");
-
-        //    transform.localEulerAngles = (rotation);
-        //}
-        //else
-        //    ResetYaw();
 
         Vector3 rotation = transform.localEulerAngles;
 
-           rotation.y += Input.GetAxis("Mouse X");
-
-           transform.localEulerAngles = (rotation);
-    }
-
-    private void ResetYaw()
-    {
-        Vector3 rotation = transform.localEulerAngles;
-
-        if(rotation.y != 0f)
-        {
-            if (rotation.y < 180f)
-                rotation.y = Mathf.Max(rotation.y - resetYawSpeed * Time.deltaTime, 0f);
-            else
-                rotation.y = Mathf.Max(rotation.y + resetYawSpeed * Time.deltaTime, 0f);
-        }
+        rotation.y += Input.GetAxis("Mouse X");
 
         transform.localEulerAngles = (rotation);
     }
+
 }

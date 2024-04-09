@@ -1,6 +1,8 @@
+using Cinemachine;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Grappling : MonoBehaviour
@@ -29,20 +31,36 @@ public class Grappling : MonoBehaviour
 
     [SerializeField] private float fovValue;
     private float defaultFov;
+    private CinemachineVirtualCamera activeCamera;
+
+    private GrapplingRope grapplingRope;
  
     // Start is called before the first frame update
     void Start()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
-        //lineRenderer = GetComponent<LineRenderer>();
+        grapplingRope = GetComponent<GrapplingRope>();
 
-        defaultFov = cam.GetComponent<Camera>().fieldOfView;
+        activeCamera = cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
+
+        defaultFov = activeCamera.m_Lens.FieldOfView;
+
+
+        //cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView
+    }
+
+    public void UpdateCamera()
+    {
+        activeCamera = cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(grappleKey))
+
+
+
+        if (Input.GetKeyDown(grappleKey))
         {
             StartGrapple();
         }
@@ -51,12 +69,6 @@ public class Grappling : MonoBehaviour
         {
             grapplingCdTimer -= Time.deltaTime;
         }
-    }
-
-    private void LateUpdate()
-    {
-        //if(grappling)
-            //lineRenderer.SetPosition(0, gunTip.position);
     }
 
     private void StartGrapple()
@@ -95,6 +107,8 @@ public class Grappling : MonoBehaviour
     {
         playerMovement.DisableFreeze();
 
+        grapplingRope.ResetRope();
+
         Vector3 lowestPoint = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
         float grapplePointRelativeYPos = grapplePoint.y - lowestPoint.y;
         float highestPointOnArc = grapplePointRelativeYPos + overshootYAxis;
@@ -116,6 +130,8 @@ public class Grappling : MonoBehaviour
 
         playerMovement.DisableFreeze();
 
+        grapplingRope.ResetRope();
+
         grappling = false;
 
         //grapplingCdTimer = grapplingCd;
@@ -127,15 +143,25 @@ public class Grappling : MonoBehaviour
     private void DoFov(float endValue)
     {
         cam.GetComponent<Camera>().DOFieldOfView(endValue, 0.25f);
+
+        
     }
     
     private void AddFov()
     {
-        DoFov(defaultFov + fovValue);
+        DOTween.To( ()=> activeCamera.m_Lens.FieldOfView, 
+                        x=> activeCamera.m_Lens.FieldOfView = x
+                        , defaultFov + fovValue, 0.25f);
+        //DoFov(defaultFov + fovValue);
     }
 
     public void ResetFov()
     {
-        DoFov(defaultFov);
+        DOTween.To(() => activeCamera.m_Lens.FieldOfView, 
+                        x => activeCamera.m_Lens.FieldOfView = x
+                        , defaultFov, 0.25f);
+        //DoFov(defaultFov);
     }
+
+    
 }
