@@ -145,6 +145,9 @@ public class ControlCamera : MonoBehaviour
 
     private void RevertDeocclusion()
     {
+
+        // Fixed jittering by changing deocclusion value, check again later
+
         if (!targetCamera.activeSelf)
         {
             Vector3 localPosition = cameraTransform.localPosition;
