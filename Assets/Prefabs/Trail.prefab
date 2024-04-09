@@ -78,7 +78,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1.33
+    widthMultiplier: 0.9
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -162,7 +162,7 @@ Transform:
   m_GameObject: {fileID: 8693890625464461915}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.653, y: 2.361, z: 5.04}
+  m_LocalPosition: {x: 3.333, y: 2.361, z: 5.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -212,10 +212,10 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Time: 1
-  m_PreviewTimeScale: 1
+  m_PreviewTimeScale: 0
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.7
     widthCurve:
       serializedVersion: 2
       m_Curve:

@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -54,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Camera"), SerializeField]          private Transform cameraTransform;
 
-    private TongueScript grappling;
+    [SerializeField] private Grappling grappling;
 
     private Animator animator;
     public Animator Animator {  get { return animator; } }
@@ -115,7 +116,6 @@ public class PlayerMovement : MonoBehaviour
         //currentAngleForDirection = 0;
         //currentCompensationAngleForCamera = 0;
 
-        grappling = GetComponentInChildren<TongueScript>();
 
         jump = false;
 
@@ -161,6 +161,9 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
         }
+
+        animator.SetBool("Grounded", grounded.Grounded);
+
     }
 
     // Update is called once per frame
@@ -189,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
         currentAngle = GetCurrentAngleBetweenCameraAndPlayer();
         //Debug.Log(currentAngle);
 
-        animator.SetBool("Swinging", grappling.IsGrappling());
+        //animator.SetBool("Swinging", grappling.IsGrappling());
         
         
     }
@@ -514,10 +517,9 @@ public class PlayerMovement : MonoBehaviour
             Physics.gravity = -new Vector3 (0f, extraGravity, 0f);
         }
 
-        if (grounded.Grounded)
-            activeGrapple = false;
        
-        animator.SetBool("Grounded", grounded.Grounded);
+
+        
 
 
         rb.AddForce(forceToGoDown * Vector3.down, ForceMode.Force);
@@ -531,7 +533,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
 
-        
+        animator.SetTrigger("Jump");
     }
 
     public Vector3 CalculateJumpVelocity(Vector3 startPoint, Vector3 endPoint, float trajectoryHeight)
@@ -592,4 +594,11 @@ public class PlayerMovement : MonoBehaviour
     public void DisableFreeze() => freeze = false;  
 
     private void DeactiveGrapple() => activeGrapple = false;
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        activeGrapple = false;
+        grappling.ResetFov();
+    }
 }

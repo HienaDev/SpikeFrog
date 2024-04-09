@@ -59,8 +59,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color1: {r: 241.67491, g: 0, b: 0, a: 0}
-    - _Color2: {r: 0.5816295, g: 11.697303, b: 0, a: 0}
+    - _Color1: {r: 1, g: 0, b: 0.010199547, a: 0}
+    - _Color2: {r: 0, g: 3.6127512, b: 2.193613, a: 0}
     - _DissolveSpeed: {r: -0.5, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 256, g: 0, b: 0, a: 0}
     - _MainTexSpeed: {r: -1, g: 0, b: 0, a: 0}
