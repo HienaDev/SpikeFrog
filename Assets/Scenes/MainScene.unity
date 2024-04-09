@@ -402,6 +402,12 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!4 &419373714 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2118457455794171784, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6287433488659998878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &612327662
 GameObject:
   m_ObjectHideFlags: 0
@@ -2298,6 +2304,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2431629188305279379, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
         type: 3}
+      propertyPath: grapplingCd
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2431629188305279379, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
       propertyPath: overshootYAxis
       value: 1
       objectReference: {fileID: 0}
@@ -2541,6 +2552,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -102.25161
       objectReference: {fileID: 0}
+    - target: {fileID: 6606859040698819631, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 419373714}
     - target: {fileID: 6935450262405960767, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
         type: 3}
       propertyPath: m_Name

@@ -21,7 +21,7 @@ public class ControlCamera : MonoBehaviour
     [SerializeField] private float zoomMinDistance;
     [SerializeField] private float zoomMaxDistance;
 
-    private Transform cameraTransform;
+    [SerializeField] private Transform cameraTransform;
     private float zoomAcceleration;
     private float zoomVelocity;
     private float zoomPosition;
@@ -29,7 +29,7 @@ public class ControlCamera : MonoBehaviour
 
     private void Start()
     {
-        cameraTransform = GetComponentInChildren<Camera>().transform;
+        //cameraTransform = GetComponentInChildren<Camera>().transform;
 
         zoomVelocity = 0f;
 

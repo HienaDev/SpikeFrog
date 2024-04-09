@@ -30,7 +30,7 @@ public class PlayerCombat : MonoBehaviour
             animator.SetTrigger("FirstPunch");
             timerCombo = 0;
 
-            playerMovement.UpdateCamera();
+            playerMovement.UpdateCamera(0, 0);
 
             // player is unfrozen through idle animation using method DisableFreeze from this method
             playerMovement.EnableFreeze();
@@ -40,7 +40,7 @@ public class PlayerCombat : MonoBehaviour
             animator.SetTrigger("Punch");
             timerCombo = 0;
 
-            //playerMovement.UpdateCamera();
+            playerMovement.UpdateCamera(0, 0);
         }
 
         // reset trigger after some time so the player doesnt have a buffered attack 

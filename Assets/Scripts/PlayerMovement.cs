@@ -218,7 +218,7 @@ public class PlayerMovement : MonoBehaviour
                 compensationAngleForCamera = 0;
             }
 
-            UpdateCamera();
+            UpdateCamera(extraAngleForDirection, compensationAngleForCamera);
 
         }
         else if (Input.GetKey(KeyCode.S))
@@ -239,14 +239,14 @@ public class PlayerMovement : MonoBehaviour
                 compensationAngleForCamera = 0;
             }
 
-            UpdateCamera();
+            UpdateCamera(extraAngleForDirection, compensationAngleForCamera);
         }
         else if (Input.GetKey(KeyCode.A))
         {
             extraAngleForDirection = 0;
             compensationAngleForCamera = -90;
 
-            UpdateCamera();
+            UpdateCamera(extraAngleForDirection, compensationAngleForCamera);
         }
         else if (Input.GetKey(KeyCode.D))
         {
@@ -254,7 +254,7 @@ public class PlayerMovement : MonoBehaviour
             extraAngleForDirection = 0;
             compensationAngleForCamera = 90;
 
-            UpdateCamera();
+            UpdateCamera(extraAngleForDirection, compensationAngleForCamera);
         }
 
 
@@ -266,7 +266,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void UpdateCamera()
+    public void UpdateCamera(float extraAngleForDirection, float compensationAngleForCamera)
     {
         targetAngle = cameraTransform.rotation.eulerAngles.y - extraAngleForDirection + compensationAngleForCamera;
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, targetAngle, transform.eulerAngles.z);
@@ -582,7 +582,7 @@ public class PlayerMovement : MonoBehaviour
         extraAngleForDirection = 0;
         compensationAngleForCamera = 0;
 
-        UpdateCamera();
+        UpdateCamera(0, 0);
 
         animator.SetTrigger("Grapple");
     }
