@@ -45,6 +45,8 @@ public class ControlCamera : MonoBehaviour
 
         zoomVelocity = 0f;
 
+        zoomPosition = normalCamera.transform.localPosition.z;
+
         deocclusionVector = new Vector3(0, 0, deocclusionThreshold);
     }
 
@@ -69,10 +71,7 @@ public class ControlCamera : MonoBehaviour
             UpdateYaw(); // Look around
 
         }
-        else
-        {
-            transform.rotation = targetCamera.transform.rotation;
-        }
+
 
         UpdateZoom();
 
@@ -80,6 +79,11 @@ public class ControlCamera : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        if (targetting)
+            transform.rotation = targetCamera.transform.rotation;
+    }
 
     private void SwapCameras()
     {
@@ -122,7 +126,7 @@ public class ControlCamera : MonoBehaviour
             }
             else
             {
-                Debug.Log(GetTargetCameraOffset());
+                //Debug.Log(GetTargetCameraOffset());
                 SetTargetCameraOffset(GetTargetCameraOffset() - deocclusionVelocity * Time.deltaTime);
 
                 Vector3 position = cameraTransform.localPosition;
@@ -161,13 +165,15 @@ public class ControlCamera : MonoBehaviour
         {
             Vector3 localPosition = cameraTransform.localPosition;
 
-            if (GetTargetCameraOffset() < zoomPosition)
+            if (GetTargetCameraOffset() < zoomTargetCameraLevel)
             {
-                SetTargetCameraOffset(Mathf.Min(GetTargetCameraOffset() - deocclusionVelocity * Time.deltaTime, zoomTargetCameraLevel));
+                Debug.Log(zoomTargetCameraLevel);
+                SetTargetCameraOffset(Mathf.Min(GetTargetCameraOffset() + deocclusionVelocity * Time.deltaTime, zoomTargetCameraLevel));
 
                 Vector3 worldPosition = transform.TransformPoint(localPosition);
 
-                if (!Physics.Linecast(occlusionPivot.position, worldPosition - cameraTransform.TransformDirection(deocclusionVector)))
+                Debug.DrawLine(occlusionPivot.position, worldPosition + cameraTransform.TransformDirection(deocclusionVector), Color.blue);
+                if (!Physics.Linecast(occlusionPivot.position, worldPosition + cameraTransform.TransformDirection(deocclusionVector)))
                 {
                     SetTargetCameraOffset(GetTargetCameraOffset());
                 }
@@ -215,6 +221,7 @@ public class ControlCamera : MonoBehaviour
             Vector3 position = cameraTransform.localPosition;
 
             position.z += zoomVelocity * Time.deltaTime;
+
             SetTargetCameraOffset(GetTargetCameraOffset() - zoomVelocity * Time.deltaTime);
 
             if (!targetCamera.activeSelf)
@@ -239,7 +246,7 @@ public class ControlCamera : MonoBehaviour
 
             cameraTransform.localPosition = position;
 
-            Debug.Log(zoomVelocity);
+            //Debug.Log(zoomVelocity);
 
 
 
