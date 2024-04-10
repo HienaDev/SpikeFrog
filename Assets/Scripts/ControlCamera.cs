@@ -170,7 +170,7 @@ public class ControlCamera : MonoBehaviour
 
             if (GetTargetCameraOffset() < zoomTargetCameraLevel)
             {
-                Debug.Log(zoomTargetCameraLevel);
+                //Debug.Log(zoomTargetCameraLevel);
                 SetTargetCameraOffset(Mathf.Min(GetTargetCameraOffset() + deocclusionVelocity * Time.deltaTime, zoomTargetCameraLevel));
 
                 Vector3 worldPosition = transform.TransformPoint(localPosition);
