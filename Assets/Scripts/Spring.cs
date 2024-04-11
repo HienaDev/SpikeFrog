@@ -15,7 +15,7 @@ public class Spring
         velocity += (force * direction - velocity * damper) * deltaTime;
         value += velocity * deltaTime;
 
-        Debug.Log(velocity);
+        //Debug.Log(velocity);
     }
 
     public void Reset()
