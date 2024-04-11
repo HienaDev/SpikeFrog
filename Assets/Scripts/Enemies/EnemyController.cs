@@ -12,15 +12,18 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float alertRadius = 10f;
     [SerializeField] private float pursuitRadius = 15f;
 
-    private EnemyState currentState = EnemyState.Patrol;
-    private int waypointIndex;
-    private NavMeshAgent agent; 
-    private EnemyAttack enemyAttack;
-    private Animator animator;
+    private EnemyState      currentState;
+    private int             waypointIndex;
+    private NavMeshAgent    agent; 
+    private EnemyAttack     enemyAttack;
+    private Animator        animator;
+    private Animation       runAnimation;
+    private Animation       walkAnimation;
 
     private void Start()
     {
         waypointIndex = 0;
+        currentState = EnemyState.Patrol;
         enemyAttack = GetComponent<EnemyAttack>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
