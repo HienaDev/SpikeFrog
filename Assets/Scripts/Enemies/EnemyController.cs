@@ -11,14 +11,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float detectionRadius = 5.0f;
     [SerializeField] private float alertRadius = 10f;
     [SerializeField] private float pursuitRadius = 15f;
+    [SerializeField] private Collider punchHitbox;
 
     private EnemyState      currentState;
     private int             waypointIndex;
     private NavMeshAgent    agent; 
     private EnemyAttack     enemyAttack;
     private Animator        animator;
-    private Animation       runAnimation;
-    private Animation       walkAnimation;
 
     private void Start()
     {
