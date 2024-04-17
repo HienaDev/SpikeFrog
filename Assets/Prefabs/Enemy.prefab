@@ -51,8 +51,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.1763039, y: 0.9999998, z: 1.4509177}
+  m_Center: {x: -0.5881524, y: 0, z: 0.22545947}
 --- !u!1001 &3334080299160618951
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.39
+      value: 3.74
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 73ffbc06802a247cfb1b26f4ee67eba8,
         type: 3}
@@ -269,10 +269,10 @@ MonoBehaviour:
   - {fileID: 0}
   patrolSpeed: 5
   chaseSpeed: 7
-  detectionRadius: 5.48
+  detectionRadius: 8.37
   alertRadius: 15.1
   pursuitRadius: 20
-  punchHitbox: {fileID: 1997019167873568232}
+  enemyMaterial: {fileID: 2100000, guid: 03ea2d256bf144dfa907b17f13aa4949, type: 2}
 --- !u!114 &9101867021358259500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,7 +287,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRadius: 2.5
   attackDamage: 10
-  punchHitbox: {fileID: 1997019167873568232}
 --- !u!136 &9072232120458093637
 CapsuleCollider:
   m_ObjectHideFlags: 0

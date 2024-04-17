@@ -4,7 +4,6 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] private float attackRadius = 2.5f;
     [SerializeField] private float attackDamage = 10f;
-    [SerializeField] private Collider punchHitbox;  // Ensure this is linked in the inspector
 
     private float attackCooldown;
     private float lastAttackTime;
@@ -23,7 +22,7 @@ public class EnemyAttack : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player hit by attack.");
+            //Debug.Log("Player hit by attack.");
             lastAttackTime = Time.time;
         }
     }
@@ -36,6 +35,11 @@ public class EnemyAttack : MonoBehaviour
     public float GetAttackCooldown()
     {
         return attackCooldown;
+    }
+
+    public void AttackCooldown(float cooldown)
+    {
+        attackCooldown = cooldown;
     }
 
     private void OnDrawGizmosSelected()
