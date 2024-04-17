@@ -33,6 +33,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Mouse speed"), SerializeField]     private float rotationVelocityFactor;
 
     [Header("Rotation speed"), SerializeField]  private float rotationSpeedPlayer;
+    private float lerpPercentage;
+    private Vector3 targetTransform;
+    private Vector3 targetRotation;
 
     [Header("Stamina"), SerializeField]         private int maxStamina;
     [SerializeField]                            private int staminaRegenRate;
@@ -120,6 +123,9 @@ public class PlayerMovement : MonoBehaviour
         jump = false;
 
         targetAngle = transform.rotation.eulerAngles.y;
+        lerpPercentage = 0;
+        targetTransform = Vector3.zero;
+        targetRotation = Vector3.zero;
 
         sprint = false;
         needSprintRest = false;
@@ -185,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
 
-        
+        RotateCamera();
 
 
         //if( PLAYER NOT)
@@ -272,6 +278,22 @@ public class PlayerMovement : MonoBehaviour
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, targetAngle, transform.eulerAngles.z);
 
         cameraTransform.eulerAngles = new Vector3(cameraTransform.eulerAngles.x, targetAngle - extraAngleForDirection - compensationAngleForCamera, cameraTransform.eulerAngles.z);
+
+
+        //targetTransform = new Vector3(transform.eulerAngles.x, targetAngle, transform.eulerAngles.z);
+        //targetRotation = new Vector3(cameraTransform.eulerAngles.x, targetAngle - extraAngleForDirection - compensationAngleForCamera, cameraTransform.eulerAngles.z);
+        //lerpPercentage = 0;
+    }
+
+    // maybe change everything from Vector3 angles to quaternions
+    private void RotateCamera()
+    {
+        //cameraTransform.eulerAngles = new Vector3(cameraTransform.eulerAngles.x, targetAngle - extraAngleForDirection - compensationAngleForCamera, cameraTransform.eulerAngles.z);
+
+        //transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetTransform, lerpPercentage);
+
+        //cameraTransform.eulerAngles = Vector3.Lerp(cameraTransform.eulerAngles, targetRotation, lerpPercentage);
+        //lerpPercentage += rotationSpeedPlayer * Time.deltaTime;
     }
 
     private float GetCurrentAngleBetweenCameraAndPlayer()
