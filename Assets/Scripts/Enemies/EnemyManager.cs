@@ -12,13 +12,17 @@ public class EnemyManager : MonoBehaviour
     private EnemyAttack     enemyAttack;
     private Renderer        enemyRenderer;
     private Animator        animator;
+    private float           knockbackCooldown;
+    private bool            isKnockedBack;
+
 
     private void Start()
     {
         enemyController = GetComponent<EnemyController>();
-        enemyAttack = GetComponent<EnemyAttack>();
-        enemyRenderer = GetComponent<Renderer>();
-        animator = GetComponent<Animator>();
+        enemyAttack     = GetComponent<EnemyAttack>();
+        enemyRenderer   = GetComponent<Renderer>();
+        animator        = GetComponent<Animator>();
+        isKnockedBack   = false;
     }
 
     private void Update()
@@ -45,12 +49,10 @@ public class EnemyManager : MonoBehaviour
     private IEnumerator Blink()
     {
         enemyRenderer.material.color = Color.red;
-        Debug.Log("Current material color: " + enemyRenderer.material.color);
 
         yield return new WaitForSeconds(blinkDuration);
 
         enemyRenderer.material.color = Color.white;
-        Debug.Log("Current material color: " + enemyRenderer.material.color);
     }
 
     private IEnumerator Knockback()
@@ -69,9 +71,14 @@ public class EnemyManager : MonoBehaviour
             yield return null;
         }
 
-        enemyAttack.AttackCooldown(knockbackTime);
+        animator.Play("Hit", -1, 0f);
+        knockbackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length + 0.5f;
 
-        //TODO FORCE HIT ANIMATION
-        //animator.Play("Hit", -1, 0f);
+        enemyAttack.AttackCooldown(knockbackCooldown);
+    }
+
+    public bool IsKnockedBack()
+    {
+        return isKnockedBack;
     }
 }

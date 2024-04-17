@@ -10,9 +10,11 @@ public class EnemyAttack : MonoBehaviour
 
     public void AttemptAttack(Animator animator)
     {
-        if (Time.time - lastAttackTime >= attackCooldown)
+        EnemyController controller = GetComponent<EnemyController>();
+
+        if (Time.time - lastAttackTime >= attackCooldown && !controller.AgentIsStopped())
         {
-            animator.Play("Punch", -1, 0f); // Play punch animation
+            animator.Play("Punch", -1, 0f);
             lastAttackTime = Time.time;
             attackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         }
@@ -22,7 +24,6 @@ public class EnemyAttack : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //Debug.Log("Player hit by attack.");
             lastAttackTime = Time.time;
         }
     }

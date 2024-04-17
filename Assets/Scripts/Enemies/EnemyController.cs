@@ -14,9 +14,11 @@ public class EnemyController : MonoBehaviour
     
     private EnemyState      currentState;
     private int             waypointIndex;
-    private NavMeshAgent    agent; 
+    private NavMeshAgent    agent;
+    private bool punching;
     private EnemyAttack     enemyAttack;
     private Animator        animator;
+    private EnemyManager    enemyManager;
 
     private void Start()
     {
@@ -25,6 +27,7 @@ public class EnemyController : MonoBehaviour
         enemyAttack = GetComponent<EnemyAttack>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        enemyManager = GetComponent<EnemyManager>();
     }
 
     private void Update()
@@ -122,17 +125,8 @@ public class EnemyController : MonoBehaviour
 
     private void Combat()
     {
-        StartCoroutine(StopAndPunch());
-    }
-
-    private IEnumerator StopAndPunch()
-    {
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
         enemyAttack.AttemptAttack(animator);
-
-        agent.isStopped = true;
-        yield return new WaitForSeconds(enemyAttack.GetAttackCooldown());
-        agent.isStopped = false;
     }
 
     private void OnDrawGizmos()
@@ -150,5 +144,20 @@ public class EnemyController : MonoBehaviour
     public Vector3 GetPlayerPosition()
     {
         return player.position;
+    }
+
+    public void StopAgent()
+    {
+        agent.isStopped = true;
+    }
+
+    public void ResumeAgent()
+    {
+        agent.isStopped = false;
+    }
+
+    public bool AgentIsStopped()
+    {
+        return agent.isStopped;
     }
 }
