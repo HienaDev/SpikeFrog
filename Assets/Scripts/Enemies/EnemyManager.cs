@@ -7,14 +7,12 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float blinkDuration = 0.3f;
     [SerializeField] private float knockbackTime = 0.1f;
     [SerializeField] private float knockbackDistance = 1f;
-
+    
     private EnemyController enemyController;
     private EnemyAttack     enemyAttack;
     private Renderer        enemyRenderer;
     private Animator        animator;
     private float           knockbackCooldown;
-    private bool            isKnockedBack;
-
 
     private void Start()
     {
@@ -22,7 +20,6 @@ public class EnemyManager : MonoBehaviour
         enemyAttack     = GetComponent<EnemyAttack>();
         enemyRenderer   = GetComponent<Renderer>();
         animator        = GetComponent<Animator>();
-        isKnockedBack   = false;
     }
 
     private void Update()
@@ -75,10 +72,5 @@ public class EnemyManager : MonoBehaviour
         knockbackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length + 0.5f;
 
         enemyAttack.AttackCooldown(knockbackCooldown);
-    }
-
-    public bool IsKnockedBack()
-    {
-        return isKnockedBack;
     }
 }
