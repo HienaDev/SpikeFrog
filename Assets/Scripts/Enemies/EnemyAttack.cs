@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
+    [Header("[Attack Values]")]
     [SerializeField] private float attackRadius = 2.5f;
     [SerializeField] private float attackDamage = 10f;
 
@@ -25,6 +26,7 @@ public class EnemyAttack : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             lastAttackTime = Time.time;
+            //other.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
         }
     }
 

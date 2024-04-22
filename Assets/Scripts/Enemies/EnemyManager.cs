@@ -3,10 +3,19 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    [Header("[Health]")]
     [SerializeField] private float health = 100f;
+
+    [Header("[Blinking]")]
     [SerializeField] private float blinkDuration = 0.3f;
+
+    [Header("[Knockback]")]
     [SerializeField] private float knockbackTime = 0.1f;
     [SerializeField] private float knockbackDistance = 1f;
+
+    [Header("[Death]")]
+    [SerializeField] private float      fadeOutDuration = 3f;
+    [SerializeField] private Material   deathMaterial;
     
     private EnemyController enemyController;
     private EnemyAttack     enemyAttack;
@@ -27,19 +36,29 @@ public class EnemyManager : MonoBehaviour
         // DEBUG
         if (Input.GetKeyDown(KeyCode.K))
         {
-            TakeDamage(10f);
+            TakeDamage(100f);
         }
     }
 
     public void TakeDamage(float damage)
     {
+        health -= damage;
+
         StartCoroutine(Blink());
         StartCoroutine(Knockback());
-        
+
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    public void Die()
+    {
+        animator.Play("Death", -1, 0f);
+        enemyController.StopAgent();
+        StartCoroutine(FadeOut());
+        Destroy(gameObject, fadeOutDuration);
     }
 
     // DOES NOT WORK WITH THE TOON SHADER
@@ -68,9 +87,31 @@ public class EnemyManager : MonoBehaviour
             yield return null;
         }
 
-        animator.Play("Hit", -1, 0f);
-        knockbackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length + 0.5f;
-
+        if (health > 0)
+        {
+            animator.Play("Hit", -1, 0f);
+            knockbackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length + 0.5f;
+        }
+        
         enemyAttack.AttackCooldown(knockbackCooldown);
+    }
+
+    private IEnumerator FadeOut()
+    {
+        enemyRenderer.material = deathMaterial;
+
+        float elapsed = 0;
+        float startAlpha = enemyRenderer.material.color.a;
+
+        while (elapsed < fadeOutDuration)
+        {
+            float newAlpha = Mathf.Lerp(startAlpha, 0, elapsed / fadeOutDuration);
+            enemyRenderer.material.color = new Color(enemyRenderer.material.color.r, 
+                                                    enemyRenderer.material.color.g, 
+                                                    enemyRenderer.material.color.b, 
+                                                    newAlpha);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
     }
 }

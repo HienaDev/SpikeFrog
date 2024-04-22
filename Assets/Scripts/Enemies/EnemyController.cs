@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour
 {
-    [Header("Speed Values")]
+    [Header("[Speed Values]")]
     [SerializeField] private float patrolSpeed = 5.0f;
     [SerializeField] private float chaseSpeed = 7.0f;
 
-    [Header("Radius Values")]
+    [Header("[Radius Values]")]
     [SerializeField] private float detectionRadius = 5.0f;
     [SerializeField] private float alertRadius = 10f;
     [SerializeField] private float pursuitRadius = 15f;
 
-    [Header("Waypoints")]
+    [Header("[Waypoints]")]
     [SerializeField] private GameObject waypointPrefab;
     [SerializeField] private List<Vector3> waypointsPositions;
 
