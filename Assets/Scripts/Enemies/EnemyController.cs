@@ -14,8 +14,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float pursuitRadius = 15f;
 
     [Header("[Waypoints]")]
-    [SerializeField] private GameObject waypointPrefab;
-    [SerializeField] private List<Vector3> waypointsPositions;
+    [SerializeField] private GameObject     waypointPrefab;
+    [SerializeField] private List<Vector3>  waypointsPositions;
 
     private Transform       player;
     private int             waypointIndex;
@@ -173,23 +173,11 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public Vector3 GetPlayerPosition()
-    {
-        return player.position;
-    }
+    public Vector3 GetPlayerPosition() => player.position;
 
-    public void StopAgent()
-    {
-        agent.isStopped = true;
-    }
+    public void StopAgent() => agent.isStopped = true;
 
-    public void ResumeAgent()
-    {
-        agent.isStopped = false;
-    }
+    public void ResumeAgent() => agent.isStopped = false;
 
-    public bool AgentIsStopped()
-    {
-        return agent.isStopped;
-    }
+    public bool IsAgentStopped() => agent.isStopped;
 }
