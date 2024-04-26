@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
+    [Header("[Attack Values]")]
     [SerializeField] private float attackRadius = 2.5f;
     [SerializeField] private float attackDamage = 10f;
 
@@ -12,11 +13,11 @@ public class EnemyAttack : MonoBehaviour
     {
         EnemyController controller = GetComponent<EnemyController>();
 
-        if (Time.time - lastAttackTime >= attackCooldown && !controller.AgentIsStopped())
+        if (Time.time - this.lastAttackTime >= this.attackCooldown && !controller.IsAgentStopped())
         {
             animator.Play("Punch", -1, 0f);
-            lastAttackTime = Time.time;
-            attackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+            this.lastAttackTime = Time.time;
+            this.attackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         }
     }
 
@@ -24,28 +25,20 @@ public class EnemyAttack : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            lastAttackTime = Time.time;
+            this.lastAttackTime = Time.time;
+            // other.GetComponent<PlayerHealth>().TakeDamage(this.attackDamage);
         }
     }
 
-    public float GetAttackRadius()
-    {
-        return attackRadius;
-    }
+    public float GetAttackRadius() => this.attackRadius;
 
-    public float GetAttackCooldown()
-    {
-        return attackCooldown;
-    }
+    public float GetAttackCooldown() => this.attackCooldown;
 
-    public void AttackCooldown(float cooldown)
-    {
-        attackCooldown = cooldown;
-    }
+    public void SetAttackCooldown(float cooldown) => this.attackCooldown = cooldown;
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, attackRadius);
+        Gizmos.DrawWireSphere(transform.position, this.attackRadius);
     }
 }

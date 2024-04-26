@@ -1,33 +1,43 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private Transform player;
-    [SerializeField] private Transform[] waypoints;
+    [Header("[Speed Values]")]
     [SerializeField] private float patrolSpeed = 5.0f;
     [SerializeField] private float chaseSpeed = 7.0f;
+
+    [Header("[Radius Values]")]
     [SerializeField] private float detectionRadius = 5.0f;
     [SerializeField] private float alertRadius = 10f;
     [SerializeField] private float pursuitRadius = 15f;
-    
-    private EnemyState      currentState;
+
+    [Header("[Waypoints]")]
+    [SerializeField] private GameObject     waypointPrefab;
+    [SerializeField] private List<Vector3>  waypointsPositions;
+
+    private Transform       player;
     private int             waypointIndex;
-    private NavMeshAgent    agent;
-    private bool punching;
+    private Vector3         initialPosition;
+    private EnemyState      currentState;
+    private List<Transform> waypoints;
     private EnemyAttack     enemyAttack;
+    private NavMeshAgent    agent;
     private Animator        animator;
-    private EnemyManager    enemyManager;
 
     private void Start()
     {
-        waypointIndex = 0;
-        currentState = EnemyState.Patrol;
-        enemyAttack = GetComponent<EnemyAttack>();
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        enemyManager = GetComponent<EnemyManager>();
+        player          = GameObject.FindGameObjectWithTag("Player").transform;
+        waypointIndex   = 0;
+        initialPosition = transform.position;
+        currentState    = EnemyState.Patrol;
+        waypoints       = new List<Transform>();
+        enemyAttack     = GetComponent<EnemyAttack>();
+        agent           = GetComponent<NavMeshAgent>();
+        animator        = GetComponent<Animator>();
+        
+        CreateWaypoints();
     }
 
     private void Update()
@@ -64,19 +74,24 @@ public class EnemyController : MonoBehaviour
             animator.SetBool("isMoving", false);
         }
 
-        if (waypoints.Length == 0) return;
+        if (waypoints.Count == 0)
+            waypointsPositions = new List<Vector3> { initialPosition };
 
         if (currentState == EnemyState.Patrol)
         {
             if (!agent.pathPending && agent.remainingDistance < 0.1f)
             {
-                waypointIndex = (waypointIndex + 1) % waypoints.Length;
-                agent.destination = waypoints[waypointIndex].position;
+                if (waypoints != null && waypoints.Count > 0)
+                {
+                    waypointIndex = (waypointIndex + 1) % waypoints.Count;
+                    agent.destination = waypoints[waypointIndex].position;
+                }
+                else
+                    agent.destination = waypointsPositions[0];
+
             }
-            else if (agent.destination != waypoints[waypointIndex].position)
-            {
-                agent.destination = waypoints[waypointIndex].position;
-            }
+            else if (waypoints.Count == 0)
+                agent.destination = waypointsPositions[0];
         }
     }
 
@@ -129,8 +144,18 @@ public class EnemyController : MonoBehaviour
         enemyAttack.AttemptAttack(animator);
     }
 
+    private void CreateWaypoints()
+    {
+        foreach (Vector3 pos in waypointsPositions)
+        {
+            GameObject newWaypoint = Instantiate(waypointPrefab, pos, Quaternion.identity);
+            waypoints.Add(newWaypoint.transform);
+        }
+    }
+
     private void OnDrawGizmos()
     {
+        // Draw radius
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
 
@@ -139,25 +164,20 @@ public class EnemyController : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, pursuitRadius);
+
+        // Draw waypoints
+        Gizmos.color = Color.magenta;
+        foreach (Vector3 pos in waypointsPositions)
+        {
+            Gizmos.DrawSphere(pos, 0.4f);
+        }
     }
 
-    public Vector3 GetPlayerPosition()
-    {
-        return player.position;
-    }
+    public Vector3 GetPlayerPosition() => player.position;
 
-    public void StopAgent()
-    {
-        agent.isStopped = true;
-    }
+    public void StopAgent() => agent.isStopped = true;
 
-    public void ResumeAgent()
-    {
-        agent.isStopped = false;
-    }
+    public void ResumeAgent() => agent.isStopped = false;
 
-    public bool AgentIsStopped()
-    {
-        return agent.isStopped;
-    }
+    public bool IsAgentStopped() => agent.isStopped;
 }
