@@ -36,6 +36,8 @@ public class ControlCamera : MonoBehaviour
     [SerializeField] private GameObject normalCamera;
     [SerializeField] private GameObject targetCamera;
 
+    public static HashSet<Transform> targetableObjects {  get; private set; }
+
     private void Start()
     {
         //cameraTransform = GetComponentInChildren<Camera>().transform;
@@ -48,6 +50,8 @@ public class ControlCamera : MonoBehaviour
         zoomPosition = normalCamera.transform.localPosition.z;
 
         deocclusionVector = new Vector3(0, 0, deocclusionThreshold);
+
+        targetableObjects = new HashSet<Transform>();
     }
 
     private float GetTargetCameraOffset()
@@ -62,6 +66,8 @@ public class ControlCamera : MonoBehaviour
 
     private void Update()
     {
+
+        
 
         SwapCameras();
 
@@ -89,8 +95,52 @@ public class ControlCamera : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            targetCamera.SetActive(!targetCamera.activeSelf);
-            normalCamera.SetActive(!normalCamera.activeSelf);
+
+            List<Transform> objects = new List<Transform>();
+
+            Transform closestObject = null;
+
+            foreach (Transform t in targetableObjects)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, (t.position - transform.position), out hit, float.PositiveInfinity))
+                {
+                    if (hit.collider.gameObject == t.gameObject)
+                    {
+                        Debug.Log(hit.collider.gameObject.name);
+                        objects.Add(t);
+                    }
+                }
+            }
+
+            if (objects.Count > 0)
+            {
+                closestObject = objects[0];
+
+                for (int i = 0; i <= objects.Count - 1; i++)
+                {
+                    if (Vector3.Distance(objects[i].position, transform.position) < Vector3.Distance(closestObject.position, transform.position))
+                    {
+                        closestObject = objects[i];
+                    }
+                }
+
+
+                targetCamera.GetComponent<CinemachineVirtualCamera>().LookAt = closestObject;
+
+
+            }
+
+            if(targetCamera.activeSelf || (!targetCamera.activeSelf && closestObject != null))
+            {
+                targetCamera.SetActive(!targetCamera.activeSelf);
+                normalCamera.SetActive(!normalCamera.activeSelf);
+            }
+            
+
+
+            Debug.Log(targetableObjects.Count);
+            
 
             if (targetCamera.activeSelf)
             {
@@ -98,6 +148,12 @@ public class ControlCamera : MonoBehaviour
                 targetCamera.transform.position = normalCamera.transform.position;
                 targetCamera.transform.rotation = normalCamera.transform.rotation;
                 cameraTransform = targetCamera.transform;
+
+
+                
+
+
+                Debug.Log(objects.Count);
             }
             else
             {
