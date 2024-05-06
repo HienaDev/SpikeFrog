@@ -35,7 +35,7 @@ public class EnemyController : MonoBehaviour
         waypoints       = new List<Transform>();
         enemyAttack     = GetComponent<EnemyAttack>();
         agent           = GetComponent<NavMeshAgent>();
-        animator        = GetComponentInChildren<Animator>();
+        animator        = GetComponent<Animator>();
         
         CreateWaypoints();
     }

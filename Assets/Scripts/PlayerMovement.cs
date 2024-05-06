@@ -343,18 +343,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void RotateSkate()
     {
-        if (skateRotating) 
-        { 
-           skate.transform.Rotate(0f, 0f, skateRotateSpeed);
-        }
+        //if (skateRotating) 
+        //{ 
+        //   skate.transform.Rotate(0f, 0f, skateRotateSpeed);
+        //}
 
-        if (skate.transform.eulerAngles.z < previousRotation)
-        {
-            skate.transform.Rotate(0f, 0f, 0f);
-            skateRotating = false;
-        }
+        //if (skate.transform.eulerAngles.z < previousRotation)
+        //{
+        //    skate.transform.Rotate(0f, 0f, 0f);
+        //    skateRotating = false;
+        //}
 
-        previousRotation = skate.transform.eulerAngles.z;
+        //previousRotation = skate.transform.eulerAngles.z;
 
     }
 

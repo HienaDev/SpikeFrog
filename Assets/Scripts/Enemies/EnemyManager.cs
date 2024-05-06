@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviour
     {
         enemyController = GetComponent<EnemyController>();
         enemyAttack     = GetComponent<EnemyAttack>();
-        enemyRenderer   = GetComponent<Renderer>();
+        enemyRenderer   = GetComponentInChildren<Renderer>();
         animator        = GetComponent<Animator>();
     }
 
@@ -33,7 +33,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            TakeDamage(100f); // Debug key to trigger damage
+            TakeDamage(20f); // Debug key to trigger damage
         }
     }
 
