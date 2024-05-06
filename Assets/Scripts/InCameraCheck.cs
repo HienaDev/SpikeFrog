@@ -5,10 +5,13 @@ using UnityEngine;
 public class InCameraCheck : MonoBehaviour
 {
 
-    Camera cam;
-    MeshRenderer meshRenderer;
-    Plane[] cameraFrustum;
-    Collider collider;
+    private Camera cam;
+    private MeshRenderer meshRenderer;
+    private Plane[] cameraFrustum;
+    private Collider collider;
+
+    private float timerToCheckIfInCamera;
+    private float justChecked;
 
     // Start is called before the first frame update
     void Start()
@@ -16,14 +19,19 @@ public class InCameraCheck : MonoBehaviour
         cam = Camera.main;
         meshRenderer = GetComponent<MeshRenderer>();
         collider = GetComponent<Collider>();
+
+        timerToCheckIfInCamera = 0.5f;
+        justChecked = 0f;
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Time.time - justChecked > timerToCheckIfInCamera)
         {
             CheckIfInbounds();
+            justChecked = Time.time;
         }
     }
 
@@ -33,11 +41,14 @@ public class InCameraCheck : MonoBehaviour
 
         if (GeometryUtility.TestPlanesAABB(cameraFrustum, collider.bounds))
         {
+            //if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
             meshRenderer.sharedMaterial.color = Color.red;
+            ControlCamera.targetableObjects.Add(gameObject.transform);
         }
         else
         {
             meshRenderer.sharedMaterial.color = Color.white;
+            ControlCamera.targetableObjects.Remove(gameObject.transform);
         }
     }
 }

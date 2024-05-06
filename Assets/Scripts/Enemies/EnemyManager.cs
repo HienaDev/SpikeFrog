@@ -3,11 +3,18 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    [Header("[Health Settings]")]
     [SerializeField] private float health = 100f;
-    [SerializeField] private float blinkDuration = 0.3f;
+
+    [Header("[Visual Effects]")]
+    [SerializeField] private float      blinkDuration = 0.3f;
+    [SerializeField] private Material   deathMaterial;
+    [SerializeField] private float      fadeOutDuration = 3f;
+
+    [Header("[Knockback]")]
     [SerializeField] private float knockbackTime = 0.1f;
     [SerializeField] private float knockbackDistance = 1f;
-    
+
     private EnemyController enemyController;
     private EnemyAttack     enemyAttack;
     private Renderer        enemyRenderer;
@@ -24,33 +31,43 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        // DEBUG
         if (Input.GetKeyDown(KeyCode.K))
         {
-            TakeDamage(50f);
+            TakeDamage(100f); // Debug key to trigger damage
         }
     }
 
     public void TakeDamage(float damage)
     {
-        StartCoroutine(Blink());
-        StartCoroutine(Knockback());
-
         health -= damage;
-        
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Die();
+        }
+        else
+        {
+            TriggerDamageEffects();
         }
     }
 
-    // DOES NOT WORK WITH THE TOON SHADER
+    private void TriggerDamageEffects()
+    {
+        StartCoroutine(Blink());
+        StartCoroutine(Knockback());
+    }
+
+    private void Die()
+    {
+        animator.Play("Death");
+        enemyController.StopAgent();
+        StartCoroutine(FadeOut());
+        Destroy(gameObject, fadeOutDuration);
+    }
+
     private IEnumerator Blink()
     {
         enemyRenderer.material.color = Color.red;
-
         yield return new WaitForSeconds(blinkDuration);
-
         enemyRenderer.material.color = Color.white;
     }
 
@@ -61,18 +78,29 @@ public class EnemyManager : MonoBehaviour
         knockbackDirection.y = 0; // Ignore vertical displacement for knockback
         Vector3 end = start + knockbackDirection * knockbackDistance;
 
-        float elapsedTime = 0;
-
-        while (elapsedTime < knockbackTime)
+        for (float elapsedTime = 0; elapsedTime < knockbackTime; elapsedTime += Time.deltaTime)
         {
-            transform.position = Vector3.Lerp(start, end, (elapsedTime / knockbackTime));
-            elapsedTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(start, end, elapsedTime / knockbackTime);
             yield return null;
         }
 
-        animator.Play("Hit", -1, 0f);
-        knockbackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length + 0.5f;
+        if (health > 0)
+        {
+            animator.Play("Hit");
+            knockbackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length + 0.5f;
+            enemyAttack.SetAttackCooldown(knockbackCooldown);
+        }
+    }
 
-        enemyAttack.AttackCooldown(knockbackCooldown);
+    private IEnumerator FadeOut()
+    {
+        enemyRenderer.material = deathMaterial;
+
+        for (float elapsed = 0; elapsed < fadeOutDuration; elapsed += Time.deltaTime)
+        {
+            float newAlpha = Mathf.Lerp(1, 0, elapsed / fadeOutDuration);
+            enemyRenderer.material.color = new Color(enemyRenderer.material.color.r, enemyRenderer.material.color.g, enemyRenderer.material.color.b, newAlpha);
+            yield return null;
+        }
     }
 }

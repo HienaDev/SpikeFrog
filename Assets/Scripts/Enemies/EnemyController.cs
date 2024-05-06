@@ -4,18 +4,18 @@ using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour
 {
-    [Header("Speed Values")]
+    [Header("[Speed Values]")]
     [SerializeField] private float patrolSpeed = 5.0f;
     [SerializeField] private float chaseSpeed = 7.0f;
 
-    [Header("Radius Values")]
+    [Header("[Radius Values]")]
     [SerializeField] private float detectionRadius = 5.0f;
     [SerializeField] private float alertRadius = 10f;
     [SerializeField] private float pursuitRadius = 15f;
 
-    [Header("Waypoints")]
-    [SerializeField] private GameObject waypointPrefab;
-    [SerializeField] private List<Vector3> waypointsPositions;
+    [Header("[Waypoints]")]
+    [SerializeField] private GameObject     waypointPrefab;
+    [SerializeField] private List<Vector3>  waypointsPositions;
 
     private Transform       player;
     private int             waypointIndex;
@@ -173,23 +173,11 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public Vector3 GetPlayerPosition()
-    {
-        return player.position;
-    }
+    public Vector3 GetPlayerPosition() => player.position;
 
-    public void StopAgent()
-    {
-        agent.isStopped = true;
-    }
+    public void StopAgent() => agent.isStopped = true;
 
-    public void ResumeAgent()
-    {
-        agent.isStopped = false;
-    }
+    public void ResumeAgent() => agent.isStopped = false;
 
-    public bool AgentIsStopped()
-    {
-        return agent.isStopped;
-    }
+    public bool IsAgentStopped() => agent.isStopped;
 }
