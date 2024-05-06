@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
         // DEBUG
         if (Input.GetKeyDown(KeyCode.K))
         {
-            TakeDamage(10f);
+            TakeDamage(50f);
         }
     }
 
@@ -35,6 +35,8 @@ public class EnemyManager : MonoBehaviour
     {
         StartCoroutine(Blink());
         StartCoroutine(Knockback());
+
+        health -= damage;
         
         if (health <= 0)
         {
