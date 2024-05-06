@@ -387,7 +387,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateUI()
     {
-        UIManager.SetStaminaFill(stamina / maxStamina);
+        //UIManager.SetStaminaFill(stamina / maxStamina);
     }
     
 

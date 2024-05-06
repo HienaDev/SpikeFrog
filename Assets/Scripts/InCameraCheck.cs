@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InCameraCheck : MonoBehaviour
@@ -42,13 +43,14 @@ public class InCameraCheck : MonoBehaviour
         if (GeometryUtility.TestPlanesAABB(cameraFrustum, collider.bounds))
         {
             //if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
-            meshRenderer.sharedMaterial.color = Color.red;
+            //meshRenderer.sharedMaterial.color = Color.red;
             ControlCamera.targetableObjects.Add(gameObject.transform);
         }
         else
         {
-            meshRenderer.sharedMaterial.color = Color.white;
-            ControlCamera.targetableObjects.Remove(gameObject.transform);
+            //meshRenderer.sharedMaterial.color = Color.white;
+            if(ControlCamera.targetableObjects.Contains(gameObject.transform))
+                ControlCamera.targetableObjects.Remove(gameObject.transform);
         }
     }
 }

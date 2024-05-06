@@ -47,6 +47,7 @@ public class ControlCamera : MonoBehaviour
 
         zoomVelocity = 0f;
 
+
         zoomPosition = normalCamera.transform.localPosition.z;
 
         deocclusionVector = new Vector3(0, 0, deocclusionThreshold);
@@ -93,7 +94,7 @@ public class ControlCamera : MonoBehaviour
 
     private void SwapCameras()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))// && targetableObjects.Count > 0)
         {
 
             List<Transform> objects = new List<Transform>();
