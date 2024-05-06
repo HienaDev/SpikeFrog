@@ -36,7 +36,7 @@ public class ControlCamera : MonoBehaviour
     [SerializeField] private GameObject normalCamera;
     [SerializeField] private GameObject targetCamera;
 
-    public static HashSet<Transform> targetableObjects {  get; private set; }
+    public static HashSet<Transform> targetableObjects { get; private set; }
 
 
     private void Awake()
@@ -47,18 +47,23 @@ public class ControlCamera : MonoBehaviour
     private void Start()
     {
         //cameraTransform = GetComponentInChildren<Camera>().transform;
-        cameraTransform = targetCamera.transform;
+
 
         zoomTargetCameraLevel = GetTargetCameraOffset();
 
         zoomVelocity = 0f;
 
-        if(!targetting)
+        if (!targetting)
             targetCamera.SetActive(false);
 
         zoomPosition = normalCamera.transform.localPosition.z;
 
         deocclusionVector = new Vector3(0, 0, deocclusionThreshold);
+
+        if (targetting)
+            cameraTransform = targetCamera.transform;
+        else
+            cameraTransform = normalCamera.transform;
 
     }
 
@@ -75,7 +80,7 @@ public class ControlCamera : MonoBehaviour
     private void Update()
     {
 
-        
+
 
         SwapCameras();
 
@@ -108,6 +113,7 @@ public class ControlCamera : MonoBehaviour
 
             Transform closestObject = null;
 
+
             foreach (Transform t in targetableObjects)
             {
                 RaycastHit hit;
@@ -139,38 +145,35 @@ public class ControlCamera : MonoBehaviour
 
             }
 
-            if(targetCamera.activeSelf || (!targetCamera.activeSelf && closestObject != null))
+            if (targetCamera.activeSelf || (!targetCamera.activeSelf && closestObject != null))
             {
                 targetCamera.SetActive(!targetCamera.activeSelf);
                 normalCamera.SetActive(!normalCamera.activeSelf);
             }
-            
+
 
 
             Debug.Log(targetableObjects.Count);
             Debug.Log(objects.Count);
 
             if (targetCamera.activeSelf)
-                {
-                    targetting = true;
-                    targetCamera.transform.position = normalCamera.transform.position;
-                    targetCamera.transform.rotation = normalCamera.transform.rotation;
-                    cameraTransform = targetCamera.transform;
+            {
+                targetting = true;
+                targetCamera.transform.position = normalCamera.transform.position;
+                targetCamera.transform.rotation = normalCamera.transform.rotation;
+                cameraTransform = targetCamera.transform;
 
+                Debug.Log(objects.Count);
+            }
+            else if (objects.Count > 0 && !targetCamera.activeSelf)
+            {
+                targetting = false;
+                normalCamera.transform.position = targetCamera.transform.position;
+                normalCamera.transform.rotation = targetCamera.transform.rotation;
+                cameraTransform = normalCamera.transform;
+                Debug.Log(objects.Count);
+            }
 
-                
-
-
-                    Debug.Log(objects.Count);
-                }
-                else if (objects.Count > 0)
-                {
-                    targetting = false;
-                    normalCamera.transform.position = targetCamera.transform.position;
-                    normalCamera.transform.rotation = targetCamera.transform.rotation;
-                    cameraTransform = normalCamera.transform;
-                }
-            
         }
     }
 
@@ -259,6 +262,7 @@ public class ControlCamera : MonoBehaviour
     private void UpdateZoomAcceleration()
     {
         zoomAcceleration = Input.GetAxis("Zoom") * zoomAccelerationFactor;
+
     }
 
     private void UpdateZoomVelocity()
@@ -280,6 +284,7 @@ public class ControlCamera : MonoBehaviour
             zoomVelocity = Mathf.Min(zoomVelocity, 0f);
         }
 
+
     }
 
     private void UpdateZoomPosition()
@@ -293,7 +298,7 @@ public class ControlCamera : MonoBehaviour
             SetTargetCameraOffset(GetTargetCameraOffset() - zoomVelocity * Time.deltaTime);
 
             if (!targetCamera.activeSelf)
-            { 
+            {
                 if (position.z < -zoomMaxDistance || position.z > -zoomMinDistance)
                 {
                     zoomVelocity = 0f;
@@ -302,7 +307,7 @@ public class ControlCamera : MonoBehaviour
                 }
             }
             else
-            { 
+            {
                 if (GetTargetCameraOffset() > zoomMaxDistance || GetTargetCameraOffset() < zoomMinDistance)
                 {
                     zoomVelocity = 0f;
