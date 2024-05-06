@@ -38,6 +38,12 @@ public class ControlCamera : MonoBehaviour
 
     public static HashSet<Transform> targetableObjects {  get; private set; }
 
+
+    private void Awake()
+    {
+        targetableObjects = new HashSet<Transform>();
+    }
+
     private void Start()
     {
         //cameraTransform = GetComponentInChildren<Camera>().transform;
@@ -47,12 +53,13 @@ public class ControlCamera : MonoBehaviour
 
         zoomVelocity = 0f;
 
+        if(!targetting)
+            targetCamera.SetActive(false);
 
         zoomPosition = normalCamera.transform.localPosition.z;
 
         deocclusionVector = new Vector3(0, 0, deocclusionThreshold);
 
-        targetableObjects = new HashSet<Transform>();
     }
 
     private float GetTargetCameraOffset()
@@ -94,7 +101,7 @@ public class ControlCamera : MonoBehaviour
 
     private void SwapCameras()
     {
-        if (Input.GetKeyDown(KeyCode.Q))// && targetableObjects.Count > 0)
+        if (Input.GetKeyDown(KeyCode.Q))//&& targetableObjects.Count > 0)
         {
 
             List<Transform> objects = new List<Transform>();
@@ -141,28 +148,29 @@ public class ControlCamera : MonoBehaviour
 
 
             Debug.Log(targetableObjects.Count);
-            
+            Debug.Log(objects.Count);
 
             if (targetCamera.activeSelf)
-            {
-                targetting = true;
-                targetCamera.transform.position = normalCamera.transform.position;
-                targetCamera.transform.rotation = normalCamera.transform.rotation;
-                cameraTransform = targetCamera.transform;
+                {
+                    targetting = true;
+                    targetCamera.transform.position = normalCamera.transform.position;
+                    targetCamera.transform.rotation = normalCamera.transform.rotation;
+                    cameraTransform = targetCamera.transform;
 
 
                 
 
 
-                Debug.Log(objects.Count);
-            }
-            else
-            {
-                targetting = false;
-                normalCamera.transform.position = targetCamera.transform.position;
-                normalCamera.transform.rotation = targetCamera.transform.rotation;
-                cameraTransform = normalCamera.transform;
-            }
+                    Debug.Log(objects.Count);
+                }
+                else if (objects.Count > 0)
+                {
+                    targetting = false;
+                    normalCamera.transform.position = targetCamera.transform.position;
+                    normalCamera.transform.rotation = targetCamera.transform.rotation;
+                    cameraTransform = normalCamera.transform;
+                }
+            
         }
     }
 
