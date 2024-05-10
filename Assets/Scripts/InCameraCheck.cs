@@ -9,7 +9,7 @@ public class InCameraCheck : MonoBehaviour
     private Camera cam;
     private MeshRenderer meshRenderer;
     private Plane[] cameraFrustum;
-    private Collider collider;
+    private Collider col;
 
     private float timerToCheckIfInCamera;
     private float justChecked;
@@ -19,7 +19,7 @@ public class InCameraCheck : MonoBehaviour
     {
         cam = Camera.main;
         meshRenderer = GetComponent<MeshRenderer>();
-        collider = GetComponent<Collider>();
+        col = GetComponent<Collider>();
 
         timerToCheckIfInCamera = 0.5f;
         justChecked = 0f;
@@ -40,17 +40,15 @@ public class InCameraCheck : MonoBehaviour
     {
         cameraFrustum = GeometryUtility.CalculateFrustumPlanes(cam);
 
-        if (GeometryUtility.TestPlanesAABB(cameraFrustum, collider.bounds))
+        if (ControlCamera.targetableObjects.Contains(gameObject.transform))
+            ControlCamera.targetableObjects.Remove(gameObject.transform);
+
+        if (GeometryUtility.TestPlanesAABB(cameraFrustum, col.bounds))
         {
             //if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
             //meshRenderer.sharedMaterial.color = Color.red;
             ControlCamera.targetableObjects.Add(gameObject.transform);
         }
-        else
-        {
-            //meshRenderer.sharedMaterial.color = Color.white;
-            if(ControlCamera.targetableObjects.Contains(gameObject.transform))
-                ControlCamera.targetableObjects.Remove(gameObject.transform);
-        }
+
     }
 }

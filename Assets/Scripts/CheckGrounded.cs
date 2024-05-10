@@ -9,11 +9,13 @@ public class CheckGrounded : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Grounded = true;
+        if(other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("WorldBoundary"))
+            Grounded = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Grounded = false;
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("WorldBoundary"))
+            Grounded = false;
     }
 }

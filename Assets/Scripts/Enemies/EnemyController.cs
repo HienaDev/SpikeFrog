@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using TMPro.Examples;
 
 public class EnemyController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float detectionRadius = 5.0f;
     [SerializeField] private float alertRadius = 10f;
     [SerializeField] private float pursuitRadius = 15f;
+    [SerializeField] private float maxDistanceToPlayerRadius = 2f;
 
     [Header("[Waypoints]")]
     [SerializeField] private GameObject     waypointPrefab;
@@ -52,6 +54,10 @@ public class EnemyController : MonoBehaviour
             case EnemyState.Pursuit:
                 AlertOthers();
                 PursuePlayer();
+
+                if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(player.position.x, 0f, player.position.z)) < maxDistanceToPlayerRadius)
+                    agent.speed = 0f;
+
                 break;
             case EnemyState.Combat:
                 Combat();

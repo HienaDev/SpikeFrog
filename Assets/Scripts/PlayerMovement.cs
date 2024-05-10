@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using TMPro.Examples;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -62,12 +63,14 @@ public class PlayerMovement : MonoBehaviour
     public Animator Animator {  get { return animator; } }
 
     //private CharacterController characterController;
+    private ControlCamera cameraController;
 
     private Vector3 acceleration;
     private Vector3 velocity;
     private Vector3 motion;
 
     private CheckGrounded grounded;
+    public bool Grounded => grounded.Grounded;
     private Rigidbody rb;
 
     private float extraAngleForDirection;
@@ -113,10 +116,11 @@ public class PlayerMovement : MonoBehaviour
         forceToGoDown = 0;
 
         extraAngleForDirection = 0;
-        compensationAngleForCamera = 0; 
+        compensationAngleForCamera = 0;
         //currentAngleForDirection = 0;
         //currentCompensationAngleForCamera = 0;
 
+        cameraController = GetComponentInChildren<ControlCamera>();
 
         jump = false;
 
@@ -143,7 +147,6 @@ public class PlayerMovement : MonoBehaviour
         freeze = false;
         activeGrapple = false;
 
-        UpdateUI();
         HideCursor();
     }
 
@@ -156,10 +159,6 @@ public class PlayerMovement : MonoBehaviour
             UpdateAcceleration();
             UpdateVelocity();
             UpdateMotion();
-
-            RegenStamina();
-
-            RotateSkate();
         }
         else if (!activeGrapple)
         {
@@ -222,7 +221,19 @@ public class PlayerMovement : MonoBehaviour
                 compensationAngleForCamera = 0;
             }
 
-            UpdateCamera(extraAngleForDirection, compensationAngleForCamera);
+
+            
+
+            //if(cameraController.TargetObject != null)
+            //{
+            //    if (!(cameraController.Targetting && Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(cameraController.TargetObject.transform.position.x, 0f, cameraController.TargetObject.transform.position.z)) < 1))
+            //        UpdateCamera(extraAngleForDirection, compensationAngleForCamera);
+
+            //    Debug.Log(Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(cameraController.TargetObject.transform.position.x, 0f, cameraController.TargetObject.transform.position.z)));
+                
+            //}        
+            //else
+                UpdateCamera(extraAngleForDirection, compensationAngleForCamera);
 
         }
         else if (Input.GetKey(KeyCode.S))
@@ -330,69 +341,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckForDash()
-    {
-
-
-        if(Input.GetButtonDown("Dash")
-            && stamina > dashStaminaCost)
-        {
-            dash = true;
-        }
-    }
-
-    private void RotateSkate()
-    {
-        //if (skateRotating) 
-        //{ 
-        //   skate.transform.Rotate(0f, 0f, skateRotateSpeed);
-        //}
-
-        //if (skate.transform.eulerAngles.z < previousRotation)
-        //{
-        //    skate.transform.Rotate(0f, 0f, 0f);
-        //    skateRotating = false;
-        //}
-
-        //previousRotation = skate.transform.eulerAngles.z;
-
-    }
-
-    private void RegenStamina()
-    {
-        if (stamina < maxStamina && (!sprint || !moving))
-        {
-            AddStamina(staminaRegenRate * Time.fixedDeltaTime);
-        }
-           
-    }
-
-
-    private void AddStamina(float amount)
-    {
-        stamina = Mathf.Min(stamina + amount, maxStamina);
-
-        UpdateUI();
-    }
-
-    private void DecStamina(float amount)
-    {
-        stamina = Mathf.Max(stamina - amount, 0f);
-
-        UpdateUI();
-    }
-
-
-    private void UpdateUI()
-    {
-        //UIManager.SetStaminaFill(stamina / maxStamina);
-    }
-    
-
     private void UpdateAcceleration()
     {
         UpdateXZAcceleration();
-        //UpdateVerticalAcceleration();
+
     }
 
     private void UpdateXZAcceleration()
@@ -412,24 +364,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void UpdateStrafeAcceleration()
-    {   
-        
-    }
-
-    //private void UpdateVerticalAcceleration()
-    //{
-    //    if (jump)
-    //    {
-    //        acceleration.y = jumpAcceleration;
-
-    //    }
-    //    else
-    //    {
-    //        acceleration.y = gravityAcceleration;
-    //    }
-    //}
-
     private void UpdateVelocity()
     {
         velocity += acceleration * Time.fixedDeltaTime;
@@ -437,6 +371,12 @@ public class PlayerMovement : MonoBehaviour
         UpdateForwardVelocity();
         UpdateStrafeVelocity();
         UpdateVerticalVelocity();
+
+        if(cameraController.TargetObject != null)
+            if (!(cameraController.Targetting && 
+            Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), 
+                            new Vector3(cameraController.TargetObject.transform.position.x, 0f, cameraController.TargetObject.transform.position.z)) 
+                            < 3))
         UpdateSprint();
         //UpdateDash();
         
@@ -449,12 +389,6 @@ public class PlayerMovement : MonoBehaviour
             velocity.z *= sprintVelocityFactor;
             velocity.x *= sprintVelocityFactor;
 
-            DecStamina(sprintStaminaCost * Time.fixedDeltaTime);
-
-            //Debug.Log(stamina);
-            //Debug.Log(sprintStaminaCost * Time.fixedDeltaTime);
-
-
             if (stamina <= sprintStaminaCost * Time.fixedDeltaTime)
             {
                 needSprintRest = true;
@@ -463,24 +397,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void UpdateDash()
-    //{
-    //    if (dash)
-    //    {
-
-    //        dash = false;
-
-    //        velocity.z = dashVelocity;
-    //        dashTimer = dashDuration;
-
-    //        DecStamina(dashStaminaCost);
-    //    }
-    //    else if(dashTimer > 0f)
-    //    {
-    //        velocity.z = dashVelocity;
-    //        dashTimer -= Time.fixedDeltaTime;
-    //    }
-    //}
 
     private void UpdateForwardVelocity()
     {
@@ -621,6 +537,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         activeGrapple = false;
-        grappling.ResetFov();
+        //grappling.ResetFov();
     }
 }

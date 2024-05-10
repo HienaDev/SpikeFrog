@@ -34,14 +34,20 @@ public class Grappling : MonoBehaviour
     private CinemachineVirtualCamera activeCamera;
 
     private GrapplingRope grapplingRope;
- 
+
+
+    private void Awake()
+    {
+        activeCamera = cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
         grapplingRope = GetComponent<GrapplingRope>();
 
-        activeCamera = cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
+        
 
         defaultFov = activeCamera.m_Lens.FieldOfView;
 
@@ -120,7 +126,7 @@ public class Grappling : MonoBehaviour
 
         playerMovement.JumpToPosition(grapplePoint, highestPointOnArc);
 
-        AddFov();
+        //AddFov();
 
         Invoke(nameof(StopGrapple), 1f);
     }
@@ -140,28 +146,28 @@ public class Grappling : MonoBehaviour
 
     }
 
-    private void DoFov(float endValue)
-    {
-        cam.GetComponent<Camera>().DOFieldOfView(endValue, 0.25f);
+    //private void DoFov(float endValue)
+    //{
+    //    cam.GetComponent<Camera>().DOFieldOfView(endValue, 0.25f);
 
         
-    }
+    //}
     
-    private void AddFov()
-    {
-        DOTween.To( ()=> activeCamera.m_Lens.FieldOfView, 
-                        x=> activeCamera.m_Lens.FieldOfView = x
-                        , defaultFov + fovValue, 0.25f);
-        //DoFov(defaultFov + fovValue);
-    }
+    //private void AddFov()
+    //{
+    //    DOTween.To( ()=> activeCamera.m_Lens.FieldOfView, 
+    //                    x=> activeCamera.m_Lens.FieldOfView = x
+    //                    , defaultFov + fovValue, 0.25f);
+    //    //DoFov(defaultFov + fovValue);
+    //}
 
-    public void ResetFov()
-    {
-        DOTween.To(() => activeCamera.m_Lens.FieldOfView, 
-                        x => activeCamera.m_Lens.FieldOfView = x
-                        , defaultFov, 0.25f);
-        //DoFov(defaultFov);
-    }
+    //public void ResetFov()
+    //{
+    //    DOTween.To(() => activeCamera.m_Lens.FieldOfView, 
+    //                    x => activeCamera.m_Lens.FieldOfView = x
+    //                    , defaultFov, 0.25f);
+    //    //DoFov(defaultFov);
+    //}
 
     
 }

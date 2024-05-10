@@ -7,26 +7,29 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float health = 100f;
 
     [Header("[Visual Effects]")]
-    [SerializeField] private float      blinkDuration = 0.3f;
-    [SerializeField] private Material   deathMaterial;
-    [SerializeField] private float      fadeOutDuration = 3f;
+    [SerializeField] private float blinkDuration = 0.3f;
+    [SerializeField] private Material deathMaterial;
+    [SerializeField] private float fadeOutDuration = 3f;
 
     [Header("[Knockback]")]
     [SerializeField] private float knockbackTime = 0.1f;
     [SerializeField] private float knockbackDistance = 1f;
 
+    [Header("[Collider for Camera]")]
+    [SerializeField] private Collider camCheckCollider;
+
     private EnemyController enemyController;
-    private EnemyAttack     enemyAttack;
-    private Renderer        enemyRenderer;
-    private Animator        animator;
-    private float           knockbackCooldown;
+    private EnemyAttack enemyAttack;
+    private Renderer enemyRenderer;
+    private Animator animator;
+    private float knockbackCooldown;
 
     private void Start()
     {
         enemyController = GetComponent<EnemyController>();
-        enemyAttack     = GetComponent<EnemyAttack>();
-        enemyRenderer   = GetComponentInChildren<Renderer>();
-        animator        = GetComponent<Animator>();
+        enemyAttack = GetComponent<EnemyAttack>();
+        enemyRenderer = GetComponentInChildren<Renderer>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -61,6 +64,10 @@ public class EnemyManager : MonoBehaviour
         animator.Play("Death");
         enemyController.StopAgent();
         StartCoroutine(FadeOut());
+
+        camCheckCollider.enabled = false;
+
+        ControlCamera.targetableObjects.Remove(gameObject.transform);
         Destroy(gameObject, fadeOutDuration);
     }
 

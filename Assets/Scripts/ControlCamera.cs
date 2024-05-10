@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.Examples;
 using UnityEngine;
 
 public class ControlCamera : MonoBehaviour
@@ -32,6 +33,10 @@ public class ControlCamera : MonoBehaviour
     private Vector3 deocclusionVector;
 
     [SerializeField] private bool targetting;
+    public bool Targetting => targetting;
+    public Transform TargetObject { get; private set; }
+    private PlayerMovement playerMovement;
+    public bool StopFollowing { get; private set; }
 
     [SerializeField] private GameObject normalCamera;
     [SerializeField] private GameObject targetCamera;
@@ -65,6 +70,8 @@ public class ControlCamera : MonoBehaviour
         else
             cameraTransform = normalCamera.transform;
 
+        playerMovement = GetComponentInParent<PlayerMovement>();
+
     }
 
     private float GetTargetCameraOffset()
@@ -81,8 +88,8 @@ public class ControlCamera : MonoBehaviour
     {
 
 
-
-        SwapCameras();
+        if (Input.GetKeyDown(KeyCode.Q))//&& targetableObjects.Count > 0)
+            SwapCameras();
 
         if (!targetting)
         {
@@ -92,7 +99,8 @@ public class ControlCamera : MonoBehaviour
         }
 
 
-        UpdateZoom();
+
+        //UpdateZoom();
 
         PreventOcclusion();
 
@@ -100,82 +108,88 @@ public class ControlCamera : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (targetting)
-            transform.rotation = targetCamera.transform.rotation;
-    }
+        if (TargetObject == null && targetting)
+        {
+            SwapCameras();
+        }
 
+        if(TargetObject != null)
+            if (targetting && !(Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(TargetObject.transform.position.x, 0f, TargetObject.transform.position.z)) < 2 && !playerMovement.Grounded))
+            transform.rotation = targetCamera.transform.rotation;
+
+
+    }
     private void SwapCameras()
     {
-        if (Input.GetKeyDown(KeyCode.Q))//&& targetableObjects.Count > 0)
+
+        Debug.Log("camera swap");
+
+        List<Transform> objects = new List<Transform>();
+
+        Transform closestObject = null;
+
+
+        foreach (Transform t in targetableObjects)
         {
-
-            List<Transform> objects = new List<Transform>();
-
-            Transform closestObject = null;
-
-
-            foreach (Transform t in targetableObjects)
-            {
-                RaycastHit hit;
+            RaycastHit hit;
+            if(t != null)
                 if (Physics.Raycast(transform.position, (t.position - transform.position), out hit, float.PositiveInfinity))
                 {
                     if (hit.collider.gameObject == t.gameObject)
                     {
-                        Debug.Log(hit.collider.gameObject.name);
+                        //Debug.Log(hit.collider.gameObject.name);
                         objects.Add(t);
                     }
                 }
-            }
+        }
 
-            if (objects.Count > 0)
+        if (objects.Count > 0)
+        {
+            closestObject = objects[0];
+
+            for (int i = 0; i <= objects.Count - 1; i++)
             {
-                closestObject = objects[0];
-
-                for (int i = 0; i <= objects.Count - 1; i++)
+                if (Vector3.Distance(objects[i].position, transform.position) < Vector3.Distance(closestObject.position, transform.position))
                 {
-                    if (Vector3.Distance(objects[i].position, transform.position) < Vector3.Distance(closestObject.position, transform.position))
-                    {
-                        closestObject = objects[i];
-                    }
+                    closestObject = objects[i];
                 }
-
-
-                targetCamera.GetComponent<CinemachineVirtualCamera>().LookAt = closestObject;
-
-
-            }
-
-            if (targetCamera.activeSelf || (!targetCamera.activeSelf && closestObject != null))
-            {
-                targetCamera.SetActive(!targetCamera.activeSelf);
-                normalCamera.SetActive(!normalCamera.activeSelf);
             }
 
 
-
-            Debug.Log(targetableObjects.Count);
-            Debug.Log(objects.Count);
-
-            if (targetCamera.activeSelf)
-            {
-                targetting = true;
-                targetCamera.transform.position = normalCamera.transform.position;
-                targetCamera.transform.rotation = normalCamera.transform.rotation;
-                cameraTransform = targetCamera.transform;
-
-                Debug.Log(objects.Count);
-            }
-            else if (objects.Count > 0 && !targetCamera.activeSelf)
-            {
-                targetting = false;
-                normalCamera.transform.position = targetCamera.transform.position;
-                normalCamera.transform.rotation = targetCamera.transform.rotation;
-                cameraTransform = normalCamera.transform;
-                Debug.Log(objects.Count);
-            }
+            targetCamera.GetComponent<CinemachineVirtualCamera>().LookAt = closestObject;
+            TargetObject = closestObject;
 
         }
+
+        if (targetCamera.activeSelf || (!targetCamera.activeSelf && closestObject != null))
+        {
+            targetCamera.SetActive(!targetCamera.activeSelf);
+            normalCamera.SetActive(!normalCamera.activeSelf);
+        }
+
+
+        if (targetCamera.activeSelf)
+        {
+            targetting = true;
+            targetCamera.transform.position = normalCamera.transform.position;
+            targetCamera.transform.rotation = normalCamera.transform.rotation;
+            cameraTransform = targetCamera.transform;
+
+            //Debug.Log(objects.Count);
+        }
+        else if (/*objects.Count > 0 && */!targetCamera.activeSelf)
+        {
+            targetting = false;
+            normalCamera.transform.position = targetCamera.transform.position;
+            normalCamera.transform.rotation = targetCamera.transform.rotation;
+            cameraTransform = normalCamera.transform;
+            //Debug.Log(objects.Count);
+        }
+
+    
     }
+
+
 
 
     private void PreventOcclusion()
