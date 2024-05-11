@@ -4,10 +4,11 @@ public class EnemyAttack : MonoBehaviour
 {
     [Header("[Attack Values]")]
     [SerializeField] private float attackRadius = 2.5f;
-    [SerializeField] private float attackDamage = 10f;
+    [SerializeField] private int   attackDamage = 10;
 
     private float attackCooldown;
     private float lastAttackTime;
+    private bool  canAttack;
 
     public void AttemptAttack(Animator animator)
     {
@@ -15,6 +16,7 @@ public class EnemyAttack : MonoBehaviour
 
         if (Time.time - this.lastAttackTime >= this.attackCooldown && !controller.IsAgentStopped())
         {
+            canAttack = true;
             animator.Play("Punch", -1, 0f);
             this.lastAttackTime = Time.time;
             this.attackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
@@ -23,10 +25,12 @@ public class EnemyAttack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && canAttack)
         {
+            canAttack = false;
+
             this.lastAttackTime = Time.time;
-            // other.GetComponent<PlayerHealth>().TakeDamage(this.attackDamage);
+            other.GetComponent<PlayerHealth>().Damage(this.attackDamage);
         }
     }
 

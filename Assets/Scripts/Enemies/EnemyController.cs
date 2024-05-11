@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
-using TMPro.Examples;
+using TMPro;
 
 public class EnemyController : MonoBehaviour
 {

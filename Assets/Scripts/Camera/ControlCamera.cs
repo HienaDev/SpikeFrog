@@ -1,7 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.Examples;
+using TMPro;
 using UnityEngine;
 
 public class ControlCamera : MonoBehaviour

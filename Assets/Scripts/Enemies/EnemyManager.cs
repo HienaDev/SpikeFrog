@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [Header("[Health Settings]")]
-    [SerializeField] private float health = 100f;
+    [SerializeField] private int health = 100;
 
     [Header("[Visual Effects]")]
     [SerializeField] private float blinkDuration = 0.3f;
@@ -36,11 +36,11 @@ public class EnemyManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            TakeDamage(20f); // Debug key to trigger damage
+            TakeDamage(20); // Debug key to trigger damage
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0)

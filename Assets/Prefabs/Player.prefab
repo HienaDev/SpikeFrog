@@ -598,6 +598,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8979889229243892536}
   - component: {fileID: 7677818146762393246}
+  - component: {fileID: 5487959749550486324}
   - component: {fileID: 3610394587161191604}
   m_Layer: 2
   m_Name: Player
@@ -662,6 +663,20 @@ MonoBehaviour:
   UIManager: {fileID: 0}
   cameraTransform: {fileID: 963931781479789933}
   grappling: {fileID: 2431629188305279379}
+--- !u!114 &5487959749550486324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6935450262405960767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a6c66cd3a12f44395f72253f3d52db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiManager: {fileID: 0}
+  maxHealth: 100
 --- !u!54 &3610394587161191604
 Rigidbody:
   m_ObjectHideFlags: 0

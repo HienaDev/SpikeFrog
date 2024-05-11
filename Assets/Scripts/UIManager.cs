@@ -1,21 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private Slider   healthSlider;
+    [SerializeField] private Gradient healthGradient;
+    [SerializeField] private Image    healthFill;
 
-    [SerializeField] private RectTransform staminaFill;
-
-    private float staminaFillSize;
-
-    private void Awake()
+    public void SetMaxHealth(int health)
     {
-        staminaFillSize = staminaFill.rect.height;
+        healthSlider.maxValue = health;
+        healthSlider.value = health;
+
+        healthFill.color = healthGradient.Evaluate(1f);
     }
-
-    public void SetStaminaFill(float ratio)
+    public void SetHealth(int health)
     {
-        staminaFill.SetSizeWithCurrentAnchors( RectTransform.Axis.Vertical, staminaFillSize * ratio);
+        healthSlider.value = health;
+
+        healthFill.color = healthGradient.Evaluate(healthSlider.normalizedValue);
     }
 }

@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using TMPro.Examples;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
