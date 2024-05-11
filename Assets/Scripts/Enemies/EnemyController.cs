@@ -27,17 +27,19 @@ public class EnemyController : MonoBehaviour
     private EnemyAttack     enemyAttack;
     private NavMeshAgent    agent;
     private Animator        animator;
+    private bool            lookingForPlayer;
 
     private void Start()
     {
-        player          = GameObject.FindGameObjectWithTag("Player").transform;
-        waypointIndex   = 0;
-        initialPosition = transform.position;
-        currentState    = EnemyState.Patrol;
-        waypoints       = new List<Transform>();
-        enemyAttack     = GetComponent<EnemyAttack>();
-        agent           = GetComponent<NavMeshAgent>();
-        animator        = GetComponent<Animator>();
+        player           = GameObject.FindGameObjectWithTag("Player").transform;
+        waypointIndex    = 0;
+        initialPosition  = transform.position;
+        currentState     = EnemyState.Patrol;
+        waypoints        = new List<Transform>();
+        enemyAttack      = GetComponent<EnemyAttack>();
+        agent            = GetComponent<NavMeshAgent>();
+        animator         = GetComponent<Animator>();
+        lookingForPlayer = true;
         
         CreateWaypoints();
     }
@@ -54,10 +56,6 @@ public class EnemyController : MonoBehaviour
             case EnemyState.Pursuit:
                 AlertOthers();
                 PursuePlayer();
-
-                if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(player.position.x, 0f, player.position.z)) < maxDistanceToPlayerRadius)
-                    agent.speed = 0f;
-
                 break;
             case EnemyState.Combat:
                 Combat();
@@ -103,9 +101,12 @@ public class EnemyController : MonoBehaviour
 
     private void PursuePlayer()
     {
-        agent.speed = chaseSpeed;
-        agent.destination = player.position;
-        animator.SetBool("isChasing", true);
+        if (lookingForPlayer)
+        {
+            agent.speed = chaseSpeed;
+            agent.destination = player.position;
+            animator.SetBool("isChasing", true);
+        }
     }
 
     private void DetectPlayer()
@@ -186,4 +187,6 @@ public class EnemyController : MonoBehaviour
     public void ResumeAgent() => agent.isStopped = false;
 
     public bool IsAgentStopped() => agent.isStopped;
+    
+    public void SetLookingForPlayer(bool value) => lookingForPlayer = value;
 }

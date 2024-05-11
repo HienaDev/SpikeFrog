@@ -13,4 +13,9 @@ public class DealDamage : MonoBehaviour
             enemy.TakeDamage(damage);
         }
     }
+
+    public void SetDamage(int newDamage)
+    {
+        damage = newDamage;
+    }
 }

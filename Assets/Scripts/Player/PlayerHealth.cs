@@ -37,4 +37,11 @@ public class PlayerHealth : MonoBehaviour
 
         UpdateUI();
     }
+
+    public void FullHealth()
+    {
+        health = maxHealth;
+
+        UpdateUI();
+    }
 }

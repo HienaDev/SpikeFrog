@@ -539,4 +539,11 @@ public class PlayerMovement : MonoBehaviour
         activeGrapple = false;
         //grappling.ResetFov();
     }
+
+    public void SetVelocity( float speed)
+    {
+        maxFowardVelocity = speed;
+        maxBackwardVelocity = -speed;
+        maxStrafeVelocity = speed;
+    }
 }
