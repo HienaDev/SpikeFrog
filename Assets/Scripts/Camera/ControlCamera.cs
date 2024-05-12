@@ -100,7 +100,7 @@ public class ControlCamera : MonoBehaviour
 
 
 
-        //UpdateZoom();
+        UpdateZoom();
 
         PreventOcclusion();
 
@@ -115,7 +115,7 @@ public class ControlCamera : MonoBehaviour
 
         if(TargetObject != null)
             if (targetting && !(Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(TargetObject.transform.position.x, 0f, TargetObject.transform.position.z)) < 2 && !playerMovement.Grounded))
-            transform.rotation = targetCamera.transform.rotation;
+                transform.rotation = targetCamera.transform.rotation;
 
 
     }
@@ -168,7 +168,7 @@ public class ControlCamera : MonoBehaviour
         }
 
 
-        if (targetCamera.activeSelf)
+        if (targetCamera.activeSelf && !targetting)
         {
             targetting = true;
             targetCamera.transform.position = normalCamera.transform.position;
@@ -177,7 +177,7 @@ public class ControlCamera : MonoBehaviour
 
             //Debug.Log(objects.Count);
         }
-        else if (/*objects.Count > 0 && */!targetCamera.activeSelf)
+        else if ((objects.Count > 0 || TargetObject == null) && !targetCamera.activeSelf && targetting)
         {
             targetting = false;
             normalCamera.transform.position = targetCamera.transform.position;

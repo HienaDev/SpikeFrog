@@ -55,7 +55,12 @@ public class EnemyController : MonoBehaviour
                 break;
             case EnemyState.Pursuit:
                 AlertOthers();
-                PursuePlayer();
+
+                if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(player.transform.position.x, 0f, player.transform.position.z)) > maxDistanceToPlayerRadius)
+                    PursuePlayer();
+                else
+                    agent.speed = 0f;
+
                 break;
             case EnemyState.Combat:
                 Combat();
