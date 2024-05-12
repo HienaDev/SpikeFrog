@@ -586,7 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 7
-  scene: Antonio
+  scene: LaboratoryScene
   outsideTrigger: 0
 --- !u!4 &818081787
 Transform:
