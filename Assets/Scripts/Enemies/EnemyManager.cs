@@ -81,7 +81,9 @@ public class EnemyManager : MonoBehaviour
             col.enabled = false;
         }
 
-        ControlCamera.instance.SwapCameras();
+        if(ControlCamera.instance.Targetting)
+            ControlCamera.instance.SwapCameras();
+
         Invoke(nameof(DropHealth), fadeOutDuration - 0.1f);
         Destroy(gameObject, fadeOutDuration);
     }
