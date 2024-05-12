@@ -203,7 +203,7 @@ public class ControlCamera : MonoBehaviour
         if (Physics.Linecast(occlusionPivot.position, cameraTransform.position - cameraTransform.TransformDirection(deocclusionVector), out RaycastHit hitInfo, ~ignoreLayerPreventOcclusion))
         {
 
-            if (hitInfo.collider.CompareTag("WorldBoundary"))
+            if (hitInfo.collider.CompareTag("WorldBoundary") || hitInfo.collider.CompareTag("Ground"))
             {
                 cameraTransform.position = hitInfo.point + cameraTransform.TransformDirection(deocclusionVector);
 

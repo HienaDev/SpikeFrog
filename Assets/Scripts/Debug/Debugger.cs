@@ -5,6 +5,8 @@ public class Debugger : MonoBehaviour
     private PlayerHealth   playerHealth;
     private PlayerMovement playerMovement;
     [SerializeField] private DealDamage[] dealDamages;
+    [SerializeField] private GameObject[] doors;
+    [SerializeField] private GameObject glass;
 
     void Start()
     {
@@ -69,6 +71,23 @@ public class Debugger : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha8))
         {
             playerHealth.ToggleDamageable();
+        }
+
+        // Destroy doors
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            foreach (GameObject door in doors)
+            {
+                Destroy(door);
+            }
+        }
+
+        // Destroy glass
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha0))
+        {
+
+                Destroy(glass);
+            
         }
 
     }
