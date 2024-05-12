@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InCameraCheck : MonoBehaviour
 {
-
     private Camera cam;
     private MeshRenderer meshRenderer;
     private Plane[] cameraFrustum;
