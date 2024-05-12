@@ -8,18 +8,21 @@ public class LoadNextScene : MonoBehaviour
     [SerializeField] private float timer;
     [SerializeField] private string scene;
     [SerializeField] private bool outsideTrigger;
+    private float justDied = 0f;
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeSinceLevelLoad > timer && !outsideTrigger)
+        if (Time.timeSinceLevelLoad - justDied > timer && !outsideTrigger)
         {
-            SceneLoad();
+            SceneManager.LoadScene(scene);
         }
     }
 
     public void SceneLoad()
     {
-        SceneManager.LoadScene(scene);
+        justDied = Time.timeSinceLevelLoad;
+        outsideTrigger = false;
+        
     }
 }

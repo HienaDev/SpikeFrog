@@ -139,6 +139,12 @@ public class ControlCamera : MonoBehaviour
             if (t != null)
                 if (Physics.Raycast(transform.position, (t.position - transform.position), out hit, float.PositiveInfinity))
                 {
+                    if (Vector3.Dot(t.position -  cameraTransform.position, transform.position) < 0)
+                    {
+                        Debug.Log("object is behind player");
+                        // Do something when the object to check is behind the reference object
+                    }
+
                     if (hit.collider.gameObject == t.gameObject)
                     {
                         //Debug.Log(hit.collider.gameObject.name);

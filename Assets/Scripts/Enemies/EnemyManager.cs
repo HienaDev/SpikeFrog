@@ -97,9 +97,9 @@ public class EnemyManager : MonoBehaviour
 
     private IEnumerator Blink()
     {
-        enemyRenderer.material.color = Color.red;
+        enemyRenderer.material.SetColor("Color", Color.red);
         yield return new WaitForSeconds(blinkDuration);
-        enemyRenderer.material.color = Color.white;
+        enemyRenderer.material.SetColor("Color", Color.white);
     }
 
     private IEnumerator Knockback()
