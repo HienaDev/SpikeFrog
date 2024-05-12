@@ -7,7 +7,7 @@ public class DealDamage : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         EnemyManager enemy = other.GetComponent<EnemyManager>();
-
+        ////
         if(enemy != null )
         {
             enemy.TakeDamage(damage);

@@ -45,6 +45,8 @@ public class ControlCamera : MonoBehaviour
 
     public static ControlCamera instance;
 
+    [SerializeField] private LayerMask ignoreLayerPreventOcclusion;
+     
 
     private void Awake()
     {
@@ -201,7 +203,7 @@ public class ControlCamera : MonoBehaviour
 
         Debug.DrawLine(occlusionPivot.position, cameraTransform.position - cameraTransform.TransformDirection(deocclusionVector), Color.red);
 
-        if (Physics.Linecast(occlusionPivot.position, cameraTransform.position - cameraTransform.TransformDirection(deocclusionVector), out RaycastHit hitInfo))
+        if (Physics.Linecast(occlusionPivot.position, cameraTransform.position - cameraTransform.TransformDirection(deocclusionVector), out RaycastHit hitInfo, ~ignoreLayerPreventOcclusion))
         {
 
             if (hitInfo.collider.CompareTag("WorldBoundary"))

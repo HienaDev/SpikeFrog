@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     private Animator animator;
     private int health;
     private bool dead;
+    private bool canBeDamaged;
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         dead = false;
+        canBeDamaged = true;
 
         UpdateUI();
     }
@@ -43,7 +45,8 @@ public class PlayerHealth : MonoBehaviour
 
     public void Damage(int amount)
     {
-        health = Mathf.Max(health - amount, 0);
+        if(canBeDamaged)
+            health = Mathf.Max(health - amount, 0);
 
 
         UpdateUI();
@@ -63,4 +66,6 @@ public class PlayerHealth : MonoBehaviour
 
         UpdateUI();
     }
+
+    public bool ToggleDamageable() => canBeDamaged = !canBeDamaged;
 }

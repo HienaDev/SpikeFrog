@@ -4,13 +4,12 @@ public class Debugger : MonoBehaviour
 {
     private PlayerHealth   playerHealth;
     private PlayerMovement playerMovement;
-    private DealDamage     dealDamage;
+    [SerializeField] private DealDamage[] dealDamages;
 
     void Start()
     {
         playerHealth   = GetComponent<PlayerHealth>();
         playerMovement = GetComponent<PlayerMovement>();
-        dealDamage     = GetComponent<DealDamage>();
     }
 
     void Update()
@@ -33,26 +32,17 @@ public class Debugger : MonoBehaviour
             playerHealth.Damage(10);
         }
 
-        // Increase player speed
+        // Set damage
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha4))
         {
-            playerMovement.SetVelocity(50);
-        }
-
-        // Decrease player speed
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            playerMovement.SetVelocity(10);
-        }
-
-        // Set damage
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            dealDamage.SetDamage(100);
+            foreach (DealDamage dealDamage in dealDamages)
+            {
+                dealDamage.SetDamage(100);
+            }
         }
         
         // Stop enemies from looking for player
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha7))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha5))
         {
             foreach (EnemyController enemy in FindObjectsOfType<EnemyController>())
             {
@@ -61,7 +51,7 @@ public class Debugger : MonoBehaviour
         }
 
         // Make enemies look for player
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha8))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha6))
         {
             foreach (EnemyController enemy in FindObjectsOfType<EnemyController>())
             {
@@ -70,9 +60,16 @@ public class Debugger : MonoBehaviour
         }
 
         // Kill Player
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha9))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha7))
         {
             playerHealth.Damage(100);
         }
+
+        // Toggle Invulnerable to damage Player
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            playerHealth.ToggleDamageable();
+        }
+
     }
 }
