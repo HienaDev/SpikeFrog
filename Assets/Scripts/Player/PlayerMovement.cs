@@ -1,13 +1,9 @@
-using System.Runtime.CompilerServices;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
+
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
-
     [Header("Foward speed"), SerializeField] private float forwardAcceleration;
     [SerializeField] private float maxFowardVelocity;
     [SerializeField] private float rbVelocity;

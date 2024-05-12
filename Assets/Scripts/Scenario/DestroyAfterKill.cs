@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-
 
 public class DestroyAfterKill : MonoBehaviour
 {
-
     [SerializeField] private GameObject[] enemiesToKill;
 
     private void FixedUpdate()

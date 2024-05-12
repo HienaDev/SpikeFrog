@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TongueScript : MonoBehaviour
 {
-
-    private LineRenderer lr;
-    private Vector3 grapplePoint;
     [SerializeField] private LayerMask grappeable;
     [SerializeField] private Transform tongueTip;
     [SerializeField] private Transform cam;
     [SerializeField] private Transform player;
     [SerializeField] private float maxDistance;
     private SpringJoint joint;
+    private LineRenderer lr;
+    private Vector3 grapplePoint;
 
     private void Awake()
     {

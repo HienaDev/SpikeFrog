@@ -1,12 +1,9 @@
 using Cinemachine;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class ControlCamera : MonoBehaviour
 {
-
     [SerializeField] private Transform occlusionPivot;
     [SerializeField] private float deocclusionThreshold;
     [SerializeField] private float deocclusionVelocity;
