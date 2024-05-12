@@ -4829,7 +4829,7 @@ GameObject:
   - component: {fileID: 5392799100356555921}
   m_Layer: 0
   m_Name: door_3
-  m_TagString: Untagged
+  m_TagString: WorldBoundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4882,7 +4882,7 @@ GameObject:
   - component: {fileID: 5872045333223355502}
   m_Layer: 0
   m_Name: door_2
-  m_TagString: Untagged
+  m_TagString: WorldBoundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5526,7 +5526,7 @@ GameObject:
   - component: {fileID: 9071338817211732549}
   m_Layer: 0
   m_Name: door_1
-  m_TagString: Untagged
+  m_TagString: WorldBoundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
