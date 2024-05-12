@@ -35,7 +35,7 @@ public class PlayerCombat : MonoBehaviour
             // player is unfrozen through idle animation using method DisableFreeze from this method
             playerMovement.EnableFreeze();
         }
-        else if(Input.GetMouseButtonDown(0) &&  !puncheable && timerCombo > timeAvaiableForNextCombo)
+        else if (Input.GetMouseButtonDown(0) && !puncheable && timerCombo > timeAvaiableForNextCombo)
         {
             animator.SetTrigger("Punch");
             timerCombo = 0;
@@ -44,7 +44,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         // reset trigger after some time so the player doesnt have a buffered attack 
-        if(timerCombo > timeAvaiableForNextCombo * 2)
+        if (timerCombo > timeAvaiableForNextCombo * 2)
         {
             animator.ResetTrigger("Punch");
         }

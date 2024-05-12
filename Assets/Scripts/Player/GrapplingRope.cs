@@ -46,7 +46,7 @@ public class GrapplingRope : MonoBehaviour
             currentGrapplePosition = grapplingScript.GunTip.position;
             spring.Reset();
 
-            if(lineRenderer.positionCount > 0)
+            if (lineRenderer.positionCount > 0)
             {
                 lineRenderer.positionCount = 0;
             }
@@ -54,7 +54,7 @@ public class GrapplingRope : MonoBehaviour
             return;
         }
 
-        if (lineRenderer.positionCount == 0) 
+        if (lineRenderer.positionCount == 0)
         {
             spring.SetVelocity(velocity);
             lineRenderer.positionCount = quality + 1;
@@ -77,7 +77,7 @@ public class GrapplingRope : MonoBehaviour
             float delta = i / (float)quality;
 
             Vector3 offset = up * waveHeight * Mathf.Sin(delta
-                            * waveCount * Mathf.PI) * spring.Value 
+                            * waveCount * Mathf.PI) * spring.Value
                             * effectCurve.Evaluate(delta);
 
             lineRenderer.SetPosition(i, Vector3.Lerp(gunTipPosition, currentGrapplePosition, delta) + offset);
@@ -86,7 +86,6 @@ public class GrapplingRope : MonoBehaviour
 
     public void ResetRope()
     {
-        //currentGrapplePosition = grapplingScript.GunTip.position;
         lineRenderer.positionCount = 0;
         spring.Reset();
     }

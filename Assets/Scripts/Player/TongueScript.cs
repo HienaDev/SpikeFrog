@@ -19,25 +19,16 @@ public class TongueScript : MonoBehaviour
         lr = GetComponent<LineRenderer>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
-        
 
         if (Input.GetMouseButtonDown(1))
         {
-            
             StartGrapple();
         }
-        else if (Input.GetMouseButtonUp(1)) 
+        else if (Input.GetMouseButtonUp(1))
         {
-            //playerMov.SetGrappling(false);
             StopGrapple();
         }
     }
@@ -55,7 +46,7 @@ public class TongueScript : MonoBehaviour
         {
             Debug.Log("grappling");
 
-                
+
             grapplePoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;

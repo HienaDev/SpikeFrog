@@ -46,7 +46,7 @@ public class ControlCamera : MonoBehaviour
     public static ControlCamera instance;
 
     [SerializeField] private LayerMask ignoreLayerPreventOcclusion;
-     
+
 
     private void Awake()
     {
@@ -57,8 +57,6 @@ public class ControlCamera : MonoBehaviour
 
     private void Start()
     {
-        //cameraTransform = GetComponentInChildren<Camera>().transform;
-
 
         zoomTargetCameraLevel = GetTargetCameraOffset();
 
@@ -119,7 +117,7 @@ public class ControlCamera : MonoBehaviour
             SwapCameras();
         }
 
-        if(TargetObject != null)
+        if (TargetObject != null)
             if (targetting && !(Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(TargetObject.transform.position.x, 0f, TargetObject.transform.position.z)) < 2 && !playerMovement.Grounded))
                 transform.rotation = targetCamera.transform.rotation;
 
@@ -138,7 +136,7 @@ public class ControlCamera : MonoBehaviour
         foreach (Transform t in targetableObjects)
         {
             RaycastHit hit;
-            if(t != null)
+            if (t != null)
                 if (Physics.Raycast(transform.position, (t.position - transform.position), out hit, float.PositiveInfinity))
                 {
                     if (hit.collider.gameObject == t.gameObject)
@@ -181,7 +179,6 @@ public class ControlCamera : MonoBehaviour
             targetCamera.transform.rotation = normalCamera.transform.rotation;
             cameraTransform = targetCamera.transform;
 
-            //Debug.Log(objects.Count);
         }
         else if (targetting)
         {
@@ -189,10 +186,10 @@ public class ControlCamera : MonoBehaviour
             normalCamera.transform.position = targetCamera.transform.position;
             normalCamera.transform.rotation = targetCamera.transform.rotation;
             cameraTransform = normalCamera.transform;
-            //Debug.Log(objects.Count);
+
         }
 
-    
+
     }
 
 
@@ -214,7 +211,6 @@ public class ControlCamera : MonoBehaviour
             }
             else
             {
-                //Debug.Log(GetTargetCameraOffset());
                 SetTargetCameraOffset(GetTargetCameraOffset() - deocclusionVelocity * Time.deltaTime);
 
                 Vector3 position = cameraTransform.localPosition;
@@ -258,7 +254,6 @@ public class ControlCamera : MonoBehaviour
 
             if (GetTargetCameraOffset() < zoomTargetCameraLevel)
             {
-                //Debug.Log(zoomTargetCameraLevel);
                 SetTargetCameraOffset(Mathf.Min(GetTargetCameraOffset() + deocclusionVelocity * Time.deltaTime, zoomTargetCameraLevel));
 
                 Vector3 worldPosition = transform.TransformPoint(localPosition);
@@ -338,10 +333,6 @@ public class ControlCamera : MonoBehaviour
 
 
             cameraTransform.localPosition = position;
-
-            //Debug.Log(zoomVelocity);
-
-
 
             zoomTargetCameraLevel = GetTargetCameraOffset();
 

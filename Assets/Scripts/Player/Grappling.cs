@@ -13,14 +13,13 @@ public class Grappling : MonoBehaviour
     [SerializeField] private Transform gunTip;
     public Transform GunTip { get { return gunTip; } }
     [SerializeField] private LayerMask whatsGrappleable;
-    //private LineRenderer lineRenderer;
 
     [SerializeField] private float maxGrappleDistance;
     [SerializeField] private float grappleDelayTime;
-    [SerializeField] private float overshootYAxis; 
+    [SerializeField] private float overshootYAxis;
 
     private Vector3 grapplePoint;
-    public Vector3 GrapplePoint { get {  return grapplePoint; } }
+    public Vector3 GrapplePoint { get { return grapplePoint; } }
 
     private GameObject grappledObject;
 
@@ -53,8 +52,6 @@ public class Grappling : MonoBehaviour
 
         defaultFov = activeCamera.m_Lens.FieldOfView;
 
-
-        //cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView
     }
 
     public void UpdateCamera()
@@ -66,19 +63,17 @@ public class Grappling : MonoBehaviour
     void Update()
     {
 
-
-
         if (Input.GetKeyDown(grappleKey))
         {
             StartGrapple();
         }
 
-        if(grapplingCdTimer > 0)
+        if (grapplingCdTimer > 0)
         {
             grapplingCdTimer -= Time.deltaTime;
         }
 
-        if(grappledObject != null)
+        if (grappledObject != null)
         {
             grapplePoint = grappledObject.transform.position;
         }
@@ -112,9 +107,6 @@ public class Grappling : MonoBehaviour
 
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }
-
-        //lineRenderer.enabled = true;
-        //lineRenderer.SetPosition(1, grapplePoint);
     }
 
     private void ExecuteGrapple()
@@ -127,14 +119,12 @@ public class Grappling : MonoBehaviour
         float grapplePointRelativeYPos = grapplePoint.y - lowestPoint.y;
         float highestPointOnArc = grapplePointRelativeYPos + overshootYAxis;
 
-        if (grapplePointRelativeYPos < 0) 
+        if (grapplePointRelativeYPos < 0)
         {
             highestPointOnArc = overshootYAxis;
         }
 
         playerMovement.JumpToPosition(grapplePoint, highestPointOnArc);
-
-        //AddFov();
 
         Invoke(nameof(StopGrapple), 1f);
     }
@@ -150,10 +140,6 @@ public class Grappling : MonoBehaviour
 
         grappledObject = null;
 
-        //grapplingCdTimer = grapplingCd;
-
-        //lineRenderer.enabled = false;
-
     }
-    
+
 }

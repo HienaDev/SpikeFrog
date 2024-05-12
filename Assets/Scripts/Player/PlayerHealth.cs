@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private UIManager  uiManager;
-    [SerializeField] private int        maxHealth;
+    [SerializeField] private UIManager uiManager;
+    [SerializeField] private int maxHealth;
 
     private PlayerMovement playerScript;
     private PlayerCombat playerCombat;
@@ -45,13 +45,13 @@ public class PlayerHealth : MonoBehaviour
 
     public void Damage(int amount)
     {
-        if(canBeDamaged)
+        if (canBeDamaged)
             health = Mathf.Max(health - amount, 0);
 
 
         UpdateUI();
 
-        if(health <= 0 && !dead)
+        if (health <= 0 && !dead)
         {
             playerScript.enabled = false;
             playerCombat.enabled = false;

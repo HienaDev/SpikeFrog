@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private Slider   healthSlider;
+    [SerializeField] private Slider healthSlider;
     [SerializeField] private Gradient healthGradient;
-    [SerializeField] private Image    healthFill;
+    [SerializeField] private Image healthFill;
 
     public void SetMaxHealth(int health)
     {

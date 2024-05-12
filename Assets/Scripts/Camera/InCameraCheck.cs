@@ -45,8 +45,6 @@ public class InCameraCheck : MonoBehaviour
 
         if (GeometryUtility.TestPlanesAABB(cameraFrustum, col.bounds))
         {
-            //if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
-            //meshRenderer.sharedMaterial.color = Color.red;
             ControlCamera.targetableObjects.Add(gameObject.transform);
         }
 
