@@ -43,9 +43,13 @@ public class ControlCamera : MonoBehaviour
 
     public static HashSet<Transform> targetableObjects { get; private set; }
 
+    public static ControlCamera instance;
+
 
     private void Awake()
     {
+        instance = this;
+
         targetableObjects = new HashSet<Transform>();
     }
 
@@ -119,10 +123,10 @@ public class ControlCamera : MonoBehaviour
 
 
     }
-    private void SwapCameras()
+    public void SwapCameras()
     {
 
-        Debug.Log("camera swap");
+
 
         List<Transform> objects = new List<Transform>();
 
@@ -177,7 +181,7 @@ public class ControlCamera : MonoBehaviour
 
             //Debug.Log(objects.Count);
         }
-        else if ((objects.Count > 0 || TargetObject == null) && !targetCamera.activeSelf && targetting)
+        else if (targetting)
         {
             targetting = false;
             normalCamera.transform.position = targetCamera.transform.position;

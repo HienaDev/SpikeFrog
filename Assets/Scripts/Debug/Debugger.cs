@@ -68,5 +68,11 @@ public class Debugger : MonoBehaviour
                 enemy.SetLookingForPlayer(true);
             }
         }
+
+        // Kill Player
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            playerHealth.Damage(100);
+        }
     }
 }

@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Antonio.unity
+    guid: cfa8a300c38b98f4dbc42487d26391f9
+  - enabled: 1
+    path: Assets/Scenes/Loading Death.unity
+    guid: a738ed7442464d448b8795f4472adc89
+  - enabled: 1
+    path: Assets/Scenes/Loading Celebration.unity
+    guid: 49f9024f2e228da489b911a168a26817
   m_configObjects: {}

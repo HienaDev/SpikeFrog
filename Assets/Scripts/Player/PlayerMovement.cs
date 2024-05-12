@@ -32,7 +32,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Mouse speed"), SerializeField]     private float rotationVelocityFactor;
 
     [Header("Rotation speed"), SerializeField]  private float rotationSpeedPlayer;
-    private float lerpPercentage;
     private Vector3 targetTransform;
     private Vector3 targetRotation;
 
@@ -50,8 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Skate"), SerializeField]           private GameObject skate;
     [SerializeField]                            private float skateRotateSpeed;
-    private bool skateRotating;
-    private float previousRotation;
+
 
     [Header("UI"), SerializeField]              private UIManager UIManager;
 
@@ -86,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
     private float stamina;
     private bool staminaRegenOn;
 
-    private bool dash;
+
     private float dashTimer;
 
     private bool    sprint;
@@ -125,22 +123,18 @@ public class PlayerMovement : MonoBehaviour
         jump = false;
 
         targetAngle = transform.rotation.eulerAngles.y;
-        lerpPercentage = 0;
+
         targetTransform = Vector3.zero;
         targetRotation = Vector3.zero;
 
         sprint = false;
         needSprintRest = false;
 
-        dash = false;
         dashTimer = 0f;
 
         moving = false;
 
         stamina = maxStamina;
-
-        skateRotating = false;
-        previousRotation = 0f;
 
         sin90 = Mathf.Sin(Mathf.PI / 4);
 
@@ -319,7 +313,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && grounded.Grounded)
         {
             jump = true;
-            skateRotating = true;
 
             animator.SetTrigger("Jump");
         }
@@ -373,13 +366,20 @@ public class PlayerMovement : MonoBehaviour
         UpdateVerticalVelocity();
 
         if(cameraController.TargetObject != null)
+        { 
             if (!(cameraController.Targetting && 
-            Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), 
-                            new Vector3(cameraController.TargetObject.transform.position.x, 0f, cameraController.TargetObject.transform.position.z)) 
-                            < 3))
-        UpdateSprint();
+                Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), 
+                                new Vector3(cameraController.TargetObject.transform.position.x, 0f, cameraController.TargetObject.transform.position.z)) 
+                                < 4))
+            {
+                UpdateSprint();
+            }     
+        }
+        else
+            UpdateSprint();
+
         //UpdateDash();
-        
+
     }
 
     private void UpdateSprint()

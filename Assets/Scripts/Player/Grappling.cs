@@ -22,6 +22,8 @@ public class Grappling : MonoBehaviour
     private Vector3 grapplePoint;
     public Vector3 GrapplePoint { get {  return grapplePoint; } }
 
+    private GameObject grappledObject;
+
     [SerializeField] private float grapplingCd;
     private float grapplingCdTimer;
 
@@ -47,7 +49,7 @@ public class Grappling : MonoBehaviour
         playerMovement = GetComponentInParent<PlayerMovement>();
         grapplingRope = GetComponent<GrapplingRope>();
 
-        
+        grappledObject = null;
 
         defaultFov = activeCamera.m_Lens.FieldOfView;
 
@@ -75,6 +77,11 @@ public class Grappling : MonoBehaviour
         {
             grapplingCdTimer -= Time.deltaTime;
         }
+
+        if(grappledObject != null)
+        {
+            grapplePoint = grappledObject.transform.position;
+        }
     }
 
     private void StartGrapple()
@@ -94,6 +101,7 @@ public class Grappling : MonoBehaviour
         if ((Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatsGrappleable)))
         {
             grapplePoint = hit.point;
+            grappledObject = hit.collider.gameObject;
 
             Invoke(nameof(ExecuteGrapple), grappleDelayTime);
         }
@@ -140,34 +148,12 @@ public class Grappling : MonoBehaviour
 
         grappling = false;
 
+        grappledObject = null;
+
         //grapplingCdTimer = grapplingCd;
 
         //lineRenderer.enabled = false;
 
     }
-
-    //private void DoFov(float endValue)
-    //{
-    //    cam.GetComponent<Camera>().DOFieldOfView(endValue, 0.25f);
-
-        
-    //}
-    
-    //private void AddFov()
-    //{
-    //    DOTween.To( ()=> activeCamera.m_Lens.FieldOfView, 
-    //                    x=> activeCamera.m_Lens.FieldOfView = x
-    //                    , defaultFov + fovValue, 0.25f);
-    //    //DoFov(defaultFov + fovValue);
-    //}
-
-    //public void ResetFov()
-    //{
-    //    DOTween.To(() => activeCamera.m_Lens.FieldOfView, 
-    //                    x => activeCamera.m_Lens.FieldOfView = x
-    //                    , defaultFov, 0.25f);
-    //    //DoFov(defaultFov);
-    //}
-
     
 }

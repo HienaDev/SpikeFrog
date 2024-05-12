@@ -5,11 +5,21 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private UIManager  uiManager;
     [SerializeField] private int        maxHealth;
 
+    private PlayerMovement playerScript;
+    private PlayerCombat playerCombat;
+    private Animator animator;
     private int health;
+    private bool dead;
 
     void Start()
     {
         health = maxHealth;
+
+        playerScript = GetComponent<PlayerMovement>();
+        playerCombat = GetComponentInChildren<PlayerCombat>();
+        animator = GetComponentInChildren<Animator>();
+
+        dead = false;
 
         UpdateUI();
     }
@@ -35,7 +45,16 @@ public class PlayerHealth : MonoBehaviour
     {
         health = Mathf.Max(health - amount, 0);
 
+
         UpdateUI();
+
+        if(health <= 0 && !dead)
+        {
+            playerScript.enabled = false;
+            playerCombat.enabled = false;
+            animator.SetTrigger("Death");
+            dead = true;
+        }
     }
 
     public void FullHealth()

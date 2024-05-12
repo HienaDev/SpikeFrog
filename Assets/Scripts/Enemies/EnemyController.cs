@@ -13,7 +13,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float detectionRadius = 5.0f;
     [SerializeField] private float alertRadius = 10f;
     [SerializeField] private float pursuitRadius = 15f;
-    [SerializeField] private float maxDistanceToPlayerRadius = 2f;
 
     [Header("[Waypoints]")]
     [SerializeField] private GameObject     waypointPrefab;
@@ -55,15 +54,12 @@ public class EnemyController : MonoBehaviour
                 break;
             case EnemyState.Pursuit:
                 AlertOthers();
-
-                if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), new Vector3(player.transform.position.x, 0f, player.transform.position.z)) > maxDistanceToPlayerRadius)
-                    PursuePlayer();
-                else
-                    agent.speed = 0f;
+                PursuePlayer();
 
                 break;
             case EnemyState.Combat:
                 Combat();
+                agent.speed = 0f;
                 break;
         }
     }
@@ -175,7 +171,7 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, alertRadius);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, pursuitRadius);
+        Gizmos.DrawWireSphere(transform.position, pursuitRadius);        
 
         // Draw waypoints
         Gizmos.color = Color.magenta;

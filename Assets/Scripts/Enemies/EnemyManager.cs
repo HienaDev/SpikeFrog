@@ -18,6 +18,10 @@ public class EnemyManager : MonoBehaviour
     [Header("[Collider for Camera]")]
     [SerializeField] private Collider camCheckCollider;
 
+    [Header("[Health Drop]")]
+    [SerializeField] private GameObject healthDrop;
+    [SerializeField] private int chanceForHealthDrop = 50;
+
     private EnemyController enemyController;
     private EnemyAttack enemyAttack;
     private Renderer enemyRenderer;
@@ -65,10 +69,30 @@ public class EnemyManager : MonoBehaviour
         enemyController.StopAgent();
         StartCoroutine(FadeOut());
 
-        camCheckCollider.enabled = false;
 
-        ControlCamera.targetableObjects.Remove(gameObject.transform);
+
+        foreach(Collider col in GetComponentsInChildren<Collider>())
+        {
+            col.enabled = false;
+        }
+
+        foreach (Collider col in GetComponents<Collider>())
+        {
+            col.enabled = false;
+        }
+
+        ControlCamera.instance.SwapCameras();
+        Invoke(nameof(DropHealth), fadeOutDuration - 0.1f);
         Destroy(gameObject, fadeOutDuration);
+    }
+
+    private void DropHealth()
+    {
+        if ((Random.Range(0, 100) < chanceForHealthDrop))
+        {
+            Instantiate(healthDrop, gameObject.transform.position, Quaternion.identity);
+        }
+        
     }
 
     private IEnumerator Blink()
@@ -110,4 +134,6 @@ public class EnemyManager : MonoBehaviour
             yield return null;
         }
     }
+
+ 
 }

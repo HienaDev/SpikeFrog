@@ -25,8 +25,10 @@ public class EnemyAttack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Collision");
         if (other.CompareTag("Player") && canAttack)
         {
+            Debug.Log("Collision with player");
             canAttack = false;
 
             this.lastAttackTime = Time.time;
