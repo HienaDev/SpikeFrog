@@ -19,8 +19,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxJumpHeight;
     [SerializeField] private float maxFallVelocity;
     [SerializeField] private float extraGravity;
-    private float forceToGoDown;
-    private float heightOfJump;
+    private float   forceToGoDown;
+    private float   heightOfJump;
     private Vector3 defaultGravity;
 
 
@@ -477,5 +477,33 @@ public class PlayerMovement : MonoBehaviour
         maxFowardVelocity = speed;
         maxBackwardVelocity = -speed;
         maxStrafeVelocity = speed;
+    }
+
+    [System.Serializable]
+    public struct SaveData
+    {
+        public Vector3    position;
+        public Quaternion rotation;
+        public Vector3    velocity;
+    }
+
+    public SaveData GetSaveData()
+    {
+        SaveData saveData;
+
+        saveData.position = transform.position;
+        saveData.rotation = transform.rotation;
+        saveData.velocity = velocity;
+
+        return saveData;
+    }
+
+    public void LoadSaveData(SaveData saveData)
+    {
+        
+
+        transform.position = saveData.position;
+        transform.rotation = saveData.rotation;
+        velocity = saveData.velocity;
     }
 }

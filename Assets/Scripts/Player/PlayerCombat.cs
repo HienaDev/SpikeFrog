@@ -3,11 +3,12 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerMovement playerMovement;
-    private Animator animator;
+    [SerializeField] private float          timeAvaiableForNextCombo;
 
-    [SerializeField] private float timeAvaiableForNextCombo;
-    private float timerCombo;
-    private bool puncheable;
+
+    private Animator animator;
+    private float    timerCombo;
+    private bool     puncheable;
 
     // Start is called before the first frame update
     void Start()

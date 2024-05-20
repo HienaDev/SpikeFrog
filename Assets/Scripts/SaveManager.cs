@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
-    [SerializeField] private string       saveFileName;
-    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private string         saveFileName;
+    [SerializeField] private PlayerHealth   playerHealth;
+    [SerializeField] private PlayerMovement playerMovement;
 
     private GameSaveData gameSaveData;
     private string saveFilePath;
@@ -31,14 +32,16 @@ public class SaveManager : MonoBehaviour
 
     private struct GameSaveData
     {
-        public PlayerHealth.SaveData playerHealthSaveData;
+        public PlayerHealth.SaveData   playerHealth;
+        public PlayerMovement.SaveData playerMovement;
     }
 
     private void QuickSaveGame()
     {
         GameSaveData saveData;
 
-        saveData.playerHealthSaveData = playerHealth.GetSaveData();
+        saveData.playerHealth   = playerHealth.GetSaveData();
+        saveData.playerMovement = playerMovement.GetSaveData();
 
         string jsonSaveData = JsonUtility.ToJson(saveData, true);
         
@@ -55,7 +58,8 @@ public class SaveManager : MonoBehaviour
 
             GameSaveData saveData = JsonUtility.FromJson<GameSaveData>(jsonSaveData);
 
-            playerHealth.LoadSaveData(saveData.playerHealthSaveData);
+            playerHealth.LoadSaveData(saveData.playerHealth);
+            playerMovement.LoadSaveData(saveData.playerMovement);
 
             print ("Game Loaded");
         }

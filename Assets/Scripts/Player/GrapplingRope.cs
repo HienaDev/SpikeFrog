@@ -3,29 +3,25 @@ using UnityEngine;
 
 public class GrapplingRope : MonoBehaviour
 {
+    [SerializeField] private int            quality;
+    [SerializeField] private float          ropeSpeed;
+    [SerializeField] private float          damper;
+    [SerializeField] private float          strenght;
+    [SerializeField] private float          velocity;
+    [SerializeField] private float          waveCount;
+    [SerializeField] private float          waveHeight;
+    [SerializeField] private AnimationCurve effectCurve;
 
     private LineRenderer lineRenderer;
-    private Grappling grapplingScript;
-
-    private Vector3 currentGrapplePosition;
-
-    [SerializeField] private int quality;
-    private Spring spring;
-
-    [SerializeField] private float ropeSpeed;
-
-    [SerializeField] private float damper;
-    [SerializeField] private float strenght;
-    [SerializeField] private float velocity;
-    [SerializeField] private float waveCount;
-    [SerializeField] private float waveHeight;
-    [SerializeField] private AnimationCurve effectCurve;
+    private Grappling    grapplingScript;
+    private Vector3      currentGrapplePosition;
+    private Spring       spring;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer    = GetComponent<LineRenderer>();
         grapplingScript = GetComponent<Grappling>();
 
         spring = new Spring();
@@ -65,8 +61,6 @@ public class GrapplingRope : MonoBehaviour
         Vector3 grapplePoint = grapplingScript.GrapplePoint;
         Vector3 gunTipPosition = grapplingScript.GunTip.position;
         Vector3 up = Quaternion.LookRotation((grapplePoint - gunTipPosition).normalized) * Vector3.up;
-
-
 
         currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, grapplePoint, Time.deltaTime * ropeSpeed);
 
