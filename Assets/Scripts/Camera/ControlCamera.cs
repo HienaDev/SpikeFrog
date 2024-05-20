@@ -54,7 +54,6 @@ public class ControlCamera : MonoBehaviour
 
     private void Start()
     {
-
         zoomTargetCameraLevel = GetTargetCameraOffset();
 
         zoomVelocity = 0f;
@@ -87,8 +86,6 @@ public class ControlCamera : MonoBehaviour
 
     private void Update()
     {
-
-
         if (Input.GetKeyDown(KeyCode.Q))//&& targetableObjects.Count > 0)
             SwapCameras();
 
@@ -99,12 +96,9 @@ public class ControlCamera : MonoBehaviour
 
         }
 
-
-
         UpdateZoom();
 
         PreventOcclusion();
-
     }
 
     private void FixedUpdate()
@@ -191,11 +185,7 @@ public class ControlCamera : MonoBehaviour
             cameraTransform = normalCamera.transform;
 
         }
-
-
     }
-
-
 
 
     private void PreventOcclusion()
@@ -232,7 +222,6 @@ public class ControlCamera : MonoBehaviour
 
     private void RevertDeocclusion()
     {
-
         // Fixed jittering by changing deocclusion value, check again later
 
         if (!targetCamera.activeSelf)
@@ -280,7 +269,6 @@ public class ControlCamera : MonoBehaviour
     private void UpdateZoomAcceleration()
     {
         zoomAcceleration = Input.GetAxis("Zoom") * zoomAccelerationFactor;
-
     }
 
     private void UpdateZoomVelocity()
@@ -288,7 +276,6 @@ public class ControlCamera : MonoBehaviour
         if (zoomAcceleration != 0f)
         {
             zoomVelocity += zoomAcceleration * Time.deltaTime;
-
 
         }
         else if (zoomVelocity > 0f)
@@ -301,8 +288,6 @@ public class ControlCamera : MonoBehaviour
             zoomVelocity += zoomDeceleration * Time.deltaTime;
             zoomVelocity = Mathf.Min(zoomVelocity, 0f);
         }
-
-
     }
 
     private void UpdateZoomPosition()
@@ -343,8 +328,6 @@ public class ControlCamera : MonoBehaviour
         }
     }
 
-
-
     private void UpdatePitch()
     {
         Vector3 rotation = transform.localEulerAngles;
@@ -372,24 +355,27 @@ public class ControlCamera : MonoBehaviour
     [System.Serializable]
     public struct SaveData
     {
-        public float   zoomPosition;
+        public Vector3 position;
         public Vector3 rotation;
+        public float zoomPosition;
     }
 
     public SaveData GetSaveData()
     {
         SaveData saveData;
 
-        saveData.zoomPosition = zoomPosition;
+        saveData.position = transform.position;
         saveData.rotation = transform.localEulerAngles;
+        saveData.zoomPosition = zoomPosition;
 
         return saveData;
     }
 
     public void LoadSaveData(SaveData saveData)
     {
-        zoomPosition = saveData.zoomPosition;
-        transform.localEulerAngles = saveData.rotation;
+        transform.position          = saveData.position;
+        transform.localEulerAngles  = saveData.rotation;
+        zoomPosition                = saveData.zoomPosition;
     }
 
 }
