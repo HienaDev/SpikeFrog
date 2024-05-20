@@ -500,8 +500,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void LoadSaveData(SaveData saveData)
     {
-        
-
         transform.position = saveData.position;
         transform.rotation = saveData.rotation;
         velocity = saveData.velocity;
