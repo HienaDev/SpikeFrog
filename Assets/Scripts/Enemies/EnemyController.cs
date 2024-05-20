@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject     waypointPrefab;
     [SerializeField] private List<Vector3>  waypointsPositions;
 
+    private PlayerHealth    playerHealth;
     private Transform       player;
     private int             waypointIndex;
     private Vector3         initialPosition;
@@ -30,6 +31,7 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         player           = GameObject.FindGameObjectWithTag("Player").transform;
+        playerHealth     = player.GetComponent<PlayerHealth>();
         waypointIndex    = 0;
         initialPosition  = transform.position;
         currentState     = EnemyState.Patrol;
@@ -46,6 +48,9 @@ public class EnemyController : MonoBehaviour
     {
         DetectPlayer();
 
+        if (!playerHealth.IsAlive)
+            currentState = EnemyState.Patrol;
+
         switch (currentState)
         {
             case EnemyState.Patrol:
@@ -54,7 +59,6 @@ public class EnemyController : MonoBehaviour
             case EnemyState.Pursuit:
                 AlertOthers();
                 PursuePlayer();
-
                 break;
             case EnemyState.Combat:
                 Combat();
@@ -160,7 +164,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         // Draw radius
         Gizmos.color = Color.red;

@@ -3,14 +3,14 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private UIManager uiManager;
-    [SerializeField] private int maxHealth;
+    [SerializeField] private int       maxHealth;
 
     private PlayerMovement playerScript;
-    private PlayerCombat playerCombat;
-    private Animator animator;
-    private int health;
-    private bool dead;
-    private bool canBeDamaged;
+    private PlayerCombat   playerCombat;
+    private Animator       animator;
+    private int            health;
+    private bool           dead;
+    private bool           canBeDamaged;
 
     void Start()
     {
@@ -67,5 +67,29 @@ public class PlayerHealth : MonoBehaviour
         UpdateUI();
     }
 
+    public bool IsAlive => health > 0;
+
     public bool ToggleDamageable() => canBeDamaged = !canBeDamaged;
+
+    [System.Serializable]
+    public struct SaveData
+    {
+        public int health;
+    }
+
+    public SaveData GetSaveData()
+    {
+        SaveData saveData;
+
+        saveData.health = health;
+
+        return saveData;
+    }
+
+    public void LoadSaveData(SaveData saveData)
+    {
+        health = saveData.health;
+
+        UpdateUI();
+    }
 }
