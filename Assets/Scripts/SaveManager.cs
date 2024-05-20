@@ -43,10 +43,25 @@ public class SaveManager : MonoBehaviour
         string jsonSaveData = JsonUtility.ToJson(saveData, true);
         
         File.WriteAllText(saveFileName, jsonSaveData);
+
+        print ("Game Saved");
     }
 
     private void QuickLoadGame()
     {
-        print ("Game Loaded");
+        if (File.Exists(saveFileName))
+        {
+            string jsonSaveData = File.ReadAllText(saveFileName);
+
+            GameSaveData saveData = JsonUtility.FromJson<GameSaveData>(jsonSaveData);
+
+            playerHealth.LoadSaveData(saveData.playerHealthSaveData);
+
+            print ("Game Loaded");
+        }
+        else
+        {
+            print ("No save file found");
+        }
     }
 }

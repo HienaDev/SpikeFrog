@@ -1325,12 +1325,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1382170525296718795}
+  - component: {fileID: 2534952810360444473}
   - component: {fileID: 1314729750705961365}
   - component: {fileID: 8511715070227666913}
   - component: {fileID: 163699397926054320}
   - component: {fileID: 2610172603476775966}
   - component: {fileID: 9135048024297856454}
-  - component: {fileID: 2534952810360444473}
   - component: {fileID: 3226421371885695904}
   m_Layer: 9
   m_Name: Enemy Pivot
@@ -1355,6 +1355,29 @@ Transform:
   - {fileID: 909277820025560578}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2534952810360444473
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5700094511689098625}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.32
+  m_Height: 1.8461865
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.4, z: 0}
 --- !u!54 &1314729750705961365
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1462,29 +1485,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRadius: 2
   attackDamage: 10
---- !u!136 &2534952810360444473
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5700094511689098625}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.32
-  m_Height: 1.8461865
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.4, z: 0}
 --- !u!95 &3226421371885695904
 Animator:
   serializedVersion: 5

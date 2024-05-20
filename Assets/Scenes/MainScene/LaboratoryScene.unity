@@ -350,7 +350,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.33333334
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 67bfb6e915fc28f42b33dd66b65b5a03, type: 2}
   m_BuildHeightMesh: 0
@@ -2170,7 +2170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveFileName: savegame.sav
-  playerHealth: {fileID: 0}
+  playerHealth: {fileID: 1651985270}
 --- !u!1 &923118239
 GameObject:
   m_ObjectHideFlags: 0
@@ -3688,6 +3688,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 9710662}
   m_SourcePrefab: {fileID: 100100000, guid: d8878e3ba2c9ec747ab4a8745c03a12d, type: 3}
+--- !u!114 &1651985270 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5487959749550486324, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6287433488659998878}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a6c66cd3a12f44395f72253f3d52db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1665646580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5373,7 +5385,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2534952810360444473, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+    - target: {fileID: 4202244026774558146, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4905378975614147966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -5382,16 +5399,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy Pivot
-      objectReference: {fileID: 0}
-    - target: {fileID: 8511715070227666913, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
-        type: 3}
-      propertyPath: m_Height
-      value: 1.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8511715070227666913, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
