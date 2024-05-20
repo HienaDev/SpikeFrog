@@ -54,4 +54,27 @@ public class PlayerCombat : MonoBehaviour
     public void ActivatePunch() => puncheable = true;
 
     public void DisableFreeze() => playerMovement.DisableFreeze();
+
+    [System.Serializable]
+    public struct SaveData
+    {
+        public float timerCombo;
+        public bool  puncheable;
+    }
+
+    public SaveData GetSaveData()
+    {
+        SaveData saveData;
+
+        saveData.timerCombo = timerCombo;
+        saveData.puncheable = puncheable;
+
+        return saveData;
+    }
+
+    public void LoadSaveData(SaveData saveData)
+    {
+        timerCombo = saveData.timerCombo;
+        puncheable = saveData.puncheable;
+    }
 }

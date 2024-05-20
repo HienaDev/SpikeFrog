@@ -369,4 +369,27 @@ public class ControlCamera : MonoBehaviour
         transform.localEulerAngles = (rotation);
     }
 
+    [System.Serializable]
+    public struct SaveData
+    {
+        public float   zoomPosition;
+        public Vector3 rotation;
+    }
+
+    public SaveData GetSaveData()
+    {
+        SaveData saveData;
+
+        saveData.zoomPosition = zoomPosition;
+        saveData.rotation = transform.localEulerAngles;
+
+        return saveData;
+    }
+
+    public void LoadSaveData(SaveData saveData)
+    {
+        zoomPosition = saveData.zoomPosition;
+        transform.localEulerAngles = saveData.rotation;
+    }
+
 }
