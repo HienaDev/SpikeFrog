@@ -4,6 +4,13 @@ public class HealthPickup : MonoBehaviour
 {
     [SerializeField] private int regen;
 
+    private bool isActive;
+
+    private void Start()
+    {
+        isActive = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
@@ -12,7 +19,28 @@ public class HealthPickup : MonoBehaviour
         {
             playerHealth.Regen(regen);
 
-            Destroy(gameObject);
+            isActive = false;
+            gameObject.SetActive(false);
         }
+    }
+
+    [System.Serializable]
+    public struct SaveData
+    {
+        public bool active;
+    }
+
+    public SaveData GetSaveData()
+    {
+        SaveData saveData;
+
+        saveData.active = isActive;
+
+        return saveData;
+    }
+
+    public void LoadSaveData(SaveData saveData)
+    {
+        gameObject.SetActive(saveData.active);
     }
 }

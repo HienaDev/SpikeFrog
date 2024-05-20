@@ -21,6 +21,7 @@ public class EnemyManager : MonoBehaviour
     [Header("[Health Drop]")]
     [SerializeField] private GameObject healthDrop;
     [SerializeField] private int        chanceForHealthDrop = 50;
+    [SerializeField] private GameObject healthPickupsParent;
 
     private EnemyController enemyController;
     private EnemyAttack     enemyAttack;
@@ -85,14 +86,19 @@ public class EnemyManager : MonoBehaviour
             ControlCamera.instance.SwapCameras();
 
         Invoke(nameof(DropHealth), fadeOutDuration - 0.1f);
-        Destroy(gameObject, fadeOutDuration);
+        Invoke(nameof(Deactivate), fadeOutDuration);
+    }
+
+    private void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
 
     private void DropHealth()
     {
         if ((Random.Range(0, 100) < chanceForHealthDrop))
         {
-            Instantiate(healthDrop, gameObject.transform.position, Quaternion.identity);
+            Instantiate(healthDrop, transform.position, Quaternion.identity, healthPickupsParent.transform);
         }
         
     }
@@ -135,5 +141,30 @@ public class EnemyManager : MonoBehaviour
             enemyRenderer.material.color = new Color(enemyRenderer.material.color.r, enemyRenderer.material.color.g, enemyRenderer.material.color.b, newAlpha);
             yield return null;
         }
+    }
+
+    [System.Serializable]
+    public struct SaveData
+    {
+        public int   health;
+        public int   animationState;
+        public float animationTime;
+    }
+
+    public SaveData GetSaveData()
+    {
+        SaveData saveData;
+
+        saveData.health          = health;
+        saveData.animationState  = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+        saveData.animationTime   = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+        return saveData;
+    }
+
+    public void LoadSaveData(SaveData saveData)
+    {
+        health = saveData.health;
+        animator.Play(saveData.animationState, 0, saveData.animationTime);
     }
 }

@@ -474,6 +474,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203891451}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &224631021 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6606859040698819631, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6287433488659998878}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34512b10e85500e45a6f16cf501a2477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &295636064
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,6 +591,74 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 295636064}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &374488980
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1382831752}
+    m_Modifications:
+    - target: {fileID: 1384258497942212100, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_Name
+      value: Health Pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 15ed4bc7acf50274e816641dff890592, type: 3}
 --- !u!1 &402962209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5700094511689098625, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
@@ -749,6 +829,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -824,6 +909,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: maxDistanceToPlayerRadius
@@ -1364,6 +1454,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -1439,6 +1534,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: maxDistanceToPlayerRadius
@@ -1524,6 +1624,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -1599,6 +1704,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: maxDistanceToPlayerRadius
@@ -1684,6 +1794,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -1759,6 +1874,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: maxDistanceToPlayerRadius
@@ -2025,6 +2145,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 750455278}
+  - component: {fileID: 750455279}
   m_Layer: 9
   m_Name: Enemies
   m_TagString: Untagged
@@ -2059,6 +2180,18 @@ Transform:
   - {fileID: 1021786376}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &750455279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750455277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb034a47c63584d4f9762808aefaef8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &784569020 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5700094511689098625, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
@@ -2125,6 +2258,74 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 419931239}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &811749849
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1382831752}
+    m_Modifications:
+    - target: {fileID: 1384258497942212100, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_Name
+      value: Health Pickup (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 15ed4bc7acf50274e816641dff890592, type: 3}
 --- !u!114 &811803369 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2662376219603109712, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
@@ -2185,6 +2386,8 @@ MonoBehaviour:
   playerHealth: {fileID: 1651985270}
   playerMovement: {fileID: 1651985271}
   playerCombat: {fileID: 811803369}
+  controlCamera: {fileID: 224631021}
+  enemySave: {fileID: 750455279}
 --- !u!1 &923118239
 GameObject:
   m_ObjectHideFlags: 0
@@ -2330,6 +2533,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -2405,6 +2613,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: maxDistanceToPlayerRadius
@@ -2490,6 +2703,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -2565,6 +2783,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: maxDistanceToPlayerRadius
@@ -2965,6 +3188,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -3040,6 +3268,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: maxDistanceToPlayerRadius
@@ -3316,6 +3549,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307814875}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1382831750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1382831752}
+  - component: {fileID: 1382831751}
+  m_Layer: 0
+  m_Name: Health Pickups
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1382831751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382831750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4b82a31db4588448ec45b9a65ad192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1382831752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382831750}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -155.7, y: 0.782, z: 53.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2122000421}
+  - {fileID: 1850700592}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1411661695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3335,6 +3614,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -3412,6 +3696,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
       propertyPath: maxDistanceToPlayerRadius
       value: 2.5
       objectReference: {fileID: 0}
@@ -3476,6 +3765,37 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1021786369}
   m_SourcePrefab: {fileID: 100100000, guid: d8878e3ba2c9ec747ab4a8745c03a12d, type: 3}
+--- !u!1 &1428228437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1428228438}
+  m_Layer: 0
+  m_Name: Enemies Waypoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1428228438
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428228437}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -170.74327, y: 8.615855, z: 80.84323}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1551221605
 GameObject:
   m_ObjectHideFlags: 0
@@ -3561,6 +3881,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -3636,6 +3961,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: maxDistanceToPlayerRadius
@@ -3745,6 +4075,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -3820,6 +4155,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: maxDistanceToPlayerRadius
@@ -4200,6 +4540,11 @@ PrefabInstance:
       propertyPath: camCheckCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1314729750705961365, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Constraints
@@ -4277,6 +4622,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
       propertyPath: maxDistanceToPlayerRadius
       value: 2.5
       objectReference: {fileID: 0}
@@ -4341,6 +4691,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1560667855}
   m_SourcePrefab: {fileID: 100100000, guid: d8878e3ba2c9ec747ab4a8745c03a12d, type: 3}
+--- !u!4 &1850700592 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+    type: 3}
+  m_PrefabInstance: {fileID: 811749849}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1851350982
 GameObject:
   m_ObjectHideFlags: 0
@@ -4691,6 +5047,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077884538}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2122000421 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5462674788276151448, guid: 15ed4bc7acf50274e816641dff890592,
+    type: 3}
+  m_PrefabInstance: {fileID: 374488980}
+  m_PrefabAsset: {fileID: 0}
 --- !u!33 &58154340666119591
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5311,6 +5673,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 750455278}
     m_Modifications:
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickUpsParent
+      value: 
+      objectReference: {fileID: 1382831750}
+    - target: {fileID: 163699397926054320, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+        type: 3}
+      propertyPath: healthPickupsParent
+      value: 
+      objectReference: {fileID: 1382831750}
     - target: {fileID: 1382170525296718795, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5361,16 +5733,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4202244026774558146, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
+    - target: {fileID: 2610172603476775966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4905378975614147966, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: EnemiesWaypointsParent
+      value: 
+      objectReference: {fileID: 1428228437}
     - target: {fileID: 5700094511689098625, guid: d8878e3ba2c9ec747ab4a8745c03a12d,
         type: 3}
       propertyPath: m_Name
@@ -5568,6 +5935,8 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 6287433488659998878}
   - {fileID: 750455278}
+  - {fileID: 1428228438}
+  - {fileID: 1382831752}
   - {fileID: 1551221606}
   - {fileID: 5166424766256310577}
   - {fileID: 1861548111}

@@ -1449,6 +1449,7 @@ MonoBehaviour:
   healthDrop: {fileID: 1384258497942212100, guid: 15ed4bc7acf50274e816641dff890592,
     type: 3}
   chanceForHealthDrop: 75
+  healthPickupsParent: {fileID: 6828168024851541474}
 --- !u!114 &2610172603476775966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1468,6 +1469,7 @@ MonoBehaviour:
   pursuitRadius: 20
   waypointPrefab: {fileID: 2210079993651769155, guid: 9b65928b57a57d548bd86795701002e7,
     type: 3}
+  EnemiesWaypointsParent: {fileID: 0}
   waypointsPositions:
   - {x: -150.6, y: 0, z: 80.6}
   - {x: -153.8, y: 0, z: 73.6}
@@ -1683,7 +1685,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2

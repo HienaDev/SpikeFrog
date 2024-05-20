@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("[Waypoints]")]
     [SerializeField] private GameObject     waypointPrefab;
+    [SerializeField] private GameObject     EnemiesWaypointsParent;
     [SerializeField] private List<Vector3>  waypointsPositions;
 
     private PlayerHealth    playerHealth;
@@ -159,8 +160,9 @@ public class EnemyController : MonoBehaviour
     {
         foreach (Vector3 pos in waypointsPositions)
         {
-            GameObject newWaypoint = Instantiate(waypointPrefab, pos, Quaternion.identity);
-            waypoints.Add(newWaypoint.transform);
+            //Instantiate waypoints inside the parent object
+            GameObject waypoint = Instantiate(waypointPrefab, pos, Quaternion.identity, EnemiesWaypointsParent.transform);
+            waypoints.Add(waypoint.transform);
         }
     }
 
@@ -193,4 +195,45 @@ public class EnemyController : MonoBehaviour
     public bool IsAgentStopped() => agent.isStopped;
     
     public void SetLookingForPlayer(bool value) => lookingForPlayer = value;
+
+    [System.Serializable]
+    public struct SaveData
+    {
+        public Vector3    position;
+        public Quaternion rotation;
+        public int        nextWaypointIndex;
+        public bool       agentIsStopped;
+        public Vector3    agentDestination;
+        public Vector3    agentVelocity;
+        public bool       active;
+    }
+
+    public SaveData GetSaveData()
+    {
+        SaveData saveData;
+
+        saveData.position          = transform.position;
+        saveData.rotation          = transform.rotation;
+        saveData.nextWaypointIndex = waypointIndex;
+        if (gameObject.activeSelf)
+            saveData.agentIsStopped = agent.isStopped;
+        else
+            saveData.agentIsStopped = false;
+        saveData.agentDestination  = agent.destination;
+        saveData.agentVelocity     = agent.velocity;
+        saveData.active            = gameObject.activeSelf;
+
+        return saveData;
+    }
+
+    public void LoadSaveData(SaveData saveData)
+    {
+        transform.position = saveData.position;
+        transform.rotation = saveData.rotation;
+        waypointIndex      = saveData.nextWaypointIndex;
+        agent.isStopped    = saveData.agentIsStopped;
+        agent.destination  = saveData.agentDestination;
+        agent.velocity     = saveData.agentVelocity;
+        gameObject.SetActive(saveData.active);
+    }
 }

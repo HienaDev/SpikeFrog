@@ -364,8 +364,8 @@ public class ControlCamera : MonoBehaviour
     {
         SaveData saveData;
 
-        saveData.position = transform.position;
-        saveData.rotation = transform.localEulerAngles;
+        saveData.position     = transform.position;
+        saveData.rotation     = transform.localEulerAngles;
         saveData.zoomPosition = zoomPosition;
 
         return saveData;

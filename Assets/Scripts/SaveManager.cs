@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
-    [SerializeField] private string         saveFileName;
-    [SerializeField] private PlayerHealth   playerHealth;
-    [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private PlayerCombat   playerCombat;
-    [SerializeField] private ControlCamera  controlCamera;
+    [SerializeField] private string              saveFileName;
+    [SerializeField] private PlayerHealth        playerHealth;
+    [SerializeField] private PlayerMovement      playerMovement;
+    [SerializeField] private PlayerCombat        playerCombat;
+    [SerializeField] private ControlCamera       controlCamera;
+    [SerializeField] private EnemySave           enemySave;
+    //[SerializeField] private HealthPickupSave    healthPickUpManager;
 
     private GameSaveData gameSaveData;
     private string saveFilePath;
@@ -34,10 +36,12 @@ public class SaveManager : MonoBehaviour
 
     private struct GameSaveData
     {
-        public PlayerHealth.SaveData   playerHealth;
-        public PlayerMovement.SaveData playerMovement;
-        public PlayerCombat.SaveData   playerCombat;
-        public ControlCamera.SaveData  controlCamera;
+        public PlayerHealth.SaveData        playerHealth;
+        public PlayerMovement.SaveData      playerMovement;
+        public PlayerCombat.SaveData        playerCombat;
+        public ControlCamera.SaveData       controlCamera;
+        public EnemySave.SaveData           enemies;
+        //public HealthPickupSave.SaveData    healthPickups;
     }
 
     private void QuickSaveGame()
@@ -48,6 +52,8 @@ public class SaveManager : MonoBehaviour
         saveData.playerMovement = playerMovement.GetSaveData();
         saveData.playerCombat   = playerCombat.GetSaveData();
         saveData.controlCamera  = controlCamera.GetSaveData();
+        saveData.enemies        = enemySave.GetSaveData();
+        //saveData.healthPickups  = healthPickUpManager.GetSaveData();
 
         string jsonSaveData = JsonUtility.ToJson(saveData, true);
         
@@ -68,6 +74,8 @@ public class SaveManager : MonoBehaviour
             playerMovement.LoadSaveData(saveData.playerMovement);
             playerCombat.LoadSaveData(saveData.playerCombat);
             controlCamera.LoadSaveData(saveData.controlCamera);
+            enemySave.LoadSaveData(saveData.enemies);
+            //healthPickUpManager.LoadSaveData(saveData.healthPickups);
 
             print ("Game Loaded");
         }
