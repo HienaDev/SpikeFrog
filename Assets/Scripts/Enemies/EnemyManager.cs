@@ -29,12 +29,14 @@ public class EnemyManager : MonoBehaviour
     private Animator        animator;
     private float           knockbackCooldown;
 
+    public bool IsAlive => (health > 0);
+
     private void Start()
     {
         enemyController = GetComponent<EnemyController>();
-        enemyAttack = GetComponent<EnemyAttack>();
-        enemyRenderer = GetComponentInChildren<Renderer>();
-        animator = GetComponent<Animator>();
+        enemyAttack     = GetComponent<EnemyAttack>();
+        enemyRenderer   = GetComponentInChildren<Renderer>();
+        animator        = GetComponent<Animator>();
     }
 
     private void Update()

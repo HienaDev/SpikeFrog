@@ -1,21 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySave : MonoBehaviour
 {
-    private EnemyManager[] enemyManagers;
-    private EnemyController[] enemyControllers;
+    private EnemyManager[]      enemyManagers;
+    private EnemyController[]   enemyControllers;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemyManagers = new EnemyManager[transform.childCount];
+        enemyManagers    = new EnemyManager[transform.childCount];
         enemyControllers = new EnemyController[transform.childCount];
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            enemyManagers[i] = transform.GetChild(i).GetComponent<EnemyManager>();
+            enemyManagers[i]    = transform.GetChild(i).GetComponent<EnemyManager>();
             enemyControllers[i] = transform.GetChild(i).GetComponent<EnemyController>();
         } 
     }
@@ -33,17 +31,23 @@ public class EnemySave : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            enemyManagers[i] = transform.GetChild(i).GetComponent<EnemyManager>();
-            enemyControllers[i] = transform.GetChild(i).GetComponent<EnemyController>();
+            if (enemyManagers[i].IsAlive)
+            {
+                enemyManagers[i] = transform.GetChild(i).GetComponent<EnemyManager>();
+                enemyControllers[i] = transform.GetChild(i).GetComponent<EnemyController>();
+            }
         }
 
-        saveData.enemyManager = new EnemyManager.SaveData[enemyManagers.Length];
+        saveData.enemyManager    = new EnemyManager.SaveData[enemyManagers.Length];
         saveData.enemyController = new EnemyController.SaveData[enemyControllers.Length];
 
         for (int i = 0; i < enemyManagers.Length; i++)
         {
-            saveData.enemyManager[i] = enemyManagers[i].GetSaveData();
-            saveData.enemyController[i] = enemyControllers[i].GetSaveData();
+            if (enemyManagers[i].IsAlive)
+            {
+                saveData.enemyManager[i] = enemyManagers[i].GetSaveData();
+                saveData.enemyController[i] = enemyControllers[i].GetSaveData();
+            }
         }
 
         return saveData;
@@ -53,8 +57,11 @@ public class EnemySave : MonoBehaviour
     {
         for (int i = 0; i < enemyManagers.Length; i++)
         {
-            enemyManagers[i].LoadSaveData(saveData.enemyManager[i]);
-            enemyControllers[i].LoadSaveData(saveData.enemyController[i]);
+            if (enemyManagers[i].IsAlive)
+            {
+                enemyManagers[i].LoadSaveData(saveData.enemyManager[i]);
+                enemyControllers[i].LoadSaveData(saveData.enemyController[i]);
+            }
         }
     }
 }
