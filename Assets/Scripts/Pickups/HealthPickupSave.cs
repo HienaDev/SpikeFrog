@@ -1,20 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HealthPickupSave : MonoBehaviour
 {
-    private HealthPickup[] healthPickups;
+    [SerializeField] private GameObject healthPickupPrefab;
+
+    private List<HealthPickup> healthPickups;
 
     // Start is called before the first frame update
     void Start()
     {
-        healthPickups = new HealthPickup[transform.childCount];
+        healthPickups = new List<HealthPickup>();
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            healthPickups[i] = transform.GetChild(i).GetComponent<HealthPickup>();
+            healthPickups.Add(transform.GetChild(i).GetComponent<HealthPickup>());
         }
     }
 
@@ -22,6 +22,7 @@ public class HealthPickupSave : MonoBehaviour
     public struct SaveData
     {
         public HealthPickup.SaveData[] healthPickup;
+        public Vector3[] healthPickupPositions;
     }
 
     public SaveData GetSaveData()
@@ -30,14 +31,20 @@ public class HealthPickupSave : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            healthPickups[i] = transform.GetChild(i).GetComponent<HealthPickup>();
+            HealthPickup healthPickup = transform.GetChild(i).GetComponent<HealthPickup>();
+            if (healthPickup != null)
+            {
+                healthPickups.Add(healthPickup);
+            }
         }
 
-        saveData.healthPickup = new HealthPickup.SaveData[healthPickups.Length];
+        saveData.healthPickup = new HealthPickup.SaveData[healthPickups.Count];
+        saveData.healthPickupPositions = new Vector3[healthPickups.Count];
 
-        for (int i = 0; i < healthPickups.Length; i++)
+        for (int i = 0; i < healthPickups.Count; i++)
         {
             saveData.healthPickup[i] = healthPickups[i].GetSaveData();
+            saveData.healthPickupPositions[i] = healthPickups[i].transform.position;
         }
 
         return saveData;
@@ -45,10 +52,18 @@ public class HealthPickupSave : MonoBehaviour
 
     public void LoadSaveData(SaveData saveData)
     {
-        
-        for (int i = 0; i < healthPickups.Length; i++)
+        foreach (Transform child in transform)
         {
-            healthPickups[i].LoadSaveData(saveData.healthPickup[i]);
+            Destroy(child.gameObject);
+        }
+
+        healthPickups.Clear();
+        for (int i = 0; i < saveData.healthPickup.Length; i++)
+        {
+            GameObject newPickup = Instantiate(healthPickupPrefab, saveData.healthPickupPositions[i], Quaternion.identity, transform);
+            HealthPickup healthPickup = newPickup.GetComponent<HealthPickup>();
+            healthPickup.LoadSaveData(saveData.healthPickup[i]);
+            healthPickups.Add(healthPickup);
         }
     }
 }

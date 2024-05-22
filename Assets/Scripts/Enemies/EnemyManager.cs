@@ -21,8 +21,8 @@ public class EnemyManager : MonoBehaviour
     [Header("[Health Drop]")]
     [SerializeField] private GameObject healthDrop;
     [SerializeField] private int        chanceForHealthDrop = 50;
-    [SerializeField] private GameObject healthPickupsParent;
 
+    private GameObject      healthPickupsParent;
     private EnemyController enemyController;
     private EnemyAttack     enemyAttack;
     private Renderer        enemyRenderer;
@@ -33,10 +33,11 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-        enemyController = GetComponent<EnemyController>();
-        enemyAttack     = GetComponent<EnemyAttack>();
-        enemyRenderer   = GetComponentInChildren<Renderer>();
-        animator        = GetComponent<Animator>();
+        enemyController     = GetComponent<EnemyController>();
+        enemyAttack         = GetComponent<EnemyAttack>();
+        enemyRenderer       = GetComponentInChildren<Renderer>();
+        animator            = GetComponent<Animator>();
+        healthPickupsParent = GameObject.Find("HealthPickups");
     }
 
     private void Update()
@@ -72,8 +73,6 @@ public class EnemyManager : MonoBehaviour
         enemyController.StopAgent();
         StartCoroutine(FadeOut());
 
-
-
         foreach(Collider col in GetComponentsInChildren<Collider>())
         {
             col.enabled = false;
@@ -100,7 +99,8 @@ public class EnemyManager : MonoBehaviour
     {
         if ((Random.Range(0, 100) < chanceForHealthDrop))
         {
-            Instantiate(healthDrop, transform.position, Quaternion.identity, healthPickupsParent.transform);
+            GameObject healthDropInstance = Instantiate(healthDrop, transform.position, Quaternion.identity);
+            healthDropInstance.transform.SetParent(healthPickupsParent.transform);
         }
         
     }

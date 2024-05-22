@@ -15,9 +15,9 @@ public class EnemyController : MonoBehaviour
 
     [Header("[Waypoints]")]
     [SerializeField] private GameObject     waypointPrefab;
-    [SerializeField] private GameObject     EnemiesWaypointsParent;
     [SerializeField] private List<Vector3>  waypointsPositions;
 
+    private GameObject      enemiesWaypointsParent;
     private PlayerHealth    playerHealth;
     private Transform       player;
     private int             waypointIndex;
@@ -31,16 +31,17 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        player           = GameObject.FindGameObjectWithTag("Player").transform;
-        playerHealth     = player.GetComponent<PlayerHealth>();
-        waypointIndex    = 0;
-        initialPosition  = transform.position;
-        currentState     = EnemyState.Patrol;
-        waypoints        = new List<Transform>();
-        enemyAttack      = GetComponent<EnemyAttack>();
-        agent            = GetComponent<NavMeshAgent>();
-        animator         = GetComponent<Animator>();
-        lookingForPlayer = true;
+        player                  = GameObject.FindGameObjectWithTag("Player").transform;
+        playerHealth            = player.GetComponent<PlayerHealth>();
+        waypointIndex           = 0;
+        initialPosition         = transform.position;
+        currentState            = EnemyState.Patrol;
+        waypoints               = new List<Transform>();
+        enemyAttack             = GetComponent<EnemyAttack>();
+        agent                   = GetComponent<NavMeshAgent>();
+        animator                = GetComponent<Animator>();
+        lookingForPlayer        = true;
+        enemiesWaypointsParent  = GameObject.Find("EnemiesWaypoints");
         
         CreateWaypoints();
     }
@@ -161,7 +162,7 @@ public class EnemyController : MonoBehaviour
         foreach (Vector3 pos in waypointsPositions)
         {
             //Instantiate waypoints inside the parent object
-            GameObject waypoint = Instantiate(waypointPrefab, pos, Quaternion.identity, EnemiesWaypointsParent.transform);
+            GameObject waypoint = Instantiate(waypointPrefab, pos, Quaternion.identity, enemiesWaypointsParent.transform);
             waypoints.Add(waypoint.transform);
         }
     }

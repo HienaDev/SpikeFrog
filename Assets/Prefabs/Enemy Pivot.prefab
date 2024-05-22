@@ -1449,7 +1449,8 @@ MonoBehaviour:
   healthDrop: {fileID: 1384258497942212100, guid: 15ed4bc7acf50274e816641dff890592,
     type: 3}
   chanceForHealthDrop: 75
-  healthPickupsParent: {fileID: 6828168024851541474}
+  healthPickupsParent: {fileID: 1384258497942212100, guid: 15ed4bc7acf50274e816641dff890592,
+    type: 3}
 --- !u!114 &2610172603476775966
 MonoBehaviour:
   m_ObjectHideFlags: 0

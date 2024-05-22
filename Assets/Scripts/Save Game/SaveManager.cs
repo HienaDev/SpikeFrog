@@ -9,7 +9,7 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private PlayerCombat        playerCombat;
     [SerializeField] private ControlCamera       controlCamera;
     [SerializeField] private EnemySave           enemySave;
-    //[SerializeField] private HealthPickupSave    healthPickUpManager;
+    [SerializeField] private HealthPickupSave    healthPickupSave;
 
     private GameSaveData gameSaveData;
     private string saveFilePath;
@@ -41,7 +41,7 @@ public class SaveManager : MonoBehaviour
         public PlayerCombat.SaveData        playerCombat;
         public ControlCamera.SaveData       controlCamera;
         public EnemySave.SaveData           enemies;
-        //public HealthPickupSave.SaveData    healthPickups;
+        public HealthPickupSave.SaveData    healthPickups;
     }
 
     private void QuickSaveGame()
@@ -53,7 +53,7 @@ public class SaveManager : MonoBehaviour
         saveData.playerCombat   = playerCombat.GetSaveData();
         saveData.controlCamera  = controlCamera.GetSaveData();
         saveData.enemies        = enemySave.GetSaveData();
-        //saveData.healthPickups  = healthPickUpManager.GetSaveData();
+        saveData.healthPickups  = healthPickupSave.GetSaveData();
 
         string jsonSaveData = JsonUtility.ToJson(saveData, true);
         
@@ -75,7 +75,7 @@ public class SaveManager : MonoBehaviour
             playerCombat.LoadSaveData(saveData.playerCombat);
             controlCamera.LoadSaveData(saveData.controlCamera);
             enemySave.LoadSaveData(saveData.enemies);
-            //healthPickUpManager.LoadSaveData(saveData.healthPickups);
+            healthPickupSave.LoadSaveData(saveData.healthPickups);
 
             print ("Game Loaded");
         }
