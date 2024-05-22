@@ -169,4 +169,4 @@ public class EnemyManager : MonoBehaviour
         health = saveData.health;
         animator.Play(saveData.animationState, 0, saveData.animationTime);
     }
-}
+} 
