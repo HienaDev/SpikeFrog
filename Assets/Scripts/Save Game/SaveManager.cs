@@ -1,4 +1,5 @@
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveManager : MonoBehaviour
@@ -14,7 +15,20 @@ public class SaveManager : MonoBehaviour
     private GameSaveData gameSaveData;
     private string saveFilePath;
 
-    // Start is called before the first frame update
+    public static SaveManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
         saveFileName = Application.persistentDataPath + "/" + saveFileName;
@@ -44,7 +58,7 @@ public class SaveManager : MonoBehaviour
         public HealthPickupSave.SaveData    healthPickups;
     }
 
-    private void QuickSaveGame()
+    public void QuickSaveGame()
     {
         GameSaveData saveData;
 
@@ -62,7 +76,7 @@ public class SaveManager : MonoBehaviour
         print ("Game Saved");
     }
 
-    private void QuickLoadGame()
+    public bool QuickLoadGame()
     {
         if (File.Exists(saveFileName))
         {
@@ -78,10 +92,32 @@ public class SaveManager : MonoBehaviour
             healthPickupSave.LoadSaveData(saveData.healthPickups);
 
             print ("Game Loaded");
+
+            return true;
+        }
+        else
+        {
+            print ("No save file found");
+
+            return false;
+        }
+    }
+
+    public void DeleteSaveFile()
+    {
+        if (File.Exists(saveFileName))
+        {
+            File.Delete(saveFileName);
+            print ("Save file deleted");
         }
         else
         {
             print ("No save file found");
         }
+    }
+
+    public bool SaveFileExists()
+    {
+        return File.Exists(saveFileName);
     }
 }

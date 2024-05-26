@@ -130,8 +130,6 @@ public class PlayerMovement : MonoBehaviour
 
         freeze = false;
         activeGrapple = false;
-
-        HideCursor();
     }
 
     private void FixedUpdate()
@@ -457,8 +455,6 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetTrigger("Grapple");
     }
-
-    private void HideCursor() => Cursor.lockState = CursorLockMode.Locked;
 
     public void EnableFreeze() => freeze = true;
 
