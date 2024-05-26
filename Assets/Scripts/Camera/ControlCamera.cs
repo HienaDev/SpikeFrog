@@ -352,12 +352,23 @@ public class ControlCamera : MonoBehaviour
         transform.localEulerAngles = (rotation);
     }
 
+    public void SetSensitivity(float sensitivity)
+    {
+        rotationVelocityFactor = sensitivity;
+    }
+
+    public float GetSensitivity()
+    {
+        return rotationVelocityFactor;
+    }
+
     [System.Serializable]
     public struct SaveData
     {
         public Vector3 position;
         public Vector3 rotation;
         public float zoomPosition;
+        //public float rotationVelocityFactor;
     }
 
     public SaveData GetSaveData()
@@ -367,6 +378,7 @@ public class ControlCamera : MonoBehaviour
         saveData.position     = transform.position;
         saveData.rotation     = transform.localEulerAngles;
         saveData.zoomPosition = zoomPosition;
+        //saveData.rotationVelocityFactor = rotationVelocityFactor;
 
         return saveData;
     }
@@ -376,6 +388,6 @@ public class ControlCamera : MonoBehaviour
         transform.position          = saveData.position;
         transform.localEulerAngles  = saveData.rotation;
         zoomPosition                = saveData.zoomPosition;
+        //rotationVelocityFactor      = saveData.rotationVelocityFactor;
     }
-
 }
