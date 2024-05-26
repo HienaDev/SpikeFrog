@@ -222,6 +222,7 @@ public class MenusManager : MonoBehaviour
     public void CloseCredits()
     {
         isCreditsOpen = false;
+        Time.timeScale = 0;
         
         if (!isInGame)
         {
