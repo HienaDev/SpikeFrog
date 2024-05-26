@@ -9,13 +9,20 @@ public class MenusManager : MonoBehaviour
     [SerializeField] private GameObject      gameUI;
     [SerializeField] private GameObject      mainMenuBackground;
     [SerializeField] private GameObject      mainMenu;
+    [SerializeField] private GameObject      pauseMenu;
     [SerializeField] private GameObject      settingsMenu;
+    [SerializeField] private GameObject      credits;
     [SerializeField] private GameObject      loadingScreen;
     [SerializeField] private GameObject      newGameQuestion;
     [SerializeField] private GameObject      exitGameQuestion;
 
     private bool isInGame;
+    private bool isPaused;
     private bool isSettingsOpen;
+    private bool isCreditsOpen;
+    private bool finalCredits;
+
+    public bool FinalCredits => finalCredits;
 
     private void Start()
     {
@@ -36,10 +43,25 @@ public class MenusManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isSettingsOpen)
+            if (!isPaused && isInGame)
+            {
+                OpenPauseMenu();
+            }
+
+            else if ((isSettingsOpen && isInGame) || (isSettingsOpen && !isInGame))
+            {
                 CloseSettingsMenu();
-            else if (isInGame)
-                OpenSettingsMenu();
+            }
+
+            else if (isPaused && isInGame)
+            {
+                ClosePauseMenu();
+            }
+
+            else if (!isInGame && isCreditsOpen)
+            {
+                CloseCredits();
+            }
         }
     }
 
@@ -93,7 +115,7 @@ public class MenusManager : MonoBehaviour
         exitGameQuestion.SetActive(true);
     }
 
-        public void ConfirmExitGame()
+    public void ConfirmExitGame()
     {
         #if UNITY_STANDALONE
             // Exit application if running standalone
@@ -117,12 +139,9 @@ public class MenusManager : MonoBehaviour
             mainMenu.SetActive(false);
         }
 
-        if (isInGame)
+        if (isPaused)
         {
-            controlCamera.enabled = false;
-            gameUI.SetActive(false);
-            Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 0;
+            pauseMenu.SetActive(false);
         }
 
         isSettingsOpen = true;
@@ -132,17 +151,88 @@ public class MenusManager : MonoBehaviour
     public void CloseSettingsMenu()
     {
         settingsMenu.SetActive(false);
+        isSettingsOpen = false;
 
         if (!isInGame)
             mainMenu.SetActive(true);
 
+        if (isPaused)
+        {
+            pauseMenu.SetActive(true);
+        }
+    }
+
+    public void OpenPauseMenu()
+    {
+        pauseMenu.SetActive(true);
+        controlCamera.enabled = false;
+        gameUI.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
+        isPaused = true;
+    }
+
+    public void ClosePauseMenu()
+    {
+        pauseMenu.SetActive(false);
+        controlCamera.enabled = true;
+        gameUI.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        Time.timeScale = 1;
+        isPaused = false;
+    }
+
+    public void OpenCredits()
+    {
+        isCreditsOpen = true;
+        // Activate time scale but only on the credits himself
+        
+
+        if (!isInGame)
+        {
+            mainMenu.SetActive(false);
+            credits.SetActive(true);
+        }
+
         if (isInGame)
         {
-            controlCamera.enabled = true;
-            gameUI.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            Time.timeScale = 1;
-            isSettingsOpen = false;
+            pauseMenu.SetActive(false);
+            credits.SetActive(true);
         }
+    }
+
+    public void CloseCredits()
+    {
+        isCreditsOpen = false;
+        
+        if (!isInGame)
+        {
+            credits.SetActive(false);
+            mainMenu.SetActive(true);
+        }
+        
+        if (isInGame)
+        {
+            credits.SetActive(false);
+            pauseMenu.SetActive(true);
+        }
+    }
+
+    public void GoToMainMenu()
+    {
+        mainMenuBackground.SetActive(true);
+        mainMenu.SetActive(true);
+        gameUI.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
+
+        playerCombat.enabled = false;
+        isInGame = false;
+    }
+
+    public void EndOfFinalCredits()
+    {
+        finalCredits = false;
+        saveManager.DeleteSaveFile();
     }
 }
