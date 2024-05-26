@@ -15,20 +15,6 @@ public class SaveManager : MonoBehaviour
     private GameSaveData gameSaveData;
     private string saveFilePath;
 
-    public static SaveManager Instance { get; private set; }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     private void Start()
     {
         saveFileName = Application.persistentDataPath + "/" + saveFileName;
@@ -45,6 +31,11 @@ public class SaveManager : MonoBehaviour
         else if (Input.GetButtonDown("QuickLoad"))
         {
             QuickLoadGame();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            DeleteSaveFile();
         }
     }
 

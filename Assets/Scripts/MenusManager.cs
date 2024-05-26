@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class MenusManager : MonoBehaviour
 {
+    [SerializeField] private PlayerCombat    playerCombat;
     [SerializeField] private GameObject      gameUI;
     [SerializeField] private GameObject      mainMenu;
     [SerializeField] private GameObject      loadingScreen;
     [SerializeField] private SaveManager     saveManager;
-    [SerializeField] private PlayerCombat    playerCombat;
+    [SerializeField] private GameObject      newGameQuestion;
+    [SerializeField] private GameObject      exitGameQuestion;
 
     private void Start()
     {
@@ -31,21 +33,57 @@ public class MenusManager : MonoBehaviour
         loadingScreen.SetActive(true);
         saveManager.QuickLoadGame();
 
-        if (saveManager.QuickLoadGame())
-        {
-            loadingScreen.SetActive(false);
-            
-            gameUI.SetActive(true);  
-            Cursor.lockState = CursorLockMode.Locked;
-            Time.timeScale = 1;
+        if (!saveManager.QuickLoadGame())
+            saveManager.QuickSaveGame();
+        
+        loadingScreen.SetActive(false);
+        gameUI.SetActive(true);  
+        Cursor.lockState = CursorLockMode.Locked;
+        Time.timeScale = 1;
 
-            playerCombat.enabled = true;
-        }
+        playerCombat.enabled = true;
+    }
+
+    public void NewGame()
+    {
+        if (saveManager.SaveFileExists())
+            newGameQuestion.SetActive(true);
         else
-        {
-            Debug.LogError("No save file found.");
-            mainMenu.SetActive(true);
-            loadingScreen.SetActive(false);
-        }
+            LoadLevel();
+    }
+
+    public void ConfirmNewGame()
+    {
+        newGameQuestion.SetActive(false);
+        saveManager.DeleteSaveFile();
+        saveManager.QuickSaveGame();
+        LoadLevel();
+    }
+
+    public void CancelNewGame()
+    {
+        newGameQuestion.SetActive(false);
+    }
+
+    public void ExitGame()
+    {
+        exitGameQuestion.SetActive(true);
+    }
+
+        public void ConfirmExitGame()
+    {
+        #if UNITY_STANDALONE
+            // Exit application if running standalone
+            Application.Quit();
+#endif
+#if UNITY_EDITOR
+            // Stop game if running in editor
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
+    public void CancelExitGame()
+    {
+        exitGameQuestion.SetActive(false);
     }
 }
