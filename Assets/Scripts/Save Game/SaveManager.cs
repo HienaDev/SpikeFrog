@@ -1,5 +1,4 @@
 using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveManager : MonoBehaviour
@@ -103,7 +102,8 @@ public class SaveManager : MonoBehaviour
         if (File.Exists(saveFileName))
         {
             File.Delete(saveFileName);
-            print ("Save file deleted");
+            //Reload scene to reset game
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         }
         else
         {

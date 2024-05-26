@@ -40,14 +40,6 @@ public class EnemyManager : MonoBehaviour
         healthPickupsParent = GameObject.Find("HealthPickups");
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            TakeDamage(20); // Debug key to trigger damage
-        }
-    }
-
     public void TakeDamage(int damage)
     {
         health -= damage;

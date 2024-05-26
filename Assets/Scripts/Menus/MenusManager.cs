@@ -1,21 +1,23 @@
-using Unity.VisualScripting;
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class MenusManager : MonoBehaviour
 {
-    [SerializeField] private PlayerCombat    playerCombat;
-    [SerializeField] private ControlCamera   controlCamera;
-    [SerializeField] private SaveManager     saveManager;
-    [SerializeField] private GameObject      gameUI;
-    [SerializeField] private GameObject      mainMenuBackground;
-    [SerializeField] private GameObject      mainMenu;
-    [SerializeField] private GameObject      pauseMenu;
-    [SerializeField] private GameObject      settingsMenu;
-    [SerializeField] private GameObject      credits;
-    [SerializeField] private GameObject      loadingScreen;
-    [SerializeField] private GameObject      newGameQuestion;
-    [SerializeField] private GameObject      exitGameQuestion;
-    [SerializeField] private GameObject      quitQuestion;
+    [SerializeField] private PlayerCombat   playerCombat;
+    [SerializeField] private ControlCamera  controlCamera;
+    [SerializeField] private SaveManager    saveManager;
+    [SerializeField] private GameObject     gameUI;
+    [SerializeField] private GameObject     mainMenuBackground;
+    [SerializeField] private GameObject     mainMenu;
+    [SerializeField] private GameObject     pauseMenu;
+    [SerializeField] private GameObject     settingsMenu;
+    [SerializeField] private GameObject     credits;
+    [SerializeField] private GameObject     loadingScreen;
+    [SerializeField] private GameObject     newGameQuestion;
+    [SerializeField] private GameObject     exitGameQuestion;
+    [SerializeField] private GameObject     quitQuestion;
+    [SerializeField] private GameObject     saveWarningText;
 
     private bool isInGame;
     private bool isPaused;
@@ -24,6 +26,23 @@ public class MenusManager : MonoBehaviour
     private bool finalCredits;
 
     public bool FinalCredits => finalCredits;
+
+    private HashSet<EnemyController> enemiesInCombat = new HashSet<EnemyController>();
+
+    public void RegisterEnemyCombat(EnemyController enemy)
+    {
+        enemiesInCombat.Add(enemy);
+    }
+
+    public void UnregisterEnemyCombat(EnemyController enemy)
+    {
+        enemiesInCombat.Remove(enemy);
+    }
+
+    public bool IsAnyEnemyInCombat()
+    {
+        return enemiesInCombat.Count > 0;
+    }
 
     private void Start()
     {
@@ -80,9 +99,9 @@ public class MenusManager : MonoBehaviour
 
         if (!saveManager.QuickLoadGame())
             saveManager.QuickSaveGame();
-        
+
         loadingScreen.SetActive(false);
-        gameUI.SetActive(true);  
+        gameUI.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1;
 
@@ -118,13 +137,13 @@ public class MenusManager : MonoBehaviour
 
     public void ConfirmExitGame()
     {
-        #if UNITY_STANDALONE
-            // Exit application if running standalone
-            Application.Quit();
+#if UNITY_STANDALONE
+        // Exit application if running standalone
+        Application.Quit();
 #endif
 #if UNITY_EDITOR
-            // Stop game if running in editor
-            UnityEditor.EditorApplication.isPlaying = false;
+        // Stop game if running in editor
+        UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
 
@@ -223,13 +242,13 @@ public class MenusManager : MonoBehaviour
     {
         isCreditsOpen = false;
         Time.timeScale = 0;
-        
+
         if (!isInGame)
         {
             credits.SetActive(false);
             mainMenu.SetActive(true);
         }
-        
+
         if (isInGame)
         {
             credits.SetActive(false);
@@ -242,6 +261,8 @@ public class MenusManager : MonoBehaviour
         mainMenuBackground.SetActive(true);
         mainMenu.SetActive(true);
         gameUI.SetActive(false);
+        credits.SetActive(false);
+        pauseMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
 
@@ -254,5 +275,39 @@ public class MenusManager : MonoBehaviour
     {
         finalCredits = false;
         saveManager.DeleteSaveFile();
+    }
+
+    public void SaveGame()
+    {
+        if (IsAnyEnemyInCombat())
+        {
+            ShowSaveWarning();
+            return;
+        }
+
+        saveManager.QuickSaveGame();
+    }
+
+
+    public void SaveAndQuit()
+    {
+        if (IsAnyEnemyInCombat())
+        {
+            ShowSaveWarning();
+            return;
+        }
+
+        saveManager.QuickSaveGame();
+        GoToMainMenu();
+    }
+
+    private void ShowSaveWarning()
+    {
+        saveWarningText.SetActive(true);
+    }
+
+    public void CloseSaveWarning()
+    {
+        saveWarningText.SetActive(false);
     }
 }

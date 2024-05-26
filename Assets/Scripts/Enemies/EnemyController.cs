@@ -5,13 +5,13 @@ using System.Collections.Generic;
 public class EnemyController : MonoBehaviour
 {
     [Header("[Speed Values]")]
-    [SerializeField] private float patrolSpeed = 5.0f;
-    [SerializeField] private float chaseSpeed = 7.0f;
+    [SerializeField] private float patrolSpeed  = 5.0f;
+    [SerializeField] private float chaseSpeed   = 7.0f;
 
     [Header("[Radius Values]")]
-    [SerializeField] private float detectionRadius = 5.0f;
-    [SerializeField] private float alertRadius = 10f;
-    [SerializeField] private float pursuitRadius = 15f;
+    [SerializeField] private float detectionRadius  = 5.0f;
+    [SerializeField] private float alertRadius      = 10f;
+    [SerializeField] private float pursuitRadius    = 15f;
 
     [Header("[Waypoints]")]
     [SerializeField] private GameObject     waypointPrefab;
@@ -28,6 +28,7 @@ public class EnemyController : MonoBehaviour
     private NavMeshAgent    agent;
     private Animator        animator;
     private bool            lookingForPlayer;
+    private MenusManager    menusManager;
 
     private void Start()
     {
@@ -42,6 +43,7 @@ public class EnemyController : MonoBehaviour
         animator                = GetComponent<Animator>();
         lookingForPlayer        = true;
         enemiesWaypointsParent  = GameObject.Find("EnemiesWaypoints");
+        menusManager            = GameObject.Find("Menus").GetComponent<MenusManager>();
         
         CreateWaypoints();
     }
@@ -57,10 +59,12 @@ public class EnemyController : MonoBehaviour
         {
             case EnemyState.Patrol:
                 Patrol();
+                menusManager.UnregisterEnemyCombat(this);
                 break;
             case EnemyState.Pursuit:
                 AlertOthers();
                 PursuePlayer();
+                menusManager.RegisterEnemyCombat(this);
                 break;
             case EnemyState.Combat:
                 Combat();
@@ -72,7 +76,6 @@ public class EnemyController : MonoBehaviour
     private void Patrol()
     {
         agent.speed = patrolSpeed;
-
         animator.SetBool("isChasing", false);
 
         if (agent.velocity.magnitude > 0)
@@ -98,7 +101,6 @@ public class EnemyController : MonoBehaviour
                 }
                 else
                     agent.destination = waypointsPositions[0];
-
             }
             else if (waypoints.Count == 0)
                 agent.destination = waypointsPositions[0];
@@ -118,18 +120,27 @@ public class EnemyController : MonoBehaviour
     private void DetectPlayer()
     {
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-        
+
         if (distanceToPlayer <= enemyAttack.GetAttackRadius())
         {
-            currentState = EnemyState.Combat;
+            if (currentState != EnemyState.Combat)
+            {
+                currentState = EnemyState.Combat;
+            }
         }
         else if (distanceToPlayer <= detectionRadius)
         {
-            currentState = EnemyState.Pursuit;
+            if (currentState != EnemyState.Pursuit)
+            {
+                currentState = EnemyState.Pursuit;
+            }
         }
         else if (distanceToPlayer >= pursuitRadius)
         {
-            currentState = EnemyState.Patrol;
+            if (currentState != EnemyState.Patrol)
+            {
+                currentState = EnemyState.Patrol;
+            }
         }
     }
 
@@ -161,7 +172,6 @@ public class EnemyController : MonoBehaviour
     {
         foreach (Vector3 pos in waypointsPositions)
         {
-            //Instantiate waypoints inside the parent object
             GameObject waypoint = Instantiate(waypointPrefab, pos, Quaternion.identity, enemiesWaypointsParent.transform);
             waypoints.Add(waypoint.transform);
         }
@@ -177,7 +187,7 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, alertRadius);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, pursuitRadius);        
+        Gizmos.DrawWireSphere(transform.position, pursuitRadius);
 
         // Draw waypoints
         Gizmos.color = Color.magenta;
@@ -187,6 +197,11 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        menusManager?.UnregisterEnemyCombat(this);
+    }
+
     public Vector3 GetPlayerPosition() => player.position;
 
     public void StopAgent() => agent.isStopped = true;
@@ -194,7 +209,7 @@ public class EnemyController : MonoBehaviour
     public void ResumeAgent() => agent.isStopped = false;
 
     public bool IsAgentStopped() => agent.isStopped;
-    
+
     public void SetLookingForPlayer(bool value) => lookingForPlayer = value;
 
     [System.Serializable]
