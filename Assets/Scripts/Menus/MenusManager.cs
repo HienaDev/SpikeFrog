@@ -15,6 +15,7 @@ public class MenusManager : MonoBehaviour
     [SerializeField] private GameObject      loadingScreen;
     [SerializeField] private GameObject      newGameQuestion;
     [SerializeField] private GameObject      exitGameQuestion;
+    [SerializeField] private GameObject      quitQuestion;
 
     private bool isInGame;
     private bool isPaused;
@@ -132,6 +133,23 @@ public class MenusManager : MonoBehaviour
         exitGameQuestion.SetActive(false);
     }
 
+    public void Quit()
+    {
+        quitQuestion.SetActive(true);
+    }
+
+    public void ConfirmQuit()
+    {
+        pauseMenu.SetActive(false);
+        quitQuestion.SetActive(false);
+        GoToMainMenu();
+    }
+
+    public void CancelQuit()
+    {
+        quitQuestion.SetActive(false);
+    }
+
     public void OpenSettingsMenu()
     {
         if (!isInGame)
@@ -185,8 +203,8 @@ public class MenusManager : MonoBehaviour
     public void OpenCredits()
     {
         isCreditsOpen = true;
-        // Activate time scale but only on the credits himself
-        
+        // Activate time scale but only on the credits himself TODO
+        Time.timeScale = 1;
 
         if (!isInGame)
         {
@@ -228,6 +246,7 @@ public class MenusManager : MonoBehaviour
 
         playerCombat.enabled = false;
         isInGame = false;
+        isPaused = false;
     }
 
     public void EndOfFinalCredits()
