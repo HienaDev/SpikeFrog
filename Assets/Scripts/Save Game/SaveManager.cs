@@ -73,6 +73,8 @@ public class SaveManager : MonoBehaviour
     {
         if (File.Exists(saveFileName))
         {
+            enemySave.ReloadEnemies();
+
             string jsonSaveData = File.ReadAllText(saveFileName);
 
             GameSaveData saveData = JsonUtility.FromJson<GameSaveData>(jsonSaveData);
@@ -102,8 +104,8 @@ public class SaveManager : MonoBehaviour
         if (File.Exists(saveFileName))
         {
             File.Delete(saveFileName);
-            //Reload scene to reset game
-            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+
+            print ("Save file deleted");
         }
         else
         {

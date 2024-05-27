@@ -8,6 +8,7 @@ public class EnemyManager : MonoBehaviour
 
     [Header("[Visual Effects]")]
     [SerializeField] private float    blinkDuration = 0.3f;
+    [SerializeField] private Material originalMaterial;
     [SerializeField] private Material deathMaterial;
     [SerializeField] private float    fadeOutDuration = 3f;
 
@@ -135,6 +136,25 @@ public class EnemyManager : MonoBehaviour
             enemyRenderer.material.color = new Color(enemyRenderer.material.color.r, enemyRenderer.material.color.g, enemyRenderer.material.color.b, newAlpha);
             yield return null;
         }
+    }
+
+    public void ResetEnemy()
+    {
+        foreach (Collider col in GetComponentsInChildren<Collider>())
+        {
+            col.enabled = true;
+        }
+
+        foreach (Collider col in GetComponents<Collider>())
+        {
+            col.enabled = true;
+        }
+
+        StopCoroutine(FadeOut());
+        CancelInvoke(nameof(DropHealth));
+        CancelInvoke(nameof(Deactivate));
+
+        enemyRenderer.material = originalMaterial;
     }
 
     [System.Serializable]

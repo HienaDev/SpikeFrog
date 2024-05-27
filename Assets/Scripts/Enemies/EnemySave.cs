@@ -1,13 +1,23 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class EnemySave : MonoBehaviour
 {
     private EnemyManager[]      enemyManagers;
     private EnemyController[]   enemyControllers;
 
+    // List of enemies inside the EnemySave object
+    private List<GameObject>    enemies;
+
     // Start is called before the first frame update
     void Start()
     {
+        // Take all the game object with tag "Enemy" and add them to the list in the EnemySave object
+        enemies = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
+
+        Debug.Log("Enemies: " + enemies.Count);
+
         enemyManagers    = new EnemyManager[transform.childCount];
         enemyControllers = new EnemyController[transform.childCount];
 
@@ -43,11 +53,8 @@ public class EnemySave : MonoBehaviour
 
         for (int i = 0; i < enemyManagers.Length; i++)
         {
-            if (enemyManagers[i].IsAlive)
-            {
-                saveData.enemyManager[i] = enemyManagers[i].GetSaveData();
-                saveData.enemyController[i] = enemyControllers[i].GetSaveData();
-            }
+            saveData.enemyManager[i] = enemyManagers[i].GetSaveData();
+            saveData.enemyController[i] = enemyControllers[i].GetSaveData();
         }
 
         return saveData;
@@ -57,11 +64,17 @@ public class EnemySave : MonoBehaviour
     {
         for (int i = 0; i < enemyManagers.Length; i++)
         {
-            if (enemyManagers[i].IsAlive)
-            {
-                enemyManagers[i].LoadSaveData(saveData.enemyManager[i]);
-                enemyControllers[i].LoadSaveData(saveData.enemyController[i]);
-            }
+            enemyManagers[i].LoadSaveData(saveData.enemyManager[i]);
+            enemyControllers[i].LoadSaveData(saveData.enemyController[i]);
+        }
+    }
+
+    public void ReloadEnemies()
+    {
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].SetActive(true);
+            enemyManagers[i].ResetEnemy();
         }
     }
 }

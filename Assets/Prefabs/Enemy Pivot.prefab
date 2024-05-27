@@ -1441,6 +1441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   blinkDuration: 0.3
+  originalMaterial: {fileID: 2100000, guid: 03ea2d256bf144dfa907b17f13aa4949, type: 2}
   deathMaterial: {fileID: 2100000, guid: 82af887a06c3b114a842c47597081b2b, type: 2}
   fadeOutDuration: 3
   knockbackTime: 0.1
@@ -1449,8 +1450,6 @@ MonoBehaviour:
   healthDrop: {fileID: 1384258497942212100, guid: 15ed4bc7acf50274e816641dff890592,
     type: 3}
   chanceForHealthDrop: 75
-  healthPickupsParent: {fileID: 1384258497942212100, guid: 15ed4bc7acf50274e816641dff890592,
-    type: 3}
 --- !u!114 &2610172603476775966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1470,7 +1469,6 @@ MonoBehaviour:
   pursuitRadius: 20
   waypointPrefab: {fileID: 2210079993651769155, guid: 9b65928b57a57d548bd86795701002e7,
     type: 3}
-  EnemiesWaypointsParent: {fileID: 0}
   waypointsPositions:
   - {x: -150.6, y: 0, z: 80.6}
   - {x: -153.8, y: 0, z: 73.6}
@@ -1897,7 +1895,7 @@ GameObject:
   - component: {fileID: 4905378975614147966}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
