@@ -7,10 +7,10 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private int health = 100;
 
     [Header("[Visual Effects]")]
-    [SerializeField] private float    blinkDuration = 0.3f;
+    [SerializeField] private float blinkDuration = 0.3f;
     [SerializeField] private Material originalMaterial;
     [SerializeField] private Material deathMaterial;
-    [SerializeField] private float    fadeOutDuration = 3f;
+    [SerializeField] private float fadeOutDuration = 3f;
 
     [Header("[Knockback]")]
     [SerializeField] private float knockbackTime = 0.1f;
@@ -21,23 +21,23 @@ public class EnemyManager : MonoBehaviour
 
     [Header("[Health Drop]")]
     [SerializeField] private GameObject healthDrop;
-    [SerializeField] private int        chanceForHealthDrop = 50;
+    [SerializeField] private int chanceForHealthDrop = 50;
 
-    private GameObject      healthPickupsParent;
+    private GameObject healthPickupsParent;
     private EnemyController enemyController;
-    private EnemyAttack     enemyAttack;
-    private Renderer        enemyRenderer;
-    private Animator        animator;
-    private float           knockbackCooldown;
+    private EnemyAttack enemyAttack;
+    private Renderer enemyRenderer;
+    private Animator animator;
+    private float knockbackCooldown;
 
     public bool IsAlive => (health > 0);
 
     private void Start()
     {
-        enemyController     = GetComponent<EnemyController>();
-        enemyAttack         = GetComponent<EnemyAttack>();
-        enemyRenderer       = GetComponentInChildren<Renderer>();
-        animator            = GetComponent<Animator>();
+        enemyController = GetComponent<EnemyController>();
+        enemyAttack = GetComponent<EnemyAttack>();
+        enemyRenderer = GetComponentInChildren<Renderer>();
+        animator = GetComponent<Animator>();
         healthPickupsParent = GameObject.Find("HealthPickups");
     }
 
@@ -66,7 +66,7 @@ public class EnemyManager : MonoBehaviour
         enemyController.StopAgent();
         StartCoroutine(FadeOut());
 
-        foreach(Collider col in GetComponentsInChildren<Collider>())
+        foreach (Collider col in GetComponentsInChildren<Collider>())
         {
             col.enabled = false;
         }
@@ -76,7 +76,7 @@ public class EnemyManager : MonoBehaviour
             col.enabled = false;
         }
 
-        if(ControlCamera.instance.Targetting)
+        if (ControlCamera.instance.Targetting)
             ControlCamera.instance.SwapCameras();
 
         Invoke(nameof(DropHealth), fadeOutDuration - 0.1f);
@@ -95,7 +95,7 @@ public class EnemyManager : MonoBehaviour
             GameObject healthDropInstance = Instantiate(healthDrop, transform.position, Quaternion.identity);
             healthDropInstance.transform.SetParent(healthPickupsParent.transform);
         }
-        
+
     }
 
     private IEnumerator Blink()
@@ -127,7 +127,12 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void ResumeAgent() => enemyController.ResumeAgent();
+    private void ResumeAgent()
+    {
+        if(IsAlive)
+            enemyController.ResumeAgent();
+    }
+
 
     private IEnumerator FadeOut()
     {
@@ -163,8 +168,8 @@ public class EnemyManager : MonoBehaviour
     [System.Serializable]
     public struct SaveData
     {
-        public int   health;
-        public int   animationState;
+        public int health;
+        public int animationState;
         public float animationTime;
     }
 
@@ -172,9 +177,9 @@ public class EnemyManager : MonoBehaviour
     {
         SaveData saveData;
 
-        saveData.health          = health;
-        saveData.animationState  = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
-        saveData.animationTime   = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        saveData.health = health;
+        saveData.animationState = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+        saveData.animationTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
         return saveData;
     }
@@ -184,4 +189,4 @@ public class EnemyManager : MonoBehaviour
         health = saveData.health;
         animator.Play(saveData.animationState, 0, saveData.animationTime);
     }
-} 
+}
