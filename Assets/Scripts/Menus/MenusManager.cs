@@ -14,7 +14,6 @@ public class MenusManager : MonoBehaviour
     [SerializeField] private GameObject     settingsMenu;
     [SerializeField] private GameObject     credits;
     [SerializeField] private GameObject     loadingScreen;
-    [SerializeField] private GameObject     newGameQuestion;
     [SerializeField] private GameObject     exitGameQuestion;
     [SerializeField] private GameObject     quitQuestion;
     [SerializeField] private GameObject     saveWarningText;
@@ -107,27 +106,6 @@ public class MenusManager : MonoBehaviour
 
         playerCombat.enabled = true;
         isInGame = true;
-    }
-
-    public void NewGame()
-    {
-        if (saveManager.SaveFileExists())
-            newGameQuestion.SetActive(true);
-        else
-            LoadLevel();
-    }
-
-    public void ConfirmNewGame()
-    {
-        newGameQuestion.SetActive(false);
-        saveManager.DeleteSaveFile();
-        saveManager.QuickSaveGame();
-        LoadLevel();
-    }
-
-    public void CancelNewGame()
-    {
-        newGameQuestion.SetActive(false);
     }
 
     public void ExitGame()
