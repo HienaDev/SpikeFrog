@@ -1445,7 +1445,7 @@ MonoBehaviour:
   deathMaterial: {fileID: 2100000, guid: 82af887a06c3b114a842c47597081b2b, type: 2}
   fadeOutDuration: 3
   knockbackTime: 0.1
-  knockbackDistance: 1
+  knockbackDistance: 0.3
   camCheckCollider: {fileID: 4202244026774558146}
   healthDrop: {fileID: 1384258497942212100, guid: 15ed4bc7acf50274e816641dff890592,
     type: 3}

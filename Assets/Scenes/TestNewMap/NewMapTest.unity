@@ -10041,6 +10041,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2083663667}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2086942600 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7287568752608890418, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6287433488659998878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &16885110282081555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16645,6 +16651,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 975015782183562984, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: grabSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 975015782183562984, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: normalCamera
+      value: 
+      objectReference: {fileID: 2086942600}
     - target: {fileID: 2118457455794171784, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
         type: 3}
       propertyPath: m_LocalPosition.x

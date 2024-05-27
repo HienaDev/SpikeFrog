@@ -123,8 +123,11 @@ public class EnemyManager : MonoBehaviour
             animator.Play("Hit");
             knockbackCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length + 0.5f;
             enemyAttack.SetAttackCooldown(knockbackCooldown);
+            Invoke(nameof(ResumeAgent), 1f);
         }
     }
+
+    private void ResumeAgent() => enemyController.ResumeAgent();
 
     private IEnumerator FadeOut()
     {
