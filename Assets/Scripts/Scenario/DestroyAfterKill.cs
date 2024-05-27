@@ -11,11 +11,11 @@ public class DestroyAfterKill : MonoBehaviour
         bool allDestroyed = true;
         foreach (GameObject obj in enemiesToKill)
         {
-            if (obj != null)
-            {
-                allDestroyed = false;
-                break;
-            }
+             if (obj.activeSelf)
+             {
+                 allDestroyed = false;
+                 break;
+             }
         }
 
         // If all objects are destroyed, perform the action
