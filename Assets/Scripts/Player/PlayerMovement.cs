@@ -269,8 +269,9 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && grounded.Grounded)
         {
             jump = true;
-
+            Debug.Log("jump");
             animator.SetTrigger("Jump");
+            rb.velocity = Vector2.zero;
         }
     }
 
