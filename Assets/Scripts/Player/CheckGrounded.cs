@@ -3,7 +3,7 @@ using UnityEngine;
 public class CheckGrounded : MonoBehaviour
 {
     [SerializeField] private float coyoteTime;
-    public bool Grounded { get; private set; }
+    public bool Grounded { get; set; }
     private float justLeftGround;
     private bool canToggleGround;
 

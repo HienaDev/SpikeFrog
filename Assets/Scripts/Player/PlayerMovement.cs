@@ -482,6 +482,7 @@ public class PlayerMovement : MonoBehaviour
         public Vector3    position;
         public Quaternion rotation;
         public Vector3    velocity;
+        public bool       grounded;
     }
 
     public SaveData GetSaveData()
@@ -491,6 +492,7 @@ public class PlayerMovement : MonoBehaviour
         saveData.position = transform.position;
         saveData.rotation = transform.rotation;
         saveData.velocity = velocity;
+        saveData.grounded = grounded.Grounded;
 
         return saveData;
     }
@@ -500,5 +502,6 @@ public class PlayerMovement : MonoBehaviour
         transform.position = saveData.position;
         transform.rotation = saveData.rotation;
         velocity = saveData.velocity;
+        grounded.Grounded = saveData.grounded;
     }
 }
