@@ -1,6 +1,8 @@
 using Cinemachine;
 using UnityEngine;
-
+using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.AI;
 public class Grappling : MonoBehaviour
 {
 
@@ -30,12 +32,17 @@ public class Grappling : MonoBehaviour
     private float defaultFov;
     private CinemachineVirtualCamera activeCamera;
 
+    [SerializeField] private Transform normalCamera;
     private GrapplingRope grapplingRope;
 
+    [SerializeField] private float grabSpeed = 1;
+    public static HashSet<Transform> targetableObjects { get; private set; }
+    private Transform closestObject;
 
     private void Awake()
     {
         activeCamera = cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
+        targetableObjects = new HashSet<Transform>();
     }
 
     // Start is called before the first frame update
@@ -87,12 +94,47 @@ public class Grappling : MonoBehaviour
 
         playerMovement.EnableFreeze();
 
+
+        List<Transform> objects = new List<Transform>();
+
+        closestObject = null;
+
         RaycastHit hit;
 
-        if ((Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatsGrappleable)))
+        foreach (Transform t in targetableObjects)
         {
-            grapplePoint = hit.point;
-            grappledObject = hit.collider.gameObject;
+            
+            if (t != null)
+                if (Physics.Raycast(transform.position, (t.position - transform.position), out hit, float.PositiveInfinity))
+                {
+
+                    if (hit.collider.gameObject == t.gameObject)
+                    {
+                        objects.Add(t);
+                    }
+                }
+        }
+
+        if (objects.Count > 0)
+        {
+            closestObject = objects[0];
+
+            for (int i = 0; i <= objects.Count - 1; i++)
+            {
+                if (Vector3.Distance(objects[i].position, transform.position) < Vector3.Distance(closestObject.position, transform.position))
+                {
+                    closestObject = objects[i];
+                }
+            }
+
+        }
+
+        closestObject = closestObject.GetComponentInParent<EnemyManager>().gameObject.transform;
+
+        if (closestObject != null)
+        {
+            grapplePoint = closestObject.transform.position;
+            grappledObject = closestObject.gameObject;
 
             Invoke(nameof(ExecuteGrapple), grappleDelayTime);
         }
@@ -120,7 +162,35 @@ public class Grappling : MonoBehaviour
             highestPointOnArc = overshootYAxis;
         }
 
-        playerMovement.JumpToPosition(grapplePoint, highestPointOnArc);
+        StartCoroutine(GrabEnemy());
+
+        
+    }
+
+    private IEnumerator GrabEnemy()
+    {
+        float lerpValue = 0f;
+        Vector3 initialPos = Vector3.zero;
+        if (closestObject != null)
+            initialPos = closestObject.position;
+
+        Debug.Log(closestObject.name);
+            
+        float distanceForSpeed = Vector3.Distance(initialPos, transform.position);  
+
+        closestObject.GetComponent<NavMeshAgent>().enabled = false;
+
+        while (lerpValue < 1f)
+        {
+            closestObject.transform.position = Vector3.Lerp(initialPos, gameObject.transform.position, lerpValue);
+            lerpValue += grabSpeed * distanceForSpeed * Time.deltaTime;
+            Debug.Log(lerpValue);
+            yield return null;
+        }
+
+        
+
+        closestObject.GetComponent<NavMeshAgent>().enabled = true;
 
         Invoke(nameof(StopGrapple), 1f);
     }

@@ -36,12 +36,12 @@ public class InCameraCheck : MonoBehaviour
     {
         cameraFrustum = GeometryUtility.CalculateFrustumPlanes(cam);
 
-        if (ControlCamera.targetableObjects.Contains(gameObject.transform))
-            ControlCamera.targetableObjects.Remove(gameObject.transform);
+        if (Grappling.targetableObjects.Contains(gameObject.transform))
+            Grappling.targetableObjects.Remove(gameObject.transform);
 
         if (GeometryUtility.TestPlanesAABB(cameraFrustum, col.bounds))
         {
-            ControlCamera.targetableObjects.Add(gameObject.transform);
+            Grappling.targetableObjects.Add(gameObject.transform);
         }
 
     }
