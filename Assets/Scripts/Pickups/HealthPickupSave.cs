@@ -29,6 +29,7 @@ public class HealthPickupSave : MonoBehaviour
     {
         SaveData saveData;
 
+        healthPickups.Clear();
         for (int i = 0; i < transform.childCount; i++)
         {
             HealthPickup healthPickup = transform.GetChild(i).GetComponent<HealthPickup>();
@@ -58,9 +59,13 @@ public class HealthPickupSave : MonoBehaviour
         }
 
         healthPickups.Clear();
+
         for (int i = 0; i < saveData.healthPickup.Length; i++)
         {
-            GameObject newPickup = Instantiate(healthPickupPrefab, saveData.healthPickupPositions[i], Quaternion.identity, transform);
+            Vector3 position = saveData.healthPickupPositions[i];
+
+            // Instantiate new health pickup
+            GameObject newPickup = Instantiate(healthPickupPrefab, position, Quaternion.identity, transform);
             HealthPickup healthPickup = newPickup.GetComponent<HealthPickup>();
             healthPickup.LoadSaveData(saveData.healthPickup[i]);
             healthPickups.Add(healthPickup);
