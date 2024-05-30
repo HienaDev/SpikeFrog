@@ -72,7 +72,6 @@ public class LeonAttack : MonoBehaviour
     {
         if (!isElectricClawActive)
         {
-            Debug.Log("Electric Claw");
             animator.SetTrigger("ClawTrigger");
             StartCoroutine(ElectricClawRoutine(isControlled));
         }
@@ -94,7 +93,6 @@ public class LeonAttack : MonoBehaviour
             {
                 if (isControlled && hitCollider.CompareTag("Player"))
                 {
-                    Debug.Log("Hit player with Electric Claw");
                     PlayerHealth playerHealth = hitCollider.GetComponent<PlayerHealth>();
                     if (playerHealth != null)
                     {
@@ -123,7 +121,6 @@ public class LeonAttack : MonoBehaviour
     {
         if (!isElectroRoarActive)
         {
-            Debug.Log("Electro Roar");
             animator.SetTrigger("RoarTrigger");
             StartCoroutine(ElectroRoarRoutine(isControlled));
         }

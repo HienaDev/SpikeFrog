@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class LeonController : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class LeonController : MonoBehaviour
     [Header("[Radii Values]")]
     [SerializeField] private float enemieCloseRadius = 5.0f;
     [SerializeField] private float spikeFollowRadius = 5.0f;
+
+    [Header("[Stunned Values]")]
+    [SerializeField] private float stunnedTime = 3.0f;
 
     private float          attackCooldownTimer;
     private LeonState      currentState;
@@ -21,7 +25,8 @@ public class LeonController : MonoBehaviour
     private bool           isAttackSelected;
     private LeonAttackType selectedAttackType;
     private float          attackRadius;
-
+    private bool           isStunned; // New flag to prevent multiple coroutine calls
+    
     void Start()
     {
         attackCooldownTimer = 0;
@@ -33,6 +38,7 @@ public class LeonController : MonoBehaviour
         animator            = GetComponentInChildren<Animator>();
         isAttackSelected    = false;
         currentState        = LeonState.Controlled;
+        isStunned           = false; // Initialize the flag
 
         agent.speed         = speed;
     }
@@ -48,7 +54,10 @@ public class LeonController : MonoBehaviour
         switch (currentState)
         {
             case LeonState.Stunned:
-                Stopped();
+                if (!isStunned) // Only start coroutine if not already stunned
+                {
+                    StartCoroutine(Stunned());
+                }
                 break;
             case LeonState.Controlled:
                 PursueAndAttackSpike();
@@ -59,10 +68,18 @@ public class LeonController : MonoBehaviour
         }
     }
 
-    private void Stopped()
+    private IEnumerator Stunned()
     {
+        isStunned = true; // Set the flag to true when starting the coroutine
         agent.isStopped = true;
+        animator.SetTrigger("StunnedTrigger");
         animator.SetBool("isMoving", false);
+
+        yield return new WaitForSeconds(stunnedTime);
+
+        currentState = LeonState.Controlled;
+        isStunned = false; // Reset the flag when coroutine ends
+        agent.isStopped = false;
     }
 
     private void PursueAndAttackSpike()

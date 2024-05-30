@@ -6,12 +6,10 @@ public class LeonManager : MonoBehaviour
     [SerializeField] private float health = 100;
 
     private LeonController  leonController;
-    private Animator        animator;
 
     void Start()
     {
         leonController  = GetComponent<LeonController>();
-        animator        = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -19,6 +17,11 @@ public class LeonManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             DestroyController();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            leonController.CurrentState = LeonState.Stunned;
         }
     }
 
@@ -41,7 +44,6 @@ public class LeonManager : MonoBehaviour
 
     private void DestroyController()
     {
-        //animator.Play("Destroy Controller");
         leonController.CurrentState = LeonState.NotControlled;
     }
 }
