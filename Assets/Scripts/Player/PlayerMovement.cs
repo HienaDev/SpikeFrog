@@ -132,10 +132,13 @@ public class PlayerMovement : MonoBehaviour
         activeGrapple = false;
     }
 
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     private void FixedUpdate()
     {
-
-
         if (!freeze && !activeGrapple)
         {
             UpdateAcceleration();

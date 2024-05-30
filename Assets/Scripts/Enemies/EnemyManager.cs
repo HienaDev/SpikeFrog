@@ -7,10 +7,10 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private int health = 100;
 
     [Header("[Visual Effects]")]
-    [SerializeField] private float blinkDuration = 0.3f;
-    [SerializeField] private Material originalMaterial;
-    [SerializeField] private Material deathMaterial;
-    [SerializeField] private float fadeOutDuration = 3f;
+    [SerializeField] private float      blinkDuration = 0.3f;
+    [SerializeField] private Material   originalMaterial;
+    [SerializeField] private Material   deathMaterial;
+    [SerializeField] private float      fadeOutDuration = 3f;
 
     [Header("[Knockback]")]
     [SerializeField] private float knockbackTime = 0.1f;
@@ -23,21 +23,21 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject healthDrop;
     [SerializeField] private int chanceForHealthDrop = 50;
 
-    private GameObject healthPickupsParent;
+    private GameObject      healthPickupsParent;
     private EnemyController enemyController;
-    private EnemyAttack enemyAttack;
-    private Renderer enemyRenderer;
-    private Animator animator;
-    private float knockbackCooldown;
+    private EnemyAttack     enemyAttack;
+    private Renderer        enemyRenderer;
+    private Animator        animator;
+    private float           knockbackCooldown;
 
     public bool IsAlive => (health > 0);
 
     private void Start()
     {
-        enemyController = GetComponent<EnemyController>();
-        enemyAttack = GetComponent<EnemyAttack>();
-        enemyRenderer = GetComponentInChildren<Renderer>();
-        animator = GetComponent<Animator>();
+        enemyController     = GetComponent<EnemyController>();
+        enemyAttack         = GetComponent<EnemyAttack>();
+        enemyRenderer       = GetComponentInChildren<Renderer>();
+        animator            = GetComponent<Animator>();
         healthPickupsParent = GameObject.Find("HealthPickups");
     }
 
