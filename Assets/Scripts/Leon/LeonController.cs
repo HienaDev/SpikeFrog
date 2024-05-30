@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class LeonController : MonoBehaviour
 {
@@ -100,6 +99,8 @@ public class LeonController : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, player.position);
 
+        agent.SetDestination(player.position);
+
         if (attackCooldownTimer > 0)
         {
             attackCooldownTimer -= Time.deltaTime;
@@ -117,15 +118,6 @@ public class LeonController : MonoBehaviour
             leonAttack.ExecuteAttack(selectedAttackType, currentState == LeonState.Controlled);
             isAttackSelected = false;
             attackCooldownTimer = leonAttack.AttackCooldown;
-        }
-        else if (distance > spikeFollowRadius)
-        {
-            agent.SetDestination(player.position);
-        }
-        else
-        {
-            agent.isStopped = true;
-            animator.SetBool("isMoving", false);
         }
     }
 

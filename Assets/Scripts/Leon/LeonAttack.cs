@@ -6,8 +6,9 @@ using UnityEngine.AI;
 public class LeonAttack : MonoBehaviour
 {
     [Header("[Electric Claw Settings]")]
-    [SerializeField] private float  radiusElectricClaw = 2.5f;
-    [SerializeField] private int    electricClawDamage = 15;
+    [SerializeField] private int     electricClawDamage = 15;
+    [SerializeField] private float   radiusElectricClaw = 2.5f;
+    [SerializeField] private Vector3 electricClawBoxSize = new Vector3(5.0f, 2.0f, 5.0f);
     
 
     [Header("[Electro Roar Settings]")]
@@ -84,9 +85,13 @@ public class LeonAttack : MonoBehaviour
 
         HashSet<Collider> damagedColliders = new HashSet<Collider>();
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.8f);
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radiusElectricClaw);
+        // Define the box size and position in front of the character
+        Vector3 boxSize = electricClawBoxSize;
+        Vector3 boxCenter = transform.position + transform.forward * (boxSize.z / 2);
+
+        Collider[] hitColliders = Physics.OverlapBox(boxCenter, boxSize / 2, transform.rotation);
         foreach (var hitCollider in hitColliders)
         {
             if (!damagedColliders.Contains(hitCollider))
@@ -98,6 +103,7 @@ public class LeonAttack : MonoBehaviour
                     {
                         playerHealth.Damage(electricClawDamage);
                         damagedColliders.Add(hitCollider);
+                        Debug.Log("Hit player with Electric Claw");
                     }
                 }
                 else if (!isControlled && hitCollider.CompareTag("Enemy"))
@@ -110,6 +116,8 @@ public class LeonAttack : MonoBehaviour
                         damagedColliders.Add(hitCollider);
                     }
                 }
+                else
+                    yield return null;
             }
         }
 
@@ -198,5 +206,11 @@ public class LeonAttack : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, this.radiusElectricClaw);
+
+        // Draw the box in front of the character for Electric Claw
+        Gizmos.color = Color.red;
+        Vector3 boxSize = electricClawBoxSize;
+        Vector3 boxCenter = transform.position + transform.forward * (boxSize.z / 2);
+        Gizmos.DrawWireCube(boxCenter, boxSize);
     }
 }

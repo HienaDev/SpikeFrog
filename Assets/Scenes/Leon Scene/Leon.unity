@@ -10807,11 +10807,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1968263050705040892, guid: ec97e1aa880fc974c84b20393aa7e51b,
         type: 3}
-      propertyPath: health
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968263050705040892, guid: ec97e1aa880fc974c84b20393aa7e51b,
-        type: 3}
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 687423628}
@@ -10879,6 +10874,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Leon
+      objectReference: {fileID: 0}
+    - target: {fileID: 7535051890675492082, guid: ec97e1aa880fc974c84b20393aa7e51b,
+        type: 3}
+      propertyPath: electroRoarDamage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7535051890675492082, guid: ec97e1aa880fc974c84b20393aa7e51b,
+        type: 3}
+      propertyPath: electricClawDamage
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

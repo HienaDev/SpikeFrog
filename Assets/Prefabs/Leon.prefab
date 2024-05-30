@@ -163,7 +163,7 @@ NavMeshAgent:
   m_Speed: 5
   m_Acceleration: 30
   avoidancePriority: 50
-  m_AngularSpeed: 180
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -186,12 +186,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radiusElectricClaw: 5
   electricClawDamage: 1
+  electricClawBoxSize: {x: 2.77, y: 8.08, z: 3}
   electroRoarDamage: 1
   radiusElectroRoar: 8
   electroRoarBallPrefab: {fileID: 6726363100516055207, guid: a252542aeb204d44aa5cbf808392f468,
     type: 3}
   electroRoarExpandSpeed: 2
-  attackCooldown: 2
+  attackCooldown: 4
 --- !u!114 &7495418030452176217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b258247bafc774cafc161c0e84793c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 500
   healthBar: {fileID: 0}
   healthBarSlider: {fileID: 0}
   healthBarFill: {fileID: 0}
