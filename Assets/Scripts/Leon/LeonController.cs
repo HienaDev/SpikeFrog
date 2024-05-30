@@ -18,7 +18,6 @@ public class LeonController : MonoBehaviour
     private Transform      player;
     private PlayerHealth   playerHealth;
     private Animator       animator;
-    //private bool           isControlled;
     private bool           isAttackSelected;
     private LeonAttackType selectedAttackType;
     private float          attackRadius;
@@ -31,7 +30,7 @@ public class LeonController : MonoBehaviour
         agent               = GetComponent<NavMeshAgent>();
         player              = GameObject.FindGameObjectWithTag("Player").transform;
         playerHealth        = player.GetComponent<PlayerHealth>();
-        animator            = GetComponent<Animator>();
+        animator            = GetComponentInChildren<Animator>();
         isAttackSelected    = false;
         currentState        = LeonState.Controlled;
 
@@ -41,8 +40,11 @@ public class LeonController : MonoBehaviour
     void Update()
     {
         if (!playerHealth.IsAlive)
+        {
             agent.isStopped = true;
-        
+            return;
+        }
+
         switch (currentState)
         {
             case LeonState.Stunned:
@@ -60,10 +62,13 @@ public class LeonController : MonoBehaviour
     private void Stopped()
     {
         agent.isStopped = true;
+        animator.SetBool("isMoving", false);
     }
 
     private void PursueAndAttackSpike()
     {
+        animator.SetBool("isMoving", true);
+
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (attackCooldownTimer > 0)
@@ -91,6 +96,7 @@ public class LeonController : MonoBehaviour
         else
         {
             agent.isStopped = true;
+            animator.SetBool("isMoving", false);
         }
     }
 
@@ -154,10 +160,12 @@ public class LeonController : MonoBehaviour
         {
             agent.isStopped = false;
             agent.SetDestination(player.position);
+            animator.SetBool("isMoving", true);
         }
-        else if (distance <= spikeFollowRadius)
+        else
         {
             agent.isStopped = true;
+            animator.SetBool("isMoving", false);
         }
     }
 

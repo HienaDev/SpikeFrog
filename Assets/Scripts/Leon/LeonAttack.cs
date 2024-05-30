@@ -26,15 +26,13 @@ public class LeonAttack : MonoBehaviour
 
     public float AttackCooldown => attackCooldown;
 
-    // Start is called before the first frame update
     void Start()
-    {   
+    {
         agent               = GetComponent<NavMeshAgent>();
-        animator            = GetComponent<Animator>();
+        animator            = GetComponentInChildren<Animator>();
         isElectroRoarActive = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         // If pressed E execute Electro Roar
@@ -75,6 +73,7 @@ public class LeonAttack : MonoBehaviour
         if (!isElectricClawActive)
         {
             Debug.Log("Electric Claw");
+            animator.SetTrigger("ClawTrigger");
             StartCoroutine(ElectricClawRoutine(isControlled));
         }
     }
@@ -82,7 +81,6 @@ public class LeonAttack : MonoBehaviour
     private IEnumerator ElectricClawRoutine(bool isControlled)
     {
         isElectricClawActive = true;
-        //animator.Play("Punch", -1, 0f);
         agent.isStopped = true;
 
         HashSet<Collider> damagedColliders = new HashSet<Collider>();
@@ -126,6 +124,7 @@ public class LeonAttack : MonoBehaviour
         if (!isElectroRoarActive)
         {
             Debug.Log("Electro Roar");
+            animator.SetTrigger("RoarTrigger");
             StartCoroutine(ElectroRoarRoutine(isControlled));
         }
     }
@@ -133,7 +132,6 @@ public class LeonAttack : MonoBehaviour
     private IEnumerator ElectroRoarRoutine(bool isControlled)
     {
         isElectroRoarActive = true;
-        //animator.Play("Roar", -1, 0f);
         agent.isStopped = true;
         GameObject roarBall = Instantiate(electroRoarBallPrefab, transform.position, Quaternion.identity);
         roarBall.transform.SetParent(transform);

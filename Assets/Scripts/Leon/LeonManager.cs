@@ -11,6 +11,7 @@ public class LeonManager : MonoBehaviour
     void Start()
     {
         leonController  = GetComponent<LeonController>();
+        animator        = GetComponentInChildren<Animator>();
     }
 
     void Update()
