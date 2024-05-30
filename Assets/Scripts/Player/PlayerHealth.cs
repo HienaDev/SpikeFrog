@@ -18,7 +18,7 @@ public class PlayerHealth : MonoBehaviour
 
         playerScript = GetComponent<PlayerMovement>();
         playerCombat = GetComponentInChildren<PlayerCombat>();
-        animator = GetComponentInChildren<Animator>();
+        animator     = GetComponentInChildren<Animator>();
 
         dead = false;
         canBeDamaged = true;

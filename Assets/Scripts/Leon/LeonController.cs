@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class LeonController : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class LeonController : MonoBehaviour
     private bool           isAttackSelected;
     private LeonAttackType selectedAttackType;
     private float          attackRadius;
-    private bool           isStunned; // New flag to prevent multiple coroutine calls
+    private bool           isStunned;
     
     void Start()
     {
@@ -38,23 +39,23 @@ public class LeonController : MonoBehaviour
         animator            = GetComponentInChildren<Animator>();
         isAttackSelected    = false;
         currentState        = LeonState.Controlled;
-        isStunned           = false; // Initialize the flag
+        isStunned           = false; 
 
         agent.speed         = speed;
     }
 
     void Update()
     {
-        if (!playerHealth.IsAlive)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            agent.isStopped = true;
-            return;
+            currentState = LeonState.Stunned;
+            Debug.Log("Leon is stunned");
         }
 
         switch (currentState)
         {
             case LeonState.Stunned:
-                if (!isStunned) // Only start coroutine if not already stunned
+                if (!isStunned)
                 {
                     StartCoroutine(Stunned());
                 }
@@ -70,16 +71,27 @@ public class LeonController : MonoBehaviour
 
     private IEnumerator Stunned()
     {
-        isStunned = true; // Set the flag to true when starting the coroutine
+        isStunned = true; 
         agent.isStopped = true;
         animator.SetTrigger("StunnedTrigger");
         animator.SetBool("isMoving", false);
 
         yield return new WaitForSeconds(stunnedTime);
 
-        currentState = LeonState.Controlled;
-        isStunned = false; // Reset the flag when coroutine ends
+        isStunned = false; 
         agent.isStopped = false;
+
+        if (currentState == LeonState.Stunned)
+        {
+            if (leonManager.HaveTheControllerOnLeon)
+            {
+                currentState = LeonState.Controlled;
+            }
+            else if (!leonManager.HaveTheControllerOnLeon)
+            {
+                currentState = LeonState.NotControlled;
+            }
+        }
     }
 
     private void PursueAndAttackSpike()
@@ -194,5 +206,10 @@ public class LeonController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, spikeFollowRadius);
     }
 
-    public LeonState CurrentState { get => currentState; set => currentState = value; }
+    public void SetNotControlled()
+    {
+        currentState = LeonState.NotControlled;
+    }
+
+    public LeonState CurrentState => currentState;
 }

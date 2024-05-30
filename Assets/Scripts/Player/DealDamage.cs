@@ -12,6 +12,13 @@ public class DealDamage : MonoBehaviour
         {
             enemy.TakeDamage(damage);
         }
+
+        LeonManager leon = other.GetComponent<LeonManager>();
+
+        if (leon != null)
+        {
+            leon.TakeDamage(damage);
+        }
     }
 
     public void SetDamage(int newDamage)

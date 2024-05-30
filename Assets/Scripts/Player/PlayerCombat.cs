@@ -47,8 +47,6 @@ public class PlayerCombat : MonoBehaviour
         {
             animator.ResetTrigger("Punch");
         }
-
-
     }
 
     public void ActivatePunch() => puncheable = true;

@@ -1,15 +1,28 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LeonManager : MonoBehaviour
 {
     [Header("[Leon Settings]")]
-    [SerializeField] private float health = 100;
+    [SerializeField] private float health = 500;
+
+    [Header("[Health Bar UI Elements]")]
+    [SerializeField] private GameObject healthBar;
+    [SerializeField] private Slider     healthBarSlider;
+    [SerializeField] private Image      healthBarFill;
 
     private LeonController  leonController;
 
     void Start()
     {
-        leonController  = GetComponent<LeonController>();
+        leonController = GetComponent<LeonController>();
+
+        SetMaxHealth();
+    }
+
+    private void OnEnable()
+    {
+        healthBar.SetActive(true);
     }
 
     void Update()
@@ -18,11 +31,6 @@ public class LeonManager : MonoBehaviour
         {
             DestroyController();
         }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            leonController.CurrentState = LeonState.Stunned;
-        }
     }
 
     public void TakeDamage(int damage)
@@ -30,6 +38,10 @@ public class LeonManager : MonoBehaviour
         if (leonController.CurrentState == LeonState.Stunned)
         {
             health -= damage;
+
+            UpdateHealthBar();
+
+            Debug.Log("Leon took " + damage + " damage. Health: " + health);
 
             if (health <= 0)
             {
@@ -42,8 +54,23 @@ public class LeonManager : MonoBehaviour
         }
     }
 
+    private void SetMaxHealth()
+    {
+        healthBarSlider.maxValue = health;
+        healthBarSlider.value    = health;
+    }
+
+    private void UpdateHealthBar()
+    {
+        healthBarSlider.value = health;
+    }
+
     private void DestroyController()
     {
-        leonController.CurrentState = LeonState.NotControlled;
+        Debug.Log("DestroyController called");
+        leonController.SetNotControlled();
+        healthBar.SetActive(false);
     }
+
+    public bool HaveTheControllerOnLeon => (health > 0);
 }
