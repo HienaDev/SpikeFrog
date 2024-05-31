@@ -96,6 +96,8 @@ public class Grappling : MonoBehaviour
 
 
         List<Transform> objects = new List<Transform>();
+        Vector2 posInViewPortClosestObjectToKeep = Vector2.zero;
+
 
         closestObject = null;
 
@@ -121,17 +123,24 @@ public class Grappling : MonoBehaviour
 
             for (int i = 0; i <= objects.Count - 1; i++)
             {
-                if (Vector3.Distance(objects[i].position, transform.position) < Vector3.Distance(closestObject.position, transform.position))
+                Vector2 posInViewPort = cam.GetComponent<Camera>().WorldToViewportPoint(objects[i].position) - new Vector3(0.5f, 0.5f, 0.5f);
+                Vector2 posInViewPortClosestObject = cam.GetComponent<Camera>().WorldToViewportPoint(closestObject.position) - new Vector3(0.5f, 0.5f, 0.5f);
+                if (posInViewPort.magnitude < posInViewPortClosestObject.magnitude)
                 {
                     closestObject = objects[i];
                 }
             }
 
+            posInViewPortClosestObjectToKeep = cam.GetComponent<Camera>().WorldToViewportPoint(closestObject.position) - new Vector3(0.5f, 0.5f, 0.5f);
+            Debug.Log(cam.GetComponent<Camera>().WorldToViewportPoint(closestObject.position) - new Vector3(0.5f, 0.5f, 0.5f));
+
+            closestObject = closestObject.GetComponentInParent<EnemyManager>().gameObject.transform;
+
         }
 
-        closestObject = closestObject.GetComponentInParent<EnemyManager>().gameObject.transform;
+        
 
-        if (closestObject != null)
+        if (closestObject != null && posInViewPortClosestObjectToKeep.magnitude < (Vector2.one * 0.05f).magnitude)
         {
             grapplePoint = closestObject.transform.position;
             grappledObject = closestObject.gameObject;

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InCameraCheck : MonoBehaviour
@@ -10,9 +11,14 @@ public class InCameraCheck : MonoBehaviour
     private float timerToCheckIfInCamera;
     private float justChecked;
 
+    private float distance;
+
     // Start is called before the first frame update
     void Start()
     {
+
+        distance = 70f;
+
         cam = Camera.main;
         meshRenderer = GetComponent<MeshRenderer>();
         col = GetComponent<Collider>();
@@ -39,7 +45,7 @@ public class InCameraCheck : MonoBehaviour
         if (Grappling.targetableObjects.Contains(gameObject.transform))
             Grappling.targetableObjects.Remove(gameObject.transform);
 
-        if (GeometryUtility.TestPlanesAABB(cameraFrustum, col.bounds))
+        if (GeometryUtility.TestPlanesAABB(cameraFrustum, col.bounds) && Vector3.Distance(cam.transform.position, gameObject.transform.position) < distance)
         {
             Grappling.targetableObjects.Add(gameObject.transform);
         }
