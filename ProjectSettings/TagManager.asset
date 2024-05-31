@@ -18,8 +18,8 @@ TagManager:
   - ForTargetSystem
   - IgnoreInScene
   - Enemy
-  - 
-  - 
+  - Throwable
+  - Player
   - 
   - 
   - 

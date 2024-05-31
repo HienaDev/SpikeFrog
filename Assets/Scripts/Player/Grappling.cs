@@ -39,6 +39,8 @@ public class Grappling : MonoBehaviour
     public static HashSet<Transform> targetableObjects { get; private set; }
     private Transform closestObject;
 
+    private ThrowObjects throwScript;
+
     private void Awake()
     {
         activeCamera = cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
@@ -55,6 +57,7 @@ public class Grappling : MonoBehaviour
 
         defaultFov = activeCamera.m_Lens.FieldOfView;
 
+        throwScript = GetComponentInParent<ThrowObjects>(); 
     }
 
     public void UpdateCamera()
@@ -66,7 +69,7 @@ public class Grappling : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(grappleKey))
+        if (Input.GetKeyDown(grappleKey) && throwScript.GetTarget() == null)
         {
             StartGrapple();
         }
@@ -197,6 +200,12 @@ public class Grappling : MonoBehaviour
         {
             closestObject.GetComponent<NavMeshAgent>().enabled = true;
             playerMovement.EnableEnemyGrab();
+        }
+        else
+        {
+            //closestObject.gameObject.GetComponent<Collider>().enabled = false;
+            closestObject.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            throwScript.SetTarget(closestObject.gameObject);
         }
             
 
