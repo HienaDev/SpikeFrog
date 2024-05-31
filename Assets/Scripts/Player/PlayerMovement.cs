@@ -463,7 +463,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void EnableEnemyGrab() => enemyGrab = true;
 
-    public void DisableEnemyGrab() => enemyGrab = true;
+    public void DisableEnemyGrab() => enemyGrab = false;
 
     
 
