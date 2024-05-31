@@ -19,7 +19,8 @@ public class LeonAttack : MonoBehaviour
 
     [Header("[Attack Cooldown]")]
     [SerializeField] private float attackCooldown = 2.0f;
-        
+    
+    private PlayerHealth    playerHealth;
     private NavMeshAgent    agent;
     private Animator        animator;
     private bool            isElectroRoarActive;
@@ -30,6 +31,7 @@ public class LeonAttack : MonoBehaviour
 
     void Start()
     {
+        playerHealth         = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         agent                = GetComponent<NavMeshAgent>();
         animator             = GetComponentInChildren<Animator>();
         isElectroRoarActive  = false;
@@ -102,7 +104,6 @@ public class LeonAttack : MonoBehaviour
             {
                 if (isControlled && hitCollider.CompareTag("Player"))
                 {
-                    PlayerHealth playerHealth = hitCollider.GetComponent<PlayerHealth>();
                     if (playerHealth != null)
                     {
                         playerHealth.Damage(electricClawDamage);
@@ -114,6 +115,7 @@ public class LeonAttack : MonoBehaviour
                 {
                     Debug.Log("Hit enemy with Electric Claw");
                     EnemyManager enemyManager = hitCollider.GetComponent<EnemyManager>();
+
                     if (enemyManager != null)
                     {
                         enemyManager.TakeDamage(electricClawDamage);
@@ -125,8 +127,11 @@ public class LeonAttack : MonoBehaviour
             }
         }
 
-        agent.isStopped = false;
+        yield return new WaitForSeconds(0.7f);
+        
         isElectricClawActive = false;
+        agent.isStopped = false;
+        animator.ResetTrigger("ClawTrigger");
         IsOnAttack = false;
     }
 
@@ -144,6 +149,7 @@ public class LeonAttack : MonoBehaviour
         IsOnAttack = true;
         isElectroRoarActive = true;
         agent.isStopped = true;
+
         GameObject roarBall = Instantiate(electroRoarBallPrefab, transform.position, Quaternion.identity);
         roarBall.transform.SetParent(transform);
 
@@ -159,7 +165,6 @@ public class LeonAttack : MonoBehaviour
             float scaleIncrement = electroRoarExpandSpeed * Time.deltaTime;
             Vector3 newScale = roarBall.transform.localScale + Vector3.one * scaleIncrement;
 
-            // Ensure the new scale does not exceed the maximum scale
             newScale.x = Mathf.Min(newScale.x, maxScale);
             newScale.y = Mathf.Min(newScale.y, maxScale);
             newScale.z = Mathf.Min(newScale.z, maxScale);
@@ -175,15 +180,13 @@ public class LeonAttack : MonoBehaviour
                 {
                     if (isControlled && hitCollider.CompareTag("Player"))
                     {
-                        PlayerHealth playerHealth = hitCollider.GetComponent<PlayerHealth>();
-
                         if (playerHealth != null)
                         {
                             playerHealth.Damage(electroRoarDamage);
                             damagedColliders.Add(hitCollider);
                         }
                     }
-                    else if (isControlled && hitCollider.CompareTag("Enemy"))
+                    else if (!isControlled && hitCollider.CompareTag("Enemy"))
                     {
                         Debug.Log("Hit enemy by Electro Roar");
                         EnemyManager enemyManager = hitCollider.GetComponent<EnemyManager>();
@@ -200,9 +203,12 @@ public class LeonAttack : MonoBehaviour
             yield return null;
         }
 
+        yield return new WaitForSeconds(0.7f);
+
         Destroy(roarBall);
         isElectroRoarActive = false;
         agent.isStopped = false;
+        animator.ResetTrigger("RoarTrigger");
         IsOnAttack = false;
     }
 
@@ -214,7 +220,6 @@ public class LeonAttack : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, this.radiusElectricClaw);
 
-        // Draw the box in front of the character for Electric Claw
         Gizmos.color = Color.red;
         Vector3 boxSize = electricClawBoxSize;
         Vector3 boxCenter = transform.position + transform.forward * (boxSize.z / 2);

@@ -11,6 +11,7 @@ public class LeonController : MonoBehaviour
     [Header("[Radii Values]")]
     [SerializeField] private float enemieCloseRadius = 5.0f;
     [SerializeField] private float spikeFollowRadius = 5.0f;
+    [SerializeField] private float tooCloseRadius = 3.0f;
 
     [Header("[Stunned Values]")]
     [SerializeField] private float stunnedTime = 3.0f;
@@ -21,7 +22,6 @@ public class LeonController : MonoBehaviour
     private LeonAttack     leonAttack;
     private NavMeshAgent   agent;
     private Transform      player;
-    private PlayerHealth   playerHealth;
     private Animator       animator;
     private bool           isAttackSelected;
     private LeonAttackType selectedAttackType;
@@ -39,7 +39,6 @@ public class LeonController : MonoBehaviour
         leonAttack          = GetComponent<LeonAttack>();
         agent               = GetComponent<NavMeshAgent>();
         player              = GameObject.FindGameObjectWithTag("Player").transform;
-        playerHealth        = player.GetComponent<PlayerHealth>();
         animator            = GetComponentInChildren<Animator>();
         isAttackSelected    = false;
         currentState        = LeonState.Controlled;
@@ -116,7 +115,7 @@ public class LeonController : MonoBehaviour
 
     private void PursueAndAttackSpike()
     {
-        animator.SetBool("isMoving", true);
+        animator.SetBool("isMoving", true); 
 
         float distance = Vector3.Distance(transform.position, player.position);
 
@@ -126,7 +125,7 @@ public class LeonController : MonoBehaviour
         {
             attackCooldownTimer -= Time.deltaTime;
             
-            if (distance <= attackRadius)
+            if (distance <= tooCloseRadius && !leonAttack.IsOnAttack)
             {
                 agent.isStopped = true;
                 animator.SetBool("isMoving", false);
@@ -135,6 +134,7 @@ public class LeonController : MonoBehaviour
             {
                 agent.isStopped = false;
                 animator.SetBool("isMoving", true);
+                agent.SetDestination(player.position);
             }
 
             return;
@@ -183,6 +183,18 @@ public class LeonController : MonoBehaviour
             {
                 attackCooldownTimer -= Time.deltaTime;
                 
+                if (distanceToEnemy <= tooCloseRadius && !leonAttack.IsOnAttack)
+                {
+                    agent.isStopped = true;
+                    animator.SetBool("isMoving", false);
+                }
+                else if (!leonAttack.IsOnAttack)
+                {
+                    agent.isStopped = false;
+                    animator.SetBool("isMoving", true);
+                    agent.SetDestination(nearestEnemy.position);
+                }
+
                 return;
             }
 
@@ -226,8 +238,12 @@ public class LeonController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemieCloseRadius);
+        
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, spikeFollowRadius);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, tooCloseRadius);
     }
 
     public void SetNotControlled()
