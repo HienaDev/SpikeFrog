@@ -26,12 +26,15 @@ public class LeonAttack : MonoBehaviour
     private bool            isElectricClawActive;
 
     public float AttackCooldown => attackCooldown;
+    public bool IsOnAttack { get; private set; }
 
     void Start()
     {
-        agent               = GetComponent<NavMeshAgent>();
-        animator            = GetComponentInChildren<Animator>();
-        isElectroRoarActive = false;
+        agent                = GetComponent<NavMeshAgent>();
+        animator             = GetComponentInChildren<Animator>();
+        isElectroRoarActive  = false;
+        isElectricClawActive = false;
+        IsOnAttack           = false;
     }
 
     void Update()
@@ -80,6 +83,7 @@ public class LeonAttack : MonoBehaviour
 
     private IEnumerator ElectricClawRoutine(bool isControlled)
     {
+        IsOnAttack = true;
         isElectricClawActive = true;
         agent.isStopped = true;
 
@@ -123,6 +127,7 @@ public class LeonAttack : MonoBehaviour
 
         agent.isStopped = false;
         isElectricClawActive = false;
+        IsOnAttack = false;
     }
 
     private void AttemptElectroRoar(bool isControlled)
@@ -136,6 +141,7 @@ public class LeonAttack : MonoBehaviour
 
     private IEnumerator ElectroRoarRoutine(bool isControlled)
     {
+        IsOnAttack = true;
         isElectroRoarActive = true;
         agent.isStopped = true;
         GameObject roarBall = Instantiate(electroRoarBallPrefab, transform.position, Quaternion.identity);
@@ -197,6 +203,7 @@ public class LeonAttack : MonoBehaviour
         Destroy(roarBall);
         isElectroRoarActive = false;
         agent.isStopped = false;
+        IsOnAttack = false;
     }
 
     private void OnDrawGizmosSelected()

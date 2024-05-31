@@ -28,6 +28,8 @@ public class LeonController : MonoBehaviour
     private float          attackRadius;
     private bool           isStunned;
 
+    public bool IsOnAttack { get; set; }
+
     private List<Renderer> rendererers;
     
     void Start()
@@ -89,8 +91,6 @@ public class LeonController : MonoBehaviour
         animator.SetTrigger("StunnedTrigger");
         animator.SetBool("isMoving", false);
 
-        
-
         yield return new WaitForSeconds(stunnedTime);
 
         isStunned = false; 
@@ -125,6 +125,18 @@ public class LeonController : MonoBehaviour
         if (attackCooldownTimer > 0)
         {
             attackCooldownTimer -= Time.deltaTime;
+            
+            if (distance <= attackRadius)
+            {
+                agent.isStopped = true;
+                animator.SetBool("isMoving", false);
+            }
+            else if (!leonAttack.IsOnAttack)
+            {
+                agent.isStopped = false;
+                animator.SetBool("isMoving", true);
+            }
+
             return;
         }
 
@@ -165,9 +177,12 @@ public class LeonController : MonoBehaviour
         {
             float distanceToEnemy = Vector3.Distance(transform.position, nearestEnemy.position);
 
+            agent.SetDestination(nearestEnemy.position);
+
             if (attackCooldownTimer > 0)
             {
                 attackCooldownTimer -= Time.deltaTime;
+                
                 return;
             }
 
@@ -182,10 +197,6 @@ public class LeonController : MonoBehaviour
                 leonAttack.ExecuteAttack(selectedAttackType, currentState == LeonState.Controlled);
                 isAttackSelected = false;
                 attackCooldownTimer = leonAttack.AttackCooldown;
-            }
-            else
-            {
-                agent.SetDestination(nearestEnemy.position);
             }
         }
         else
