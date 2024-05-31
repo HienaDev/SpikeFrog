@@ -46,6 +46,12 @@ public class LeonAttack : MonoBehaviour
         {
             ExecuteAttack(LeonAttackType.ElectricClaw, true);
         }
+
+        // If pressed F execute Electric Claw
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ExecuteAttack(LeonAttackType.ElectroRoar, true);
+        }
     }
 
     public (LeonAttackType, float) SelectRandomAttack()
@@ -77,7 +83,7 @@ public class LeonAttack : MonoBehaviour
     private void AttemptElectricClaw(bool isControlled)
     {
         if (!isElectricClawActive)
-        {
+        {   
             animator.SetTrigger("ClawTrigger");
             StartCoroutine(ElectricClawRoutine(isControlled));
         }
@@ -88,6 +94,7 @@ public class LeonAttack : MonoBehaviour
         IsOnAttack = true;
         isElectricClawActive = true;
         agent.isStopped = true;
+        agent.updateRotation = true;
 
         HashSet<Collider> damagedColliders = new HashSet<Collider>();
 
@@ -153,7 +160,7 @@ public class LeonAttack : MonoBehaviour
         GameObject roarBall = Instantiate(electroRoarBallPrefab, transform.position, Quaternion.identity);
         roarBall.transform.SetParent(transform);
 
-        Vector3 initialScale = roarBall.transform.localScale;
+        Vector3 initialScale = new Vector3(0, 0, 0);
         float maxScale = radiusElectroRoar;
 
         HashSet<Collider> damagedColliders = new HashSet<Collider>();
@@ -203,7 +210,7 @@ public class LeonAttack : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1.5f);
 
         Destroy(roarBall);
         isElectroRoarActive = false;
