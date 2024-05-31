@@ -186,7 +186,7 @@ public class Grappling : MonoBehaviour
         while (lerpValue < 1f && Vector3.Distance(closestObject.transform.position, transform.position) > 0.7f)
         {
             closestObject.transform.position = Vector3.Lerp(initialPos, gameObject.transform.position, lerpValue);
-            lerpValue += grabSpeed * distanceForSpeed * Time.deltaTime;
+            lerpValue += grabSpeed * Time.deltaTime;
             //Debug.Log(lerpValue);
             yield return null;
         }

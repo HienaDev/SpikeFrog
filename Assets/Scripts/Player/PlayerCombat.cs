@@ -23,11 +23,11 @@ public class PlayerCombat : MonoBehaviour
     {
         timerCombo += Time.deltaTime;
         // puncheable is reactivated through idle animation
-        if (Input.GetMouseButtonDown(0) && puncheable == true)
+        if (Input.GetMouseButtonDown(0) && puncheable == true && !playerMovement.ActiveGrapple)
         {
             puncheable = false;
             animator.SetTrigger("FirstPunch");
-            timerCombo = 0;
+            ActivateCoolDown();
 
             playerMovement.UpdateCamera(0, 0);
 
@@ -37,7 +37,7 @@ public class PlayerCombat : MonoBehaviour
         else if (Input.GetMouseButtonDown(0) && !puncheable)// && timerCombo > timeAvaiableForNextCombo)
         {
             animator.SetTrigger("Punch");
-            timerCombo = 0;
+            ActivateCoolDown();
 
             playerMovement.UpdateCamera(0, 0);
         }
@@ -49,7 +49,11 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    public void ActivateCoolDown() => timerCombo = 0;
+
     public void ActivatePunch() => puncheable = true;
+
+    public void DeactivatePunch() => puncheable = false;
 
     public void DisableFreeze() => playerMovement.DisableFreeze();
 
