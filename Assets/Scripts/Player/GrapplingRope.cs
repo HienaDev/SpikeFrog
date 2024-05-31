@@ -78,6 +78,7 @@ public class GrapplingRope : MonoBehaviour
 
     public void ResetRope()
     {
+        Debug.Log("REset rope");
         lineRenderer.positionCount = 0;
         spring.Reset();
     }

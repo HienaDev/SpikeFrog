@@ -37,21 +37,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("Sprint"), SerializeField] private int sprintStaminaCost;
     [SerializeField] private int sprintVelocityFactor;
 
-    [Header("Dash"), SerializeField] private int dashStaminaCost;
-    [SerializeField] private int dashVelocity;
-    [SerializeField] private float dashDuration;
-
-
-
-    [Header("Skate"), SerializeField] private GameObject skate;
-    [SerializeField] private float skateRotateSpeed;
-
 
     [Header("UI"), SerializeField] private UIManager UIManager;
 
     [Header("Camera"), SerializeField] private Transform cameraTransform;
 
     [SerializeField] private Grappling grappling;
+    private bool enemyGrab;
 
     private Animator animator;
     public Animator Animator { get { return animator; } }
@@ -124,6 +116,8 @@ public class PlayerMovement : MonoBehaviour
 
         moving = false;
 
+        enemyGrab = false;
+
         stamina = maxStamina;
 
         sin90 = Mathf.Sin(Mathf.PI / 4);
@@ -145,13 +139,13 @@ public class PlayerMovement : MonoBehaviour
             UpdateVelocity();
             UpdateMotion();
         }
-        else if (!activeGrapple)
+        else
         {
             rb.velocity = Vector3.zero;
+            animator.SetFloat("MovSpeed", 0f);
         }
 
-        animator.SetBool("Grounded", grounded.Grounded);
-
+        
     }
 
     // Update is called once per frame
@@ -167,12 +161,11 @@ public class PlayerMovement : MonoBehaviour
             CheckForSprint();
             CheckForSprintRest();
         }
-        else if (!activeGrapple)
-        {
-            rb.velocity = Vector3.zero;
-        }
 
-        //RotateCamera();
+        animator.SetBool("Grounded", grounded.Grounded);
+        animator.SetBool("GrappleActive", activeGrapple);
+        animator.SetBool("EnemyGrab", enemyGrab);
+
 
         currentAngle = GetCurrentAngleBetweenCameraAndPlayer();
     }
@@ -450,7 +443,7 @@ public class PlayerMovement : MonoBehaviour
         moving = motion.z != 0f || motion.x != 0f;
     }
 
-    public void ActivateGrapple()
+    public void EnableGrapple()
     {
         extraAngleForDirection = 0;
         compensationAngleForCamera = 0;
@@ -458,13 +451,21 @@ public class PlayerMovement : MonoBehaviour
         UpdateCamera(0, 0);
 
         animator.SetTrigger("Grapple");
+
+        activeGrapple = true;
     }
+
+    public void DisableGrapple() => activeGrapple = false;
 
     public void EnableFreeze() => freeze = true;
 
     public void DisableFreeze() => freeze = false;
 
-    private void DeactiveGrapple() => activeGrapple = false;
+    public void EnableEnemyGrab() => enemyGrab = true;
+
+    public void DisableEnemyGrab() => enemyGrab = true;
+
+    
 
 
     private void OnCollisionEnter(Collision collision)
