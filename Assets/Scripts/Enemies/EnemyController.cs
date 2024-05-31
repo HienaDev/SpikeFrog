@@ -123,7 +123,9 @@ public class EnemyController : MonoBehaviour
     private void DetectPlayer()
     {
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-        float distanceToLeon   = Vector3.Distance(leon.position, transform.position);
+        float distanceToLeon = Mathf.Infinity;
+        if (leon != null)
+            distanceToLeon   = Vector3.Distance(leon.position, transform.position);
 
         if (distanceToPlayer <= enemyAttack.GetAttackRadius() || distanceToLeon <= enemyAttack.GetAttackRadius())
         {
