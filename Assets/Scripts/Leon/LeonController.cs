@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LeonController : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class LeonController : MonoBehaviour
     private LeonAttackType selectedAttackType;
     private float          attackRadius;
     private bool           isStunned;
+
+    private List<Renderer> rendererers;
     
     void Start()
     {
@@ -41,6 +44,13 @@ public class LeonController : MonoBehaviour
         isStunned           = false; 
 
         agent.speed         = speed;
+
+        rendererers = new List<Renderer>();
+
+        foreach(Renderer renderer in transform.GetComponentsInChildren<Renderer>())
+        {
+            rendererers.Add(renderer);
+        }
     }
 
     void Update()
@@ -57,6 +67,10 @@ public class LeonController : MonoBehaviour
                 if (!isStunned)
                 {
                     StartCoroutine(Stunned());
+                    foreach (Renderer renderer in rendererers)
+                    {
+                        renderer.material.color = Color.red;
+                    }
                 }
                 break;
             case LeonState.Controlled:
@@ -75,6 +89,8 @@ public class LeonController : MonoBehaviour
         animator.SetTrigger("StunnedTrigger");
         animator.SetBool("isMoving", false);
 
+        
+
         yield return new WaitForSeconds(stunnedTime);
 
         isStunned = false; 
@@ -90,6 +106,11 @@ public class LeonController : MonoBehaviour
             {
                 currentState = LeonState.NotControlled;
             }
+        }
+
+        foreach (Renderer renderer in rendererers)
+        {
+            renderer.material.color = Color.white;
         }
     }
 
