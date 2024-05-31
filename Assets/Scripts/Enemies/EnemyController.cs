@@ -35,7 +35,6 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         player                  = GameObject.FindGameObjectWithTag("Player").transform;
-        leon                    = GameObject.FindGameObjectWithTag("Leon").transform;
         playerHealth            = player.GetComponent<PlayerHealth>();
         waypointIndex           = 0;
         initialPosition         = transform.position;
@@ -47,8 +46,14 @@ public class EnemyController : MonoBehaviour
         lookingForPlayer        = true;
         enemiesWaypointsParent  = GameObject.Find("EnemiesWaypoints");
         menusManager            = GameObject.Find("Menus").GetComponent<MenusManager>();
-        
+
         CreateWaypoints();
+        UpdateLeonReference();
+    }
+
+    private void UpdateLeonReference()
+    {
+        leon = GameObject.FindGameObjectWithTag("Leon")?.transform;
     }
 
     private void Update()
@@ -115,6 +120,15 @@ public class EnemyController : MonoBehaviour
         if (lookingForPlayer)
         {
             agent.speed = chaseSpeed;
+
+            if (leon == null)
+                UpdateLeonReference();
+
+            if (leon != null)
+                target = Vector3.Distance(player.position, transform.position) < Vector3.Distance(leon.position, transform.position) ? player : leon;
+            else
+                target = player;
+            
             agent.destination = target.position;
             animator.SetBool("isChasing", true);
         }
@@ -122,28 +136,34 @@ public class EnemyController : MonoBehaviour
 
     private void DetectPlayer()
     {
+        if (leon == null)
+        {
+            UpdateLeonReference();
+        }
+
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
         float distanceToLeon = Mathf.Infinity;
-        if (leon != null)
-            distanceToLeon   = Vector3.Distance(leon.position, transform.position);
 
-        if (distanceToPlayer <= enemyAttack.GetAttackRadius() || distanceToLeon <= enemyAttack.GetAttackRadius())
+        if (leon != null)
+        {
+            distanceToLeon = Vector3.Distance(leon.position, transform.position);
+        }
+
+        if (distanceToPlayer <= enemyAttack.GetAttackRadius() || (leon != null && distanceToLeon <= enemyAttack.GetAttackRadius()))
         {
             if (currentState != EnemyState.Combat)
             {
-                target = distanceToPlayer < distanceToLeon ? player : leon;
                 currentState = EnemyState.Combat;
             }
         }
-        else if (distanceToPlayer <= detectionRadius || distanceToLeon <= detectionRadius)
+        else if (distanceToPlayer <= detectionRadius || (leon != null && distanceToLeon <= detectionRadius))
         {
             if (currentState != EnemyState.Pursuit)
             {
-                target = distanceToPlayer < distanceToLeon ? player : leon;
                 currentState = EnemyState.Pursuit;
             }
         }
-        else if (distanceToPlayer >= pursuitRadius && distanceToLeon >= pursuitRadius)
+        else if (distanceToPlayer >= pursuitRadius && (leon == null || distanceToLeon >= pursuitRadius))
         {
             if (currentState != EnemyState.Patrol)
             {
