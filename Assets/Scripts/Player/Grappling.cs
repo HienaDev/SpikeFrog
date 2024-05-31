@@ -90,10 +90,7 @@ public class Grappling : MonoBehaviour
 
         grappling = true;
 
-        playerMovement.ActivateGrapple();
-
-        playerMovement.EnableFreeze();
-
+        playerMovement.EnableGrapple();
 
         List<Transform> objects = new List<Transform>();
         Vector2 posInViewPortClosestObjectToKeep = Vector2.zero;
@@ -105,20 +102,28 @@ public class Grappling : MonoBehaviour
 
         foreach (Transform t in targetableObjects)
         {
-            
+            Debug.Log(t.gameObject.name);
             if (t != null)
+            {
+                Debug.DrawRay(transform.position, (t.position - transform.position));
                 if (Physics.Raycast(transform.position, (t.position - transform.position), out hit, float.PositiveInfinity))
                 {
-
+                    Debug.Log(hit.collider.gameObject.name);
                     if (hit.collider.gameObject == t.gameObject)
                     {
                         objects.Add(t);
                     }
                 }
+                else
+                    Debug.Log("wtf");
+            }
+            else
+                Debug.Log("wtf2");
         }
 
         if (objects.Count > 0)
         {
+
             closestObject = objects[0];
 
             for (int i = 0; i <= objects.Count - 1; i++)
@@ -132,13 +137,15 @@ public class Grappling : MonoBehaviour
             }
 
             posInViewPortClosestObjectToKeep = cam.GetComponent<Camera>().WorldToViewportPoint(closestObject.position) - new Vector3(0.5f, 0.5f, 0.5f);
-            Debug.Log(cam.GetComponent<Camera>().WorldToViewportPoint(closestObject.position) - new Vector3(0.5f, 0.5f, 0.5f));
 
-            closestObject = closestObject.GetComponentInParent<EnemyManager>().gameObject.transform;
+
+            // Exception for enemies
+            if (closestObject.GetComponentInParent<EnemyManager>() != null)
+                closestObject = closestObject.GetComponentInParent<EnemyManager>().gameObject.transform;
+
 
         }
 
-        
 
         if (closestObject != null && posInViewPortClosestObjectToKeep.magnitude < (Vector2.one * 0.05f).magnitude)
         {
@@ -158,22 +165,8 @@ public class Grappling : MonoBehaviour
 
     private void ExecuteGrapple()
     {
-        playerMovement.DisableFreeze();
-
-        grapplingRope.ResetRope();
-
-        Vector3 lowestPoint = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
-        float grapplePointRelativeYPos = grapplePoint.y - lowestPoint.y;
-        float highestPointOnArc = grapplePointRelativeYPos + overshootYAxis;
-
-        if (grapplePointRelativeYPos < 0)
-        {
-            highestPointOnArc = overshootYAxis;
-        }
 
         StartCoroutine(GrabEnemy());
-
-        
     }
 
     private IEnumerator GrabEnemy()
@@ -183,31 +176,38 @@ public class Grappling : MonoBehaviour
         if (closestObject != null)
             initialPos = closestObject.position;
 
-        Debug.Log(closestObject.name);
-            
-        float distanceForSpeed = Vector3.Distance(initialPos, transform.position);  
 
-        closestObject.GetComponent<NavMeshAgent>().enabled = false;
+        float distanceForSpeed = Vector3.Distance(initialPos, transform.position);
 
-        while (lerpValue < 1f)
+        // Exception for enemies
+        if (closestObject.GetComponent<NavMeshAgent>() != null)
+            closestObject.GetComponent<NavMeshAgent>().enabled = false;
+
+        while (lerpValue < 1f && Vector3.Distance(closestObject.transform.position, transform.position) > 0.7f)
         {
             closestObject.transform.position = Vector3.Lerp(initialPos, gameObject.transform.position, lerpValue);
-            lerpValue += grabSpeed * distanceForSpeed * Time.deltaTime;
-            Debug.Log(lerpValue);
+            lerpValue += grabSpeed * Time.deltaTime;
+            //Debug.Log(lerpValue);
             yield return null;
         }
 
-        
 
-        closestObject.GetComponent<NavMeshAgent>().enabled = true;
+        // Exception for enemies
+        if (closestObject.GetComponent<NavMeshAgent>() != null)
+        {
+            closestObject.GetComponent<NavMeshAgent>().enabled = true;
+            playerMovement.EnableEnemyGrab();
+        }
+            
 
-        Invoke(nameof(StopGrapple), 1f);
+        Invoke(nameof(StopGrapple), 0f);
     }
 
     private void StopGrapple()
     {
-
-        playerMovement.DisableFreeze();
+        Debug.Log("GRapple stop");
+  
+        playerMovement.DisableGrapple();
 
         grapplingRope.ResetRope();
 
@@ -215,6 +215,10 @@ public class Grappling : MonoBehaviour
 
         grappledObject = null;
 
+        Invoke(nameof(StopEnemyGrab), 1f);
+
     }
+
+    private void StopEnemyGrab() => playerMovement.DisableEnemyGrab();
 
 }
