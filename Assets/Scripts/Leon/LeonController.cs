@@ -123,7 +123,8 @@ public class LeonController : MonoBehaviour
 
         if (attackCooldownTimer > 0)
         {
-            attackCooldownTimer -= Time.deltaTime;
+            if (!leonAttack.IsOnAttack)
+                attackCooldownTimer -= Time.deltaTime;
             
             if (distance <= tooCloseRadius && !leonAttack.IsOnAttack)
             {
@@ -211,7 +212,7 @@ public class LeonController : MonoBehaviour
                 attackCooldownTimer = leonAttack.AttackCooldown;
             }
         }
-        else
+        else if (!leonAttack.IsOnAttack)
         {
             FollowSpike();
         }

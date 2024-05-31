@@ -20,6 +20,7 @@ public class EnemyController : MonoBehaviour
     private GameObject      enemiesWaypointsParent;
     private PlayerHealth    playerHealth;
     private Transform       player;
+    private Transform       leon;
     private int             waypointIndex;
     private Vector3         initialPosition;
     private EnemyState      currentState;
@@ -29,10 +30,12 @@ public class EnemyController : MonoBehaviour
     private Animator        animator;
     private bool            lookingForPlayer;
     private MenusManager    menusManager;
+    private Transform       target;
 
     private void Start()
     {
         player                  = GameObject.FindGameObjectWithTag("Player").transform;
+        leon                    = GameObject.FindGameObjectWithTag("Leon").transform;
         playerHealth            = player.GetComponent<PlayerHealth>();
         waypointIndex           = 0;
         initialPosition         = transform.position;
@@ -63,7 +66,7 @@ public class EnemyController : MonoBehaviour
                 break;
             case EnemyState.Pursuit:
                 AlertOthers();
-                PursuePlayer();
+                Pursue();
                 menusManager.RegisterEnemyCombat(this);
                 break;
             case EnemyState.Combat:
@@ -107,12 +110,12 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void PursuePlayer()
+    private void Pursue()
     {
         if (lookingForPlayer)
         {
             agent.speed = chaseSpeed;
-            agent.destination = player.position;
+            agent.destination = target.position;
             animator.SetBool("isChasing", true);
         }
     }
@@ -120,22 +123,25 @@ public class EnemyController : MonoBehaviour
     private void DetectPlayer()
     {
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+        float distanceToLeon   = Vector3.Distance(leon.position, transform.position);
 
-        if (distanceToPlayer <= enemyAttack.GetAttackRadius())
+        if (distanceToPlayer <= enemyAttack.GetAttackRadius() || distanceToLeon <= enemyAttack.GetAttackRadius())
         {
             if (currentState != EnemyState.Combat)
             {
+                target = distanceToPlayer < distanceToLeon ? player : leon;
                 currentState = EnemyState.Combat;
             }
         }
-        else if (distanceToPlayer <= detectionRadius)
+        else if (distanceToPlayer <= detectionRadius || distanceToLeon <= detectionRadius)
         {
             if (currentState != EnemyState.Pursuit)
             {
+                target = distanceToPlayer < distanceToLeon ? player : leon;
                 currentState = EnemyState.Pursuit;
             }
         }
-        else if (distanceToPlayer >= pursuitRadius)
+        else if (distanceToPlayer >= pursuitRadius && distanceToLeon >= pursuitRadius)
         {
             if (currentState != EnemyState.Patrol)
             {
@@ -164,7 +170,7 @@ public class EnemyController : MonoBehaviour
 
     private void Combat()
     {
-        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
+        transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
         enemyAttack.AttemptAttack(animator);
     }
 
