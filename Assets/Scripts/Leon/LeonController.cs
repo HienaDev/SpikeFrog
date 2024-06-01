@@ -253,4 +253,50 @@ public class LeonController : MonoBehaviour
     }
 
     public LeonState CurrentState => currentState;
+
+    [System.Serializable]
+    public struct SaveData
+    {
+        public Vector3        position;
+        public Quaternion     rotation;
+        public float          attackCooldownTimer;
+        public LeonState      currentState;
+        public bool           isAttackSelected;
+        public LeonAttackType selectedAttackType;
+        public float          attackRadius;
+        public bool           isStunned;
+        public int            animationState;
+        public float          animationTime;
+    }
+
+    public SaveData GetSaveData()
+    {
+        SaveData saveData;
+
+        saveData.position            = transform.position;
+        saveData.rotation            = transform.rotation;
+        saveData.attackCooldownTimer = attackCooldownTimer;
+        saveData.currentState        = currentState;
+        saveData.isAttackSelected    = isAttackSelected;
+        saveData.selectedAttackType  = selectedAttackType;
+        saveData.attackRadius        = attackRadius;
+        saveData.isStunned           = isStunned;
+        saveData.animationState      = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+        saveData.animationTime       = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+        return saveData;
+    }
+
+    public void LoadSaveData(SaveData saveData)
+    {
+        transform.position            = saveData.position;
+        transform.rotation            = saveData.rotation;
+        attackCooldownTimer           = saveData.attackCooldownTimer;
+        currentState                  = saveData.currentState;
+        isAttackSelected              = saveData.isAttackSelected;
+        selectedAttackType            = saveData.selectedAttackType;
+        attackRadius                  = saveData.attackRadius;
+        isStunned                     = saveData.isStunned;
+        animator.Play(saveData.animationState, 0, saveData.animationTime);
+    }
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class LeonManager : MonoBehaviour
 {
     [Header("[Leon Settings]")]
-    [SerializeField] private float health = 500;
+    [SerializeField] private int health = 500;
 
     [Header("[Health Bar UI Elements]")]
     [SerializeField] private GameObject healthBar;
@@ -73,4 +73,26 @@ public class LeonManager : MonoBehaviour
     }
 
     public bool HaveTheControllerOnLeon => (health > 0);
+
+    [System.Serializable]
+    public struct SaveData
+    {
+        public int health;
+    }
+
+    public SaveData GetSaveData()
+    {
+        SaveData saveData;
+
+        saveData.health = health;
+
+        return saveData;
+    }
+
+    public void LoadSaveData(SaveData saveData)
+    {
+        health = saveData.health;
+
+        UpdateHealthBar();
+    }
 }

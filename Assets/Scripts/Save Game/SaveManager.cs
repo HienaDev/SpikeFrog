@@ -11,6 +11,8 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private EnemySave           enemySave;
     [SerializeField] private HealthPickupSave    healthPickupSave;
     [SerializeField] private Settings            settings;
+    [SerializeField] private LeonManager         leonManager;
+    [SerializeField] private LeonController      leonController;
 
     private GameSaveData gameSaveData;
     private string saveFilePath;
@@ -48,6 +50,8 @@ public class SaveManager : MonoBehaviour
         public EnemySave.SaveData           enemies;
         public HealthPickupSave.SaveData    healthPickups;
         public Settings.SaveData            settings;
+        public LeonManager.SaveData         leonManager;
+        public LeonController.SaveData      leonController;
     }
 
     public void QuickSaveGame()
@@ -61,6 +65,8 @@ public class SaveManager : MonoBehaviour
         saveData.enemies        = enemySave.GetSaveData();
         saveData.healthPickups  = healthPickupSave.GetSaveData();
         saveData.settings       = settings.GetSaveData();
+        saveData.leonManager    = leonManager.GetSaveData();
+        saveData.leonController = leonController.GetSaveData();
 
         string jsonSaveData = JsonUtility.ToJson(saveData, true);
         
@@ -86,6 +92,8 @@ public class SaveManager : MonoBehaviour
             enemySave.LoadSaveData(saveData.enemies);
             healthPickupSave.LoadSaveData(saveData.healthPickups);
             settings.LoadSaveData(saveData.settings);
+            leonManager.LoadSaveData(saveData.leonManager);
+            leonController.LoadSaveData(saveData.leonController);
 
             print ("Game Loaded");
 
