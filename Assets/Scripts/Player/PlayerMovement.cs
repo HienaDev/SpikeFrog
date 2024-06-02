@@ -165,6 +165,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("Grounded", grounded.Grounded);
         animator.SetBool("GrappleActive", activeGrapple);
         animator.SetBool("EnemyGrab", enemyGrab);
+        animator.SetBool("Sprinting", sprint);
 
 
         currentAngle = GetCurrentAngleBetweenCameraAndPlayer();
@@ -240,17 +241,6 @@ public class PlayerMovement : MonoBehaviour
         cameraTransform.eulerAngles = new Vector3(cameraTransform.eulerAngles.x, targetAngle - extraAngleForDirection - compensationAngleForCamera, cameraTransform.eulerAngles.z);
 
     }
-
-    //// maybe change everything from Vector3 angles to quaternions
-    //private void RotateCamera()
-    //{
-    //    //cameraTransform.eulerAngles = new Vector3(cameraTransform.eulerAngles.x, targetAngle - extraAngleForDirection - compensationAngleForCamera, cameraTransform.eulerAngles.z);
-
-    //    //transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetTransform, lerpPercentage);
-
-    //    //cameraTransform.eulerAngles = Vector3.Lerp(cameraTransform.eulerAngles, targetRotation, lerpPercentage);
-    //    //lerpPercentage += rotationSpeedPlayer * Time.deltaTime;
-    //}
 
     private float GetCurrentAngleBetweenCameraAndPlayer()
     {

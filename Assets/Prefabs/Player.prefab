@@ -555,7 +555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rightHand: {fileID: 5886637204127814001}
-  speed: 500
+  speed: 100
 --- !u!1 &7745977742617172413
 GameObject:
   m_ObjectHideFlags: 0

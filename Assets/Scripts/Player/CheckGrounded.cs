@@ -7,7 +7,9 @@ public class CheckGrounded : MonoBehaviour
     private float justLeftGround;
     private bool canToggleGround;
 
-    private void OnTriggerEnter(Collider other)
+
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("WorldBoundary"))
             Grounded = true;
