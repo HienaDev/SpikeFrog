@@ -57,6 +57,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void DisableFreeze() => playerMovement.DisableFreeze();
 
+
     [System.Serializable]
     public struct SaveData
     {

@@ -19,6 +19,13 @@ public class DealDamage : MonoBehaviour
         {
             leon.TakeDamage(damage);
         }
+
+        DestroyByAttack destroyByAttack = other.GetComponent<DestroyByAttack>();
+
+        if (destroyByAttack != null)
+        {
+            destroyByAttack.Explode();
+        }
     }
 
     public void SetDamage(int newDamage)

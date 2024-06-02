@@ -172,7 +172,7 @@ public class Grappling : MonoBehaviour
 
         }
 
-        if (closestObject != null && posInViewPortClosestObjectToKeep.magnitude < (Vector2.one * 0.05f).magnitude)
+        if (closestObject != null && posInViewPortClosestObjectToKeep.magnitude < (Vector2.one * 0.1f).magnitude)
             return (closestObject);
         else 
             return null;

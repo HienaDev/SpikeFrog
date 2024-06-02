@@ -29,4 +29,9 @@ public class TeleportAfterKill : MonoBehaviour
             Destroy(gameObject, 0.1f);
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha9)) { player.transform.position = teleportTo.position; }
+    }
 }

@@ -38,9 +38,11 @@ public class ThrownObject : MonoBehaviour
 
         EnemyManager enemyManager = collision.gameObject.GetComponent<EnemyManager>();
         LeonManager leonManager = collision.gameObject.GetComponent<LeonManager>();
+        DestroyByAttack destroyByAttack = collision.gameObject.GetComponent<DestroyByAttack>();
 
         if (enemyManager != null) { enemyManager.TakeDamage(50); }
         else if(leonManager != null) {  leonManager.TakeDamage(50); }
+        else if(destroyByAttack != null) { destroyByAttack.Explode(); }
 
         Debug.Log("Destroyed with collision to " + collision.gameObject.name);
 

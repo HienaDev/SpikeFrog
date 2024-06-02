@@ -65,6 +65,8 @@ public class SaveManager : MonoBehaviour
         saveData.enemies        = enemySave.GetSaveData();
         saveData.healthPickups  = healthPickupSave.GetSaveData();
         saveData.settings       = settings.GetSaveData();
+
+        
         saveData.leonManager    = leonManager.GetSaveData();
         saveData.leonController = leonController.GetSaveData();
 

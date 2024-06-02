@@ -257,6 +257,7 @@ public class PlayerMovement : MonoBehaviour
             jump = true;
             Debug.Log("jump");
             animator.SetTrigger("Jump");
+            
             rb.velocity = Vector2.zero;
         }
     }
@@ -383,6 +384,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(transform.up * jumpAcceleration, ForceMode.Impulse);
             heightOfJump = transform.position.y;
             jump = false;
+            grounded.Grounded = false;
         }
 
         if (transform.position.y > heightOfJump + maxJumpHeight || rb.velocity.y < 0)
@@ -467,7 +469,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void DisableEnemyGrab() => enemyGrab = false;
 
-    
+    public void SetGrounded(bool grounded) => this.grounded.Grounded = grounded;
 
 
     private void OnCollisionEnter(Collision collision)
