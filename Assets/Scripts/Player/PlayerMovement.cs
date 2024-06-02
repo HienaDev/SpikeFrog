@@ -445,6 +445,18 @@ public class PlayerMovement : MonoBehaviour
         activeGrapple = true;
     }
 
+    public void StopMoving()
+    {
+        velocity = Vector3.zero;
+        acceleration = Vector3.zero;
+
+        rb.velocity = Vector3.zero;
+
+        motion = Vector3.zero;
+        
+        animator.SetFloat("MovSpeed", 0f);
+    }
+
     public void DisableGrapple() => activeGrapple = false;
 
     public void EnableFreeze() => freeze = true;
