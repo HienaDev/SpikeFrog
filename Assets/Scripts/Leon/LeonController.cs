@@ -252,6 +252,11 @@ public class LeonController : MonoBehaviour
         currentState = LeonState.NotControlled;
     }
 
+    public void SetStunned()
+    {
+        currentState = LeonState.Stunned;
+    }
+
     public LeonState CurrentState => currentState;
 
     [System.Serializable]

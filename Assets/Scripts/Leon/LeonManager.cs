@@ -52,6 +52,10 @@ public class LeonManager : MonoBehaviour
                 //TriggerDamageEffects();
             }
         }
+        else if (damage == 50)
+        {
+            leonController.SetStunned();
+        }
     }
 
     private void SetMaxHealth()

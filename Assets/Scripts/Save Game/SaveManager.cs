@@ -92,8 +92,14 @@ public class SaveManager : MonoBehaviour
             enemySave.LoadSaveData(saveData.enemies);
             healthPickupSave.LoadSaveData(saveData.healthPickups);
             settings.LoadSaveData(saveData.settings);
-            leonManager.LoadSaveData(saveData.leonManager);
-            leonController.LoadSaveData(saveData.leonController);
+
+            if(leonManager != null)
+                leonManager.LoadSaveData(saveData.leonManager);
+
+            if (leonController != null)
+                leonController.LoadSaveData(saveData.leonController);
+            
+            
 
             print ("Game Loaded");
 

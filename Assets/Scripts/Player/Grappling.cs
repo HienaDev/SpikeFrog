@@ -39,12 +39,18 @@ public class Grappling : MonoBehaviour
     public static HashSet<Transform> targetableObjects { get; private set; }
     private Transform closestObject;
 
+    private Vector2 posInViewPortClosestObjectToKeep;
+
     private ThrowObjects throwScript;
+
+    public static Grappling instance;
 
     private void Awake()
     {
         activeCamera = cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
         targetableObjects = new HashSet<Transform>();
+
+        instance = this;
     }
 
     // Start is called before the first frame update
@@ -95,8 +101,29 @@ public class Grappling : MonoBehaviour
 
         playerMovement.EnableGrapple();
 
+
+        GetClosestObject();
+
+        if (closestObject != null && posInViewPortClosestObjectToKeep.magnitude < (Vector2.one * 0.05f).magnitude)
+        {
+            grapplePoint = closestObject.transform.position;
+            grappledObject = closestObject.gameObject;
+
+            Invoke(nameof(ExecuteGrapple), grappleDelayTime);
+        }
+        else
+        {
+            grapplePoint = cam.position + cam.forward * maxGrappleDistance;
+
+
+            Invoke(nameof(StopGrapple), grappleDelayTime);
+        }
+    }
+
+    public Transform GetClosestObject()
+    {
         List<Transform> objects = new List<Transform>();
-        Vector2 posInViewPortClosestObjectToKeep = Vector2.zero;
+        posInViewPortClosestObjectToKeep = Vector2.zero;
 
 
         closestObject = null;
@@ -105,23 +132,19 @@ public class Grappling : MonoBehaviour
 
         foreach (Transform t in targetableObjects)
         {
-            Debug.Log(t.gameObject.name);
             if (t != null)
             {
                 Debug.DrawRay(transform.position, (t.position - transform.position));
                 if (Physics.Raycast(transform.position, (t.position - transform.position), out hit, float.PositiveInfinity))
                 {
-                    Debug.Log(hit.collider.gameObject.name);
                     if (hit.collider.gameObject == t.gameObject)
                     {
                         objects.Add(t);
                     }
                 }
-                else
-                    Debug.Log("wtf");
+
             }
-            else
-                Debug.Log("wtf2");
+
         }
 
         if (objects.Count > 0)
@@ -149,21 +172,10 @@ public class Grappling : MonoBehaviour
 
         }
 
-
         if (closestObject != null && posInViewPortClosestObjectToKeep.magnitude < (Vector2.one * 0.05f).magnitude)
-        {
-            grapplePoint = closestObject.transform.position;
-            grappledObject = closestObject.gameObject;
-
-            Invoke(nameof(ExecuteGrapple), grappleDelayTime);
-        }
-        else
-        {
-            grapplePoint = cam.position + cam.forward * maxGrappleDistance;
-
-
-            Invoke(nameof(StopGrapple), grappleDelayTime);
-        }
+            return (closestObject);
+        else 
+            return null;
     }
 
     private void ExecuteGrapple()
