@@ -15,7 +15,10 @@ MonoBehaviour:
   dialogLines:
   - speakerName: Cyborg 1
     sentence: BLA BLA BLA BLAL BITCHES, BLA BLA
+    cameraIndex: 0
   - speakerName: Cyborg 2
     sentence: BLA BLA BLA BLAL BITCHES, BLA BLA MORE BITCHES
+    cameraIndex: 1
   - speakerName: Cyborg 1
     sentence: BLA BLA BLA BLAL BITCHES, BLA BLA MORE BITCHES AND EVEN MORE BITCHES
+    cameraIndex: 0

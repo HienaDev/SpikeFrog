@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class DialogTrigger : MonoBehaviour
 {
-    [SerializeField] private DialogSO       dialog;
-    [SerializeField] private DialogManager  dialogManager;
-    [SerializeField] private Camera         dialogCamera;
+    [SerializeField] private DialogSO dialog;
+    [SerializeField] private DialogManager dialogManager;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            dialogManager.StartDialog(dialog, dialogCamera);
+            dialogManager.StartDialog(dialog);
             gameObject.SetActive(false);
         }
     }

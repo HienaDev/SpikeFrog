@@ -13,22 +13,20 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private PlayerCombat    playerCombat;
     [SerializeField] private float           typingSpeed = 0.05f;
     [SerializeField] private float           delayBeforeNextLine = 2f;
+    [SerializeField] private List<Camera>    dialogCameras;
 
     private Queue<DialogLine> dialogLines;
     private Camera            currentDialogCamera;
     private bool              isTyping = false;
 
-    void Start()
+    private void Start()
     {
         dialogLines = new Queue<DialogLine>();
     }
 
-    public void StartDialog(DialogSO dialog, Camera dialogCamera)
+    public void StartDialog(DialogSO dialog)
     {
-        playerMovement.enabled = false;
-        playerCombat.enabled = false;
-
-        dialogCamera.gameObject.SetActive(true);
+        StopPlayerFromMoving();
 
         dialogBox.SetActive(true);
 
@@ -39,8 +37,6 @@ public class DialogManager : MonoBehaviour
             dialogLines.Enqueue(line);
         }
 
-        currentDialogCamera = dialogCamera;
-        SwitchToDialogCamera();
         DisplayNextSentence();
     }
 
@@ -57,6 +53,8 @@ public class DialogManager : MonoBehaviour
         nameText.text = line.speakerName;
         StopAllCoroutines();
         StartCoroutine(TypeSentence(line.sentence));
+
+        SwitchToDialogCamera(line.cameraIndex);
     }
 
     IEnumerator TypeSentence(string sentence)
@@ -73,15 +71,27 @@ public class DialogManager : MonoBehaviour
         DisplayNextSentence();
     }
 
-    void EndDialog()
+    private void EndDialog()
     {
         dialogBox.SetActive(false);
-        playerMovement.enabled = true;
-        playerCombat.enabled = true;
+        LetPlayerMove();
         SwitchToMainCamera();
     }
 
-    void Update()
+    private void StopPlayerFromMoving()
+    {
+        playerMovement.StopMoving();
+        playerCombat.enabled = false;
+        playerMovement.enabled = false;
+    }
+
+    private void LetPlayerMove()
+    {
+        playerMovement.enabled = true;
+        playerCombat.enabled = true;
+    }
+
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0) && dialogBox.activeSelf && !isTyping)
         {
@@ -90,21 +100,31 @@ public class DialogManager : MonoBehaviour
         }
     }
 
-    void SwitchToDialogCamera()
+    private void SwitchToDialogCamera(int cameraIndex)
     {
         if (currentDialogCamera != null)
         {
-            mainCamera.gameObject.SetActive(false);
+            currentDialogCamera.gameObject.SetActive(false);
+        }
+
+        if (cameraIndex >= 0 && cameraIndex < dialogCameras.Count)
+        {
+            currentDialogCamera = dialogCameras[cameraIndex];
             currentDialogCamera.gameObject.SetActive(true);
+        }
+        else
+        {
+            currentDialogCamera = mainCamera;
         }
     }
 
-    void SwitchToMainCamera()
+    private void SwitchToMainCamera()
     {
         if (currentDialogCamera != null)
         {
             currentDialogCamera.gameObject.SetActive(false);
         }
         mainCamera.gameObject.SetActive(true);
+        currentDialogCamera = mainCamera;
     }
 }
