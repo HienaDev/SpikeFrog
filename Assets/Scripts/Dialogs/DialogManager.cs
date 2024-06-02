@@ -18,6 +18,9 @@ public class DialogManager : MonoBehaviour
     private Queue<DialogLine> dialogLines;
     private Camera            currentDialogCamera;
     private bool              isTyping = false;
+    private bool              fullSentenceDisplayed = false;
+    private string            currentSentence;
+    private Coroutine         typingCoroutine;
 
     private void Start()
     {
@@ -52,7 +55,7 @@ public class DialogManager : MonoBehaviour
 
         nameText.text = line.speakerName;
         StopAllCoroutines();
-        StartCoroutine(TypeSentence(line.sentence));
+        typingCoroutine = StartCoroutine(TypeSentence(line.sentence));
 
         SwitchToDialogCamera(line.cameraIndex);
     }
@@ -60,13 +63,20 @@ public class DialogManager : MonoBehaviour
     IEnumerator TypeSentence(string sentence)
     {
         isTyping = true;
+        fullSentenceDisplayed = false;
+        currentSentence = sentence;
         dialogText.text = "";
+
         foreach (char letter in sentence.ToCharArray())
         {
             dialogText.text += letter;
+
             yield return new WaitForSeconds(typingSpeed);
         }
+
         isTyping = false;
+        fullSentenceDisplayed = true;
+
         yield return new WaitForSeconds(delayBeforeNextLine);
         DisplayNextSentence();
     }
@@ -93,11 +103,28 @@ public class DialogManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && dialogBox.activeSelf && !isTyping)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && dialogBox.activeSelf)
         {
-            StopAllCoroutines();
-            DisplayNextSentence();
+            if (isTyping)
+            {
+                StopAllCoroutines();
+                dialogText.text = currentSentence;
+                isTyping = false;
+                fullSentenceDisplayed = true;
+                StartCoroutine(DelayBeforeNextLine());
+            }
+            else if (fullSentenceDisplayed)
+            {
+                DisplayNextSentence();
+            }
         }
+    }
+
+    private IEnumerator DelayBeforeNextLine()
+    {
+        yield return new WaitForSeconds(delayBeforeNextLine);
+
+        DisplayNextSentence();
     }
 
     private void SwitchToDialogCamera(int cameraIndex)
