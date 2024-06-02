@@ -1,7 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour
 {
@@ -11,9 +11,12 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private Camera          mainCamera;
     [SerializeField] private PlayerMovement  playerMovement;
     [SerializeField] private PlayerCombat    playerCombat;
+    [SerializeField] private float           typingSpeed = 0.05f;
+    [SerializeField] private float           delayBeforeNextLine = 2f;
 
     private Queue<DialogLine> dialogLines;
     private Camera            currentDialogCamera;
+    private bool              isTyping = false;
 
     void Start()
     {
@@ -52,7 +55,22 @@ public class DialogManager : MonoBehaviour
         DialogLine line = dialogLines.Dequeue();
 
         nameText.text = line.speakerName;
-        dialogText.text = line.sentence;
+        StopAllCoroutines();
+        StartCoroutine(TypeSentence(line.sentence));
+    }
+
+    IEnumerator TypeSentence(string sentence)
+    {
+        isTyping = true;
+        dialogText.text = "";
+        foreach (char letter in sentence.ToCharArray())
+        {
+            dialogText.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+        isTyping = false;
+        yield return new WaitForSeconds(delayBeforeNextLine);
+        DisplayNextSentence();
     }
 
     void EndDialog()
@@ -65,8 +83,9 @@ public class DialogManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && dialogBox.activeSelf)
+        if (Input.GetMouseButtonDown(0) && dialogBox.activeSelf && !isTyping)
         {
+            StopAllCoroutines();
             DisplayNextSentence();
         }
     }
