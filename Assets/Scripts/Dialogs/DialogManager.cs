@@ -14,6 +14,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private float           typingSpeed = 0.05f;
     [SerializeField] private float           delayBeforeNextLine = 2f;
     [SerializeField] private List<Camera>    dialogCameras;
+    [SerializeField] private GameObject[]    playerUI;
 
     private Queue<DialogLine> dialogLines;
     private Camera            currentDialogCamera;
@@ -30,6 +31,8 @@ public class DialogManager : MonoBehaviour
     public void StartDialog(DialogSO dialog)
     {
         StopPlayerFromMoving();
+
+        DeactivatePlayerUI();
 
         dialogBox.SetActive(true);
 
@@ -84,8 +87,26 @@ public class DialogManager : MonoBehaviour
     private void EndDialog()
     {
         dialogBox.SetActive(false);
+
+        ActivatePlayerUI();
         LetPlayerMove();
         SwitchToMainCamera();
+    }
+
+    private void DeactivatePlayerUI()
+    {
+        foreach (GameObject ui in playerUI)
+        {
+            ui.SetActive(false);
+        }
+    }
+
+    private void ActivatePlayerUI()
+    {
+        foreach (GameObject ui in playerUI)
+        {
+            ui.SetActive(true);
+        }
     }
 
     private void StopPlayerFromMoving()
