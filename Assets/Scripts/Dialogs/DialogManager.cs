@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class DialogManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class CameraSetup
+    {
+        public Camera camera;
+        public Transform lookAtTarget;
+    }
+
     [SerializeField] private TextMeshProUGUI dialogText;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private GameObject      dialogBox;
@@ -14,7 +20,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private PlayerCombat    playerCombat;
     [SerializeField] private float           typingSpeed = 0.05f;
     [SerializeField] private float           delayBeforeNextLine = 2f;
-    [SerializeField] private List<Camera>    dialogCameras;
+    [SerializeField] private List<CameraSetup> dialogCameras;
     [SerializeField] private GameObject[]    playerUI;
     [SerializeField] private AudioSource     audioSource;
 
@@ -34,8 +40,8 @@ public class DialogManager : MonoBehaviour
 
     public void StartDialog(DialogSO dialog, DialogTrigger trigger)
     {
-        currentDialog = dialog; // Set the current dialog
-        currentTrigger = trigger; // Set the current trigger
+        currentDialog = dialog;
+        currentTrigger = trigger;
         StopPlayerFromMoving();
 
         DeactivatePlayerUI();
@@ -186,12 +192,18 @@ public class DialogManager : MonoBehaviour
 
         if (cameraIndex >= 0 && cameraIndex < dialogCameras.Count)
         {
-            currentDialogCamera = dialogCameras[cameraIndex];
+            currentDialogCamera = dialogCameras[cameraIndex].camera;
             currentDialogCamera.gameObject.SetActive(true);
         }
         else
         {
             currentDialogCamera = mainCamera;
+        }
+
+        Transform lookAtTarget = dialogCameras[cameraIndex].lookAtTarget;
+        if (lookAtTarget != null)
+        {
+            currentDialogCamera.transform.LookAt(lookAtTarget);
         }
     }
 

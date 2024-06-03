@@ -11,6 +11,9 @@ public class LeonManager : MonoBehaviour
     [SerializeField] private Slider     healthBarSlider;
     [SerializeField] private Image      healthBarFill;
 
+    [Header("[Regain Control Dialog Trigger]")]
+    [SerializeField] private DialogTrigger dialogTrigger;
+
     private LeonController  leonController;
 
     void Start()
@@ -74,6 +77,7 @@ public class LeonManager : MonoBehaviour
         Debug.Log("DestroyController called");
         leonController.SetNotControlled();
         healthBar.SetActive(false);
+        dialogTrigger.TriggerDialog();
     }
 
     public bool HaveTheControllerOnLeon => (health > 0);

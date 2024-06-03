@@ -9,5 +9,5 @@ public class DialogLine
     public string    sentence;
     public int       cameraIndex;
     public AudioClip voiceClip;
-    public bool randomStart;
+    public bool      randomStart;
 }
