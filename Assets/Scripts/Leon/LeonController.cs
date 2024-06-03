@@ -98,6 +98,7 @@ public class LeonController : MonoBehaviour
     public void ActivateLeon()
     {
         currentState = LeonState.Controlled;
+        leonManager.EnableHealthBar();
     }
 
     private IEnumerator Stunned()

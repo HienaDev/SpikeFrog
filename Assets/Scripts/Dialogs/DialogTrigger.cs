@@ -1,16 +1,17 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DialogTrigger : MonoBehaviour
 {
-    [SerializeField] private DialogSO dialog;
-    [SerializeField] private DialogManager dialogManager;
+    public DialogSO         dialog;
+    public DialogManager    dialogManager;
+    public UnityEvent       onDialogEnd; 
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            dialogManager.StartDialog(dialog);
-            gameObject.SetActive(false);
+            dialogManager.StartDialog(dialog, this);
         }
     }
 }
