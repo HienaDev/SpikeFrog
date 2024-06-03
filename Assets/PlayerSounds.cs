@@ -78,7 +78,7 @@ public class PlayerSounds : MonoBehaviour
         audioSourceTongue.Play();
     }
 
-    public void PlayjumpSound()
+    public void PlayJumpSound()
     {
         audioSourceJump.clip = jumpSound[Random.Range(0, jumpSound.Length)];
         audioSourceJump.pitch = Random.Range(0.8f, 1.20f);

@@ -10,12 +10,16 @@ public class PlayerCombat : MonoBehaviour
     private float    timerCombo;
     private bool     puncheable;
 
+    private PlayerSounds playerSounds;
+
     // Start is called before the first frame update
     void Start()
     {
         puncheable = true;
         timerCombo = 0;
         animator = GetComponent<Animator>();
+
+        playerSounds = GetComponentInParent<PlayerSounds>();
     }
 
     // Update is called once per frame
@@ -56,6 +60,8 @@ public class PlayerCombat : MonoBehaviour
     public void DeactivatePunch() => puncheable = false;
 
     public void DisableFreeze() => playerMovement.DisableFreeze();
+
+    public void PlayStepsSound() => playerSounds.PlayStepsSound();
 
 
     [System.Serializable]

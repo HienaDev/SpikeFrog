@@ -14,6 +14,7 @@ public class BouncyVent : MonoBehaviour
         if (pm != null)
         {
             pm.SetGrounded(false);
+            collision.gameObject.GetComponent<PlayerSounds>().PlayJumpSound();
         }
 
         if (collision.rigidbody)

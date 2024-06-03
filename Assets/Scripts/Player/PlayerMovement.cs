@@ -83,6 +83,8 @@ public class PlayerMovement : MonoBehaviour
     private bool activeGrapple;
     public bool ActiveGrapple { get { return activeGrapple; } }
 
+    private PlayerSounds playerSounds;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -124,6 +126,8 @@ public class PlayerMovement : MonoBehaviour
 
         freeze = false;
         activeGrapple = false;
+
+        playerSounds = GetComponent<PlayerSounds>();
     }
 
     private void OnEnable()
@@ -254,6 +258,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && grounded.Grounded)
         {
+            playerSounds.PlayJumpSound();
             jump = true;
             Debug.Log("jump");
             animator.SetTrigger("Jump");
