@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DialogManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private float           delayBeforeNextLine = 2f;
     [SerializeField] private List<Camera>    dialogCameras;
     [SerializeField] private GameObject[]    playerUI;
-    [SerializeField] private AudioSource     audioSource;
+    [SerializeField] private AudioSource     audioSource; // Add an AudioSource to play voice clips
 
     private Queue<DialogLine> dialogLines;
     private Camera            currentDialogCamera;
@@ -23,6 +24,7 @@ public class DialogManager : MonoBehaviour
     private bool              fullSentenceDisplayed = false;
     private string            currentSentence;
     private Coroutine         typingCoroutine;
+    private DialogSO          currentDialog;
 
     private void Start()
     {
@@ -31,6 +33,8 @@ public class DialogManager : MonoBehaviour
 
     public void StartDialog(DialogSO dialog)
     {
+        currentDialog = dialog;
+
         StopPlayerFromMoving();
 
         DeactivatePlayerUI();
@@ -108,6 +112,8 @@ public class DialogManager : MonoBehaviour
         {
             audioSource.Stop();
         }
+
+        currentDialog?.onDialogEnd.Invoke();
     }
 
     private void DeactivatePlayerUI()
