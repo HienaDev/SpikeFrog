@@ -19,7 +19,6 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private Camera          mainCamera;
     [SerializeField] private PlayerMovement  playerMovement;
     [SerializeField] private PlayerCombat    playerCombat;
-    [SerializeField] private LeonController  leonController;
     [SerializeField] private float           typingSpeed = 0.05f;
     [SerializeField] private float           delayBeforeNextLine = 2f;
     [SerializeField] private AudioSource     audioSource;
@@ -45,20 +44,20 @@ public class DialogManager : MonoBehaviour
     {
         currentDialog = dialog;
         currentTrigger = trigger;
-        StopPlayerFromMoving();
-        leonController.StopLeon();
 
+        StopPlayerFromMoving();
         DeactivatePlayerUI();
 
         dialogBox.SetActive(true);
-
         dialogLines.Clear();
+
+        currentTrigger?.onDialogStart.Invoke();
 
         foreach (DialogLine line in dialog.dialogLines)
         {
             dialogLines.Enqueue(line);
         }
-
+        
         DisplayNextSentence();
     }
 
@@ -122,7 +121,6 @@ public class DialogManager : MonoBehaviour
 
         ActivatePlayerUI();
         LetPlayerMove();
-        leonController.LetLeonMove();
         SwitchToMainCamera();
 
         if (audioSource.isPlaying)

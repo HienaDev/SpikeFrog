@@ -5,6 +5,7 @@ public class DialogTrigger : MonoBehaviour
 {
     public DialogSO         dialog;
     public DialogManager    dialogManager;
+    public UnityEvent       onDialogStart;
     public UnityEvent       onDialogEnd;
 
     void OnTriggerEnter(Collider other)

@@ -17,6 +17,9 @@ public class LeonController : MonoBehaviour
     [Header("[Stunned Values]")]
     [SerializeField] private float stunnedTime = 3.0f;
 
+    [Header("[Controller Model]")]
+    [SerializeField] private GameObject controllerModel;
+
     private float          attackCooldownTimer;
     private LeonState      currentState;
     private LeonManager    leonManager;
@@ -127,6 +130,11 @@ public class LeonController : MonoBehaviour
         currentState = LeonState.NotControlled;
     }
 
+    public void DeactivateControllerModel()
+    {
+        controllerModel.SetActive(false);
+    }
+
     private IEnumerator Stunned()
     {
         isStunned = true; 
@@ -159,6 +167,11 @@ public class LeonController : MonoBehaviour
 
     private void PursueAndAttackSpike()
     {
+        if (!controllerModel.activeSelf)
+        {
+            controllerModel.SetActive(true);
+        }
+
         animator.SetBool("isMoving", true); 
 
         float distance = Vector3.Distance(transform.position, player.position);
@@ -201,6 +214,11 @@ public class LeonController : MonoBehaviour
 
     private void PursueAndAttackEnemies()
     {
+        if (controllerModel.activeSelf)
+        {
+            controllerModel.SetActive(false);
+        }
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, enemieCloseRadius);
         Transform nearestEnemy = null;
         float nearestDistance = float.MaxValue;
