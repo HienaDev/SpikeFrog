@@ -15,6 +15,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private float           delayBeforeNextLine = 2f;
     [SerializeField] private List<Camera>    dialogCameras;
     [SerializeField] private GameObject[]    playerUI;
+    [SerializeField] private AudioSource     audioSource;
 
     private Queue<DialogLine> dialogLines;
     private Camera            currentDialogCamera;
@@ -61,6 +62,17 @@ public class DialogManager : MonoBehaviour
         typingCoroutine = StartCoroutine(TypeSentence(line.sentence));
 
         SwitchToDialogCamera(line.cameraIndex);
+
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+
+        if (line.voiceClip != null)
+        {
+            audioSource.clip = line.voiceClip;
+            audioSource.Play();
+        }
     }
 
     IEnumerator TypeSentence(string sentence)
@@ -91,6 +103,11 @@ public class DialogManager : MonoBehaviour
         ActivatePlayerUI();
         LetPlayerMove();
         SwitchToMainCamera();
+
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
     }
 
     private void DeactivatePlayerUI()
