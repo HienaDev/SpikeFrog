@@ -25,16 +25,17 @@ public class DialogManager : MonoBehaviour
     private string            currentSentence;
     private Coroutine         typingCoroutine;
     private DialogSO          currentDialog;
+    private DialogTrigger     currentTrigger;
 
     private void Start()
     {
         dialogLines = new Queue<DialogLine>();
     }
 
-    public void StartDialog(DialogSO dialog)
+    public void StartDialog(DialogSO dialog, DialogTrigger trigger)
     {
-        currentDialog = dialog;
-
+        currentDialog = dialog; // Set the current dialog
+        currentTrigger = trigger; // Set the current trigger
         StopPlayerFromMoving();
 
         DeactivatePlayerUI();
@@ -95,7 +96,6 @@ public class DialogManager : MonoBehaviour
         foreach (char letter in sentence.ToCharArray())
         {
             dialogText.text += letter;
-
             yield return new WaitForSeconds(typingSpeed);
         }
 
@@ -119,7 +119,8 @@ public class DialogManager : MonoBehaviour
             audioSource.Stop();
         }
 
-        currentDialog?.onDialogEnd.Invoke();
+        // Trigger the event after dialog ends
+        currentTrigger?.onDialogEnd.Invoke();
     }
 
     private void DeactivatePlayerUI()
@@ -173,7 +174,6 @@ public class DialogManager : MonoBehaviour
     private IEnumerator DelayBeforeNextLine()
     {
         yield return new WaitForSeconds(delayBeforeNextLine);
-
         DisplayNextSentence();
     }
 
