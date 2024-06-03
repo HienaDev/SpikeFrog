@@ -8,8 +8,9 @@ public class DialogManager : MonoBehaviour
     [System.Serializable]
     public class CameraSetup
     {
-        public Camera camera;
+        public Camera    camera;
         public Transform lookAtTarget;
+        public float     zoomDistance = 0f;
     }
 
     [SerializeField] private TextMeshProUGUI dialogText;
@@ -18,11 +19,13 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private Camera          mainCamera;
     [SerializeField] private PlayerMovement  playerMovement;
     [SerializeField] private PlayerCombat    playerCombat;
+    [SerializeField] private LeonController  leonController;
     [SerializeField] private float           typingSpeed = 0.05f;
     [SerializeField] private float           delayBeforeNextLine = 2f;
-    [SerializeField] private List<CameraSetup> dialogCameras;
-    [SerializeField] private GameObject[]    playerUI;
     [SerializeField] private AudioSource     audioSource;
+    [SerializeField] private MenusManager    menusManager;
+    [SerializeField] private GameObject[]    playerUI;
+    [SerializeField] private List<CameraSetup> dialogCameras;
 
     private Queue<DialogLine> dialogLines;
     private Camera            currentDialogCamera;
@@ -43,6 +46,7 @@ public class DialogManager : MonoBehaviour
         currentDialog = dialog;
         currentTrigger = trigger;
         StopPlayerFromMoving();
+        leonController.StopLeon();
 
         DeactivatePlayerUI();
 
@@ -118,6 +122,7 @@ public class DialogManager : MonoBehaviour
 
         ActivatePlayerUI();
         LetPlayerMove();
+        leonController.LetLeonMove();
         SwitchToMainCamera();
 
         if (audioSource.isPlaying)
@@ -160,7 +165,7 @@ public class DialogManager : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && dialogBox.activeSelf)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && dialogBox.activeSelf && !menusManager.IsPaused)
         {
             if (isTyping)
             {
@@ -170,7 +175,7 @@ public class DialogManager : MonoBehaviour
                 fullSentenceDisplayed = true;
                 StartCoroutine(DelayBeforeNextLine());
             }
-            else if (fullSentenceDisplayed)
+            else if (fullSentenceDisplayed && !menusManager.IsPaused)
             {
                 DisplayNextSentence();
             }
@@ -194,16 +199,24 @@ public class DialogManager : MonoBehaviour
         {
             currentDialogCamera = dialogCameras[cameraIndex].camera;
             currentDialogCamera.gameObject.SetActive(true);
+
+            Transform lookAtTarget = dialogCameras[cameraIndex].lookAtTarget;
+            float zoomDistance = dialogCameras[cameraIndex].zoomDistance;
+
+            if (lookAtTarget != null)
+            {
+                currentDialogCamera.transform.LookAt(lookAtTarget);
+
+                if (zoomDistance > 0)
+                {
+                    Vector3 direction = (lookAtTarget.position - currentDialogCamera.transform.position).normalized;
+                    currentDialogCamera.transform.position = lookAtTarget.position - direction * zoomDistance;
+                }
+            }
         }
         else
         {
             currentDialogCamera = mainCamera;
-        }
-
-        Transform lookAtTarget = dialogCameras[cameraIndex].lookAtTarget;
-        if (lookAtTarget != null)
-        {
-            currentDialogCamera.transform.LookAt(lookAtTarget);
         }
     }
 

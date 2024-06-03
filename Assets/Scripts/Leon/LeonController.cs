@@ -28,6 +28,7 @@ public class LeonController : MonoBehaviour
     private LeonAttackType selectedAttackType;
     private float          attackRadius;
     private bool           isStunned;
+    private bool           isStopped;
 
     public bool IsOnAttack { get; set; }
 
@@ -43,7 +44,8 @@ public class LeonController : MonoBehaviour
         animator            = GetComponentInChildren<Animator>();
         isAttackSelected    = false;
         currentState        = LeonState.Stopped;
-        isStunned           = false; 
+        isStunned           = false;
+        isStopped           = false;
 
         agent.speed         = speed;
 
@@ -89,6 +91,17 @@ public class LeonController : MonoBehaviour
 
     private void LeonStopped()
     {
+        if (!isStopped)
+        {
+            Debug.Log("Leon stopped");
+
+            agent.isStopped = true;
+            agent.ResetPath();
+            animator.Rebind();
+        }
+        
+        isStopped = true;
+
         if (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != Animator.StringToHash("Base Layer.Idle"))
         {
             animator.Play("Idle");
@@ -97,8 +110,21 @@ public class LeonController : MonoBehaviour
 
     public void ActivateLeon()
     {
+        isStopped = false;
+        agent.isStopped = false;
         currentState = LeonState.Controlled;
         leonManager.EnableHealthBar();
+    }
+
+    public void StopLeon()
+    {
+        currentState = LeonState.Stopped;
+    }
+
+    public void LetLeonMove()
+    {
+        isStopped = false;
+        currentState = LeonState.NotControlled;
     }
 
     private IEnumerator Stunned()

@@ -75,7 +75,6 @@ public class LeonManager : MonoBehaviour
     private void DestroyController()
     {
         Debug.Log("DestroyController called");
-        leonController.SetNotControlled();
         healthBar.SetActive(false);
         dialogTrigger.TriggerDialog();
     }

@@ -24,6 +24,7 @@ public class MenusManager : MonoBehaviour
     private bool finalCredits;
 
     public bool FinalCredits => finalCredits;
+    public bool IsPaused => isPaused;
 
     private HashSet<EnemyController> enemiesInCombat = new HashSet<EnemyController>();
 
@@ -178,6 +179,7 @@ public class MenusManager : MonoBehaviour
 
     public void OpenPauseMenu()
     {
+        AudioListener.pause = true;
         pauseMenu.SetActive(true);
         controlCamera.enabled = false;
         gameUI.SetActive(false);
@@ -188,6 +190,7 @@ public class MenusManager : MonoBehaviour
 
     public void ClosePauseMenu()
     {
+        AudioListener.pause = false;
         pauseMenu.SetActive(false);
         controlCamera.enabled = true;
         gameUI.SetActive(true);
