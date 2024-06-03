@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
     private int            health;
     private bool           dead;
     private bool           canBeDamaged;
+    private PlayerSounds playerSounds;
 
     void Start()
     {
@@ -22,6 +23,8 @@ public class PlayerHealth : MonoBehaviour
 
         dead = false;
         canBeDamaged = true;
+
+        playerSounds = GetComponent<PlayerSounds>();
 
         UpdateUI();
     }
@@ -46,7 +49,11 @@ public class PlayerHealth : MonoBehaviour
     public void Damage(int amount)
     {
         if (canBeDamaged)
+        {
             health = Mathf.Max(health - amount, 0);
+            playerSounds.PlayPunchSound();
+        }
+            
 
 
         UpdateUI();
