@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -41,7 +42,7 @@ public class LeonController : MonoBehaviour
         player              = GameObject.FindGameObjectWithTag("Player").transform;
         animator            = GetComponentInChildren<Animator>();
         isAttackSelected    = false;
-        currentState        = LeonState.Controlled;
+        currentState        = LeonState.Stopped;
         isStunned           = false; 
 
         agent.speed         = speed;
@@ -64,6 +65,9 @@ public class LeonController : MonoBehaviour
 
         switch (currentState)
         {
+            case LeonState.Stopped:
+                LeonStopped();
+                break;
             case LeonState.Stunned:
                 if (!isStunned)
                 {
@@ -81,6 +85,19 @@ public class LeonController : MonoBehaviour
                 PursueAndAttackEnemies();
                 break;
         }
+    }
+
+    private void LeonStopped()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != Animator.StringToHash("Base Layer.Idle"))
+        {
+            animator.Play("Idle");
+        }
+    }
+
+    public void ActivateLeon()
+    {
+        currentState = LeonState.Controlled;
     }
 
     private IEnumerator Stunned()

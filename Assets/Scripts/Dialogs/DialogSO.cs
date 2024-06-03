@@ -6,5 +6,5 @@ using UnityEngine.Events;
 public class DialogSO : ScriptableObject
 {
     public List<DialogLine> dialogLines;
-    public UnityEvent onDialogEnd;
+    public UnityEvent       onDialogEnd;
 }

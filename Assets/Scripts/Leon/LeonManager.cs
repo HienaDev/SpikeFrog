@@ -20,7 +20,7 @@ public class LeonManager : MonoBehaviour
         SetMaxHealth();
     }
 
-    private void OnEnable()
+    public void EnableHealthBar()
     {
         healthBar.SetActive(true);
     }

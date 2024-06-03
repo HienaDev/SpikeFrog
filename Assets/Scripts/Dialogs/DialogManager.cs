@@ -16,7 +16,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private float           delayBeforeNextLine = 2f;
     [SerializeField] private List<Camera>    dialogCameras;
     [SerializeField] private GameObject[]    playerUI;
-    [SerializeField] private AudioSource     audioSource; // Add an AudioSource to play voice clips
+    [SerializeField] private AudioSource     audioSource;
 
     private Queue<DialogLine> dialogLines;
     private Camera            currentDialogCamera;

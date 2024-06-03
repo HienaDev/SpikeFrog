@@ -2,5 +2,6 @@ public enum LeonState
 {
     Stunned,
     Controlled,
-    NotControlled
+    NotControlled,
+    Stopped
 }
