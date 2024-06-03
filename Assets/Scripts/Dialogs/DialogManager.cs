@@ -75,6 +75,12 @@ public class DialogManager : MonoBehaviour
         if (line.voiceClip != null)
         {
             audioSource.clip = line.voiceClip;
+
+            audioSource.pitch = Random.Range(0.9f, 1.1f);
+
+            if(line.randomStart)
+                audioSource.time = Random.Range(audioSource.clip.length / 2, audioSource.clip.length);
+
             audioSource.Play();
         }
     }

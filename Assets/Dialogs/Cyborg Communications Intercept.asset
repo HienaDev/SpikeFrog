@@ -16,46 +16,55 @@ MonoBehaviour:
   - speakerName: Cyborg 1
     sentence: Hey, you seen that new guy, Leon? The lion-eel thing?
     cameraIndex: 0
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Cyborg 2
     sentence: "Yeah, he\u2019s a beast! Literally. The Chief Scientist really went
       all out with him."
     cameraIndex: 0
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Cyborg 1
     sentence: Totally. I heard he has an implant in his head. Makes him follow orders
       like a robot.
     cameraIndex: 0
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Cyborg 2
     sentence: Crazy, right? That lab is something else. All those weird experiments.
     cameraIndex: 0
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Cyborg 1
     sentence: Yeah, the Aqua-Fusion Lab is like a freak show. But Leon, he's the
       star attraction.
     cameraIndex: 0
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Cyborg 2
     sentence: The Chief Scientist is always watching him. Says he's key to some big
       plan.
     cameraIndex: 0
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Cyborg 1
     sentence: "Well, as long as no one messes with the lab, we\u2019re good. Can't
       have anyone trying to be a hero around here."
     cameraIndex: 0
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Cyborg 2
     sentence: "Pfft, who\u2019d be dumb enough to try? That crazy frog Spike? This
       place is locked down tight."
     cameraIndex: 0
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Spike
     sentence: "Leon\u2019s under their control, but not for long. I\u2019m coming
       for you, Leon."
     cameraIndex: 1
     voiceClip: {fileID: 0}
+    randomStart: 0
   onDialogEnd:
     m_PersistentCalls:
       m_Calls: []
