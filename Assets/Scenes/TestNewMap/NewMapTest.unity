@@ -13518,9 +13518,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 931654a87c603f242915c2b48a87628a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -25146,7 +25146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1327561412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25159,9 +25159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b27d3523f18254fafb572a577f24de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalMusic: {fileID: 0}
-  bossMusic: {fileID: 0}
-  transitionTime: 0
+  normalMusic: {fileID: 1605847375}
+  bossMusic: {fileID: 680429026}
+  transitionTime: 2
 --- !u!4 &1327561413
 Transform:
   m_ObjectHideFlags: 0
@@ -34458,9 +34458,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2badb2b265f5e644bbf0daa37555a419, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -42536,6 +42536,56 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: jumpSound.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: stepsSound.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: tongueSound.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: jumpSound.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2189fb690f8f92244a0d5f2cef5e01aa, type: 3}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: stepsSound.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: cb6e2ff31820e9e4092edfcdcfa2f262, type: 3}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: stepsSound.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 30ebbc4abf8725244a1cf7137d38cc48, type: 3}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: stepsSound.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 79d7684927a8ad34fb37d13e1962293b, type: 3}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: stepsSound.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: a0f524d0db50c5a41b6d5350f811a8eb, type: 3}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: stepsSound.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4aaa7358656818d40b5c2a2f8c58d4f2, type: 3}
+    - target: {fileID: 4500023432783155490, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
+        type: 3}
+      propertyPath: tongueSound.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b08f628bb7097b42bbcc9afc0076c4f, type: 3}
     - target: {fileID: 4958976228545565432, guid: 5dadb6bb3eb37c9468cebe9331cfd13e,
         type: 3}
       propertyPath: m_LocalPosition.x
