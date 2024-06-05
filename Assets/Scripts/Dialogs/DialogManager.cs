@@ -8,9 +8,9 @@ public class DialogManager : MonoBehaviour
     [System.Serializable]
     public class CameraSetup
     {
-        public Camera    camera;
+        public Camera camera;
         public Transform lookAtTarget;
-        public float     zoomDistance = 0f;
+        public float zoomDistance = 0f;
     }
 
     [SerializeField] private TextMeshProUGUI dialogText;
@@ -19,7 +19,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private Camera          mainCamera;
     [SerializeField] private PlayerMovement  playerMovement;
     [SerializeField] private PlayerCombat    playerCombat;
-    [SerializeField] private float           typingSpeed = 0.05f;
+    [SerializeField] private float           delayPerCharacter = 0.05f;
     [SerializeField] private float           delayBeforeNextLine = 2f;
     [SerializeField] private AudioSource     audioSource;
     [SerializeField] private MenusManager    menusManager;
@@ -57,7 +57,7 @@ public class DialogManager : MonoBehaviour
         {
             dialogLines.Enqueue(line);
         }
-        
+
         DisplayNextSentence();
     }
 
@@ -88,7 +88,7 @@ public class DialogManager : MonoBehaviour
 
             audioSource.pitch = Random.Range(0.9f, 1.1f);
 
-            if(line.randomStart)
+            if (line.randomStart)
                 audioSource.time = Random.Range(audioSource.clip.length / 2, audioSource.clip.length);
 
             audioSource.Play();
@@ -102,10 +102,23 @@ public class DialogManager : MonoBehaviour
         currentSentence = sentence;
         dialogText.text = "";
 
-        foreach (char letter in sentence.ToCharArray())
+        string[] words = sentence.Split(' ');
+
+        foreach (string word in words)
         {
-            dialogText.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            if (!IsAddingWordWithinLineLimit(dialogText.text, word))
+            {
+                dialogText.text += "\n";
+            }
+
+            foreach (char letter in word.ToCharArray())
+            {
+                dialogText.text += letter;
+                yield return new WaitForSeconds(delayPerCharacter);
+            }
+
+            dialogText.text += " "; // Maintain the space after the word
+            yield return new WaitForSeconds(delayPerCharacter);
         }
 
         isTyping = false;
@@ -113,6 +126,15 @@ public class DialogManager : MonoBehaviour
 
         yield return new WaitForSeconds(delayBeforeNextLine);
         DisplayNextSentence();
+    }
+
+    private bool IsAddingWordWithinLineLimit(string currentText, string word)
+    {
+        string tempText = currentText + (currentText.Length > 0 ? " " : "") + word;
+        dialogText.text = tempText;
+        float width = dialogText.preferredWidth;
+        dialogText.text = currentText; // Reset to the original text
+        return width <= dialogText.rectTransform.rect.width;
     }
 
     private void EndDialog()
