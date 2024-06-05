@@ -8,9 +8,9 @@ public class DialogManager : MonoBehaviour
     [System.Serializable]
     public class CameraSetup
     {
-        public Camera camera;
-        public Transform lookAtTarget;
-        public float zoomDistance = 0f;
+        public Camera       camera;
+        public Transform    lookAtTarget;
+        public float        zoomDistance = 0f;
     }
 
     [SerializeField] private TextMeshProUGUI dialogText;

@@ -13,7 +13,7 @@ public class DialogTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             TriggerDialog();
-            gameObject.SetActive(false);
+            gameObject.GetComponent<BoxCollider>().enabled = false;
         }
     }
 
