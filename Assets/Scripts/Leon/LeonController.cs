@@ -105,7 +105,7 @@ public class LeonController : MonoBehaviour
         
         isStopped = true;
 
-        if (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != Animator.StringToHash("Base Layer.Idle"))
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
             animator.Play("Idle");
         }
