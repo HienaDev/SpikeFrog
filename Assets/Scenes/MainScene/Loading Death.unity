@@ -524,6 +524,7 @@ GameObject:
   - component: {fileID: 413280033}
   - component: {fileID: 413280032}
   - component: {fileID: 413280031}
+  - component: {fileID: 413280035}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -616,6 +617,18 @@ RectTransform:
   m_AnchoredPosition: {x: -136.2, y: -73.1}
   m_SizeDelta: {x: 448, y: 252}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &413280035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413280030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892c2061345319f43a8f1200efcb3c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &527018792
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,6 +976,8 @@ MonoBehaviour:
   grapplingCd: 3
   grappleKey: 324
   fovValue: 30
+  normalCamera: {fileID: 0}
+  grabSpeed: 1
 --- !u!1 &138907192018435708
 GameObject:
   m_ObjectHideFlags: 0
