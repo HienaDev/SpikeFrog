@@ -7,7 +7,6 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private int health = 100;
 
     [Header("[Visual Effects]")]
-    [SerializeField] private float      blinkDuration = 0.3f;
     [SerializeField] private Material   originalMaterial;
     [SerializeField] private Material   deathMaterial;
     [SerializeField] private float      fadeOutDuration = 3f;
