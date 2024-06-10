@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class SimpleForward : MonoBehaviour
 {
-
-    [SerializeField] private float _moveSpeed = 3;
-    [SerializeField] private bool _runMove = false;
-    public bool RunMove => _runMove;
+    [SerializeField] private float  moveSpeed = 3;
+    [SerializeField] private bool   runMove = false;
+    
+    public bool RunMove => runMove;
 
     void Update()
     {
-        if (!_runMove)
+        if (!runMove)
             return;
         Vector3 dir = new Vector3(-1, 0, 0);
-        transform.position += dir * _moveSpeed * Time.deltaTime;
+        transform.position += dir * moveSpeed * Time.deltaTime;
     }
 }
