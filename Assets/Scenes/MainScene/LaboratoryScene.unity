@@ -17875,7 +17875,7 @@ MonoBehaviour:
     zoomDistance: 2
   - camera: {fileID: 317414540}
     lookAtTarget: {fileID: 1905469975}
-    zoomDistance: 1
+    zoomDistance: 2
   - camera: {fileID: 393232645}
     lookAtTarget: {fileID: 369017610}
     zoomDistance: 2
@@ -17892,8 +17892,8 @@ MonoBehaviour:
     lookAtTarget: {fileID: 0}
     zoomDistance: 4
   - camera: {fileID: 1012114029}
-    lookAtTarget: {fileID: 0}
-    zoomDistance: 4
+    lookAtTarget: {fileID: 1104785902}
+    zoomDistance: 2
   - camera: {fileID: 2030703040}
     lookAtTarget: {fileID: 0}
     zoomDistance: 4
@@ -24866,6 +24866,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leon
       objectReference: {fileID: 0}
+    - target: {fileID: 9174662464995127946, guid: ec97e1aa880fc974c84b20393aa7e51b,
+        type: 3}
+      propertyPath: m_Height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174662464995127946, guid: ec97e1aa880fc974c84b20393aa7e51b,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9174662464995127946, guid: ec97e1aa880fc974c84b20393aa7e51b,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -26409,8 +26424,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1012114028}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.053889986, y: 0.9307468, z: -0.15359402, w: -0.32743734}
-  m_LocalPosition: {x: 289.27, y: -35.800003, z: -85.25}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 288.95, y: -35.8, z: -85.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
