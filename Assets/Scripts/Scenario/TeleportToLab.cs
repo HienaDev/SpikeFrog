@@ -14,8 +14,8 @@ public class TeleportToLab : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void TeleportPlayer()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha9)) { player.transform.position = teleportTo.position; }
+        player.transform.position = teleportTo.position;
     }
 }

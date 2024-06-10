@@ -36,6 +36,7 @@ public class LeonController : MonoBehaviour
     public bool IsOnAttack { get; set; }
 
     private List<Renderer> rendererers;
+    private Renderer       controllerModelRenderer;
     
     void Start()
     {
@@ -56,18 +57,19 @@ public class LeonController : MonoBehaviour
 
         foreach(Renderer renderer in transform.GetComponentsInChildren<Renderer>())
         {
-            rendererers.Add(renderer);
+            if (renderer.gameObject != controllerModel)
+            {
+                rendererers.Add(renderer);
+            }
+            else
+            {
+                controllerModelRenderer = renderer;
+            }
         }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            currentState = LeonState.Stunned;
-            Debug.Log("Leon is stunned");
-        }
-
         switch (currentState)
         {
             case LeonState.Stopped:

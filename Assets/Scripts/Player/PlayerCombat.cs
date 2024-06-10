@@ -5,7 +5,6 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private float          timeAvaiableForNextCombo;
 
-
     private Animator animator;
     private float    timerCombo;
     private bool     puncheable;

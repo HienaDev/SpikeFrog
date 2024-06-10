@@ -28,14 +28,6 @@ public class LeonManager : MonoBehaviour
         healthBar.SetActive(true);
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            DestroyController();
-        }
-    }
-
     public void TakeDamage(int damage)
     {
         if (leonController.CurrentState == LeonState.Stunned)
@@ -72,7 +64,7 @@ public class LeonManager : MonoBehaviour
         healthBarSlider.value = health;
     }
 
-    private void DestroyController()
+    public void DestroyController()
     {
         Debug.Log("DestroyController called");
         healthBar.SetActive(false);

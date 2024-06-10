@@ -4,15 +4,19 @@ using UnityEngine.SceneManagement;
 public class Debugger : MonoBehaviour
 {
     private PlayerHealth   playerHealth;
-    private PlayerMovement playerMovement;
+    private LeonManager    leonManager;
+    private SaveManager    saveManager;
+    private TeleportToLab  teleportToLab;
+
     [SerializeField] private DealDamage[] dealDamages;
     [SerializeField] private GameObject[] doors;
-    [SerializeField] private GameObject glass;
 
     void Start()
     {
         playerHealth   = GetComponent<PlayerHealth>();
-        playerMovement = GetComponent<PlayerMovement>();
+        saveManager    = FindObjectOfType<SaveManager>();
+        leonManager    = FindObjectOfType<LeonManager>();
+        teleportToLab  = FindObjectOfType<TeleportToLab>();
     }
 
     void Update()
@@ -83,20 +87,29 @@ public class Debugger : MonoBehaviour
             }
         }
 
-        // Destroy glass
+        // Teleport to lab
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha0))
         {
-
-                Destroy(glass);
-            
+            teleportToLab.TeleportPlayer();
         }
 
         // Reset Level
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.R))
         {
-
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
+        // Destroy Leon Controller
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.T))
+        {
+            leonManager.DestroyController();
+        }
+
+
+        // Delete save file
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Delete))
+        {
+            saveManager.DeleteSaveFile();
         }
     }
 }

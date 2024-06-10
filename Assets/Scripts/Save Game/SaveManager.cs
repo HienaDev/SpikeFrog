@@ -21,14 +21,24 @@ public class SaveManager : MonoBehaviour
 
     public bool death = false;
 
+    public static SaveManager Instance { get; private set; }
+
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         saveFileName = Application.persistentDataPath + "/" + saveFileName;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         LookForReferences();
+
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void LookForReferences()
@@ -65,25 +75,6 @@ public class SaveManager : MonoBehaviour
         }
         Debug.Log("OnSceneLoaded: " + scene.name);
         Debug.Log(mode);
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        if (Input.GetButtonDown("QuickSave"))
-        {
-            QuickSaveGame();
-        }
-
-        else if (Input.GetButtonDown("QuickLoad"))
-        {
-            QuickLoadGame();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.F))
-        {
-            DeleteSaveFile();
-        }
     }
 
     private struct GameSaveData
