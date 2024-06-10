@@ -42,10 +42,6 @@ public class LeonManager : MonoBehaviour
             {
                 DestroyController();
             }
-            else
-            {
-                //TriggerDamageEffects();
-            }
         }
         else if (damage == 50)
         {

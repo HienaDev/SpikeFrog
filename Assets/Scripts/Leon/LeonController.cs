@@ -96,6 +96,15 @@ public class LeonController : MonoBehaviour
 
     private void LeonStopped()
     {
+        foreach (Renderer renderer in rendererers)
+    {
+        if (renderer.material.color == Color.red)
+        {
+            renderer.material.color = Color.white;
+        }
+    }
+
+
         if (!isStopped)
         {
             agent.isStopped = true;
