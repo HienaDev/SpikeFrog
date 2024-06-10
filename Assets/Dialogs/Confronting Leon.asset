@@ -16,26 +16,32 @@ MonoBehaviour:
   - speakerName: Leon
     sentence: Intruder detected. Neutralize immediately.
     cameraIndex: 2
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 4b0f0aae31b43e04fa848004a8d48a9e, type: 3}
+    randomStart: 1
   - speakerName: Spike
     sentence: "Whoa, Leon, chill out, man. I know you\u2019re in there somewhere.
       The Chief Scientist is totally messing with your head. I\u2019m gonna fix that."
     cameraIndex: 3
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 4901538cb85c35c439c61aa5ff0d91a9, type: 3}
+    randomStart: 1
   - speakerName: Leon
     sentence: You... cannot... stop me.
     cameraIndex: 2
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 4b0f0aae31b43e04fa848004a8d48a9e, type: 3}
+    randomStart: 1
   - speakerName: Spike
     sentence: "Yeah, we\u2019ll see about that. Just hang tight, buddy. I\u2019ll
       get you out of this."
     cameraIndex: 3
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 4901538cb85c35c439c61aa5ff0d91a9, type: 3}
+    randomStart: 1
   - speakerName: Leon
     sentence: Must... obey... The Chief Scientist...
     cameraIndex: 2
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 4b0f0aae31b43e04fa848004a8d48a9e, type: 3}
+    randomStart: 1
   - speakerName: Spike
     sentence: "Not for long, dude. Let\u2019s dance."
     cameraIndex: 3
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 4901538cb85c35c439c61aa5ff0d91a9, type: 3}
+    randomStart: 1

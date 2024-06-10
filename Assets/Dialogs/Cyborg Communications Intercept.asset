@@ -63,5 +63,5 @@ MonoBehaviour:
     sentence: "Leon\u2019s under their control, but not for long. I\u2019m coming
       for you, Leon."
     cameraIndex: 1
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 4901538cb85c35c439c61aa5ff0d91a9, type: 3}
     randomStart: 0

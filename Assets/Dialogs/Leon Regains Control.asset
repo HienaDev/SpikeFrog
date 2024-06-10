@@ -16,59 +16,59 @@ MonoBehaviour:
   - speakerName: Leon
     sentence: What... what happened?
     cameraIndex: 4
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 4b0f0aae31b43e04fa848004a8d48a9e, type: 3}
+    randomStart: 1
   - speakerName: Spike
     sentence: "Hey man, you were under The Chief Scientist\u2019s control. I broke
       the implant. You\u2019re free now."
     cameraIndex: 5
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 4901538cb85c35c439c61aa5ff0d91a9, type: 3}
+    randomStart: 1
   - speakerName: Leon
     sentence: I can feel it... I'm free. Thanks, man.
     cameraIndex: 4
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 4b0f0aae31b43e04fa848004a8d48a9e, type: 3}
+    randomStart: 1
   - speakerName: The Chief Scientist (through speaker)
     sentence: No... this cannot be... my control... failing..
     cameraIndex: 6
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Spike
     sentence: Bummer for you, Chief Scientist. Game over.
     cameraIndex: 5
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 4901538cb85c35c439c61aa5ff0d91a9, type: 3}
+    randomStart: 1
   - speakerName: 'The Chief Scientist (through speaker) '
     sentence: You... will... pay...
     cameraIndex: 6
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 36a15145021106a489542bd71dafaf74, type: 3}
+    randomStart: 1
   - speakerName: Spike
     sentence: "Totally, man. Glad to have you on board. We\u2019ll dismantle this
       whole system. I\u2019m Spike by the way"
     cameraIndex: 5
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 4901538cb85c35c439c61aa5ff0d91a9, type: 3}
+    randomStart: 1
   - speakerName: Leon
     sentence: "I owe you my life. Let\u2019s take down the rest of these labs together."
     cameraIndex: 4
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 4b0f0aae31b43e04fa848004a8d48a9e, type: 3}
+    randomStart: 1
   - speakerName: Spike
     sentence: "Totally, man. Glad to have you on board. We\u2019ll dismantle this
       whole system. I\u2019m Spike by the way"
     cameraIndex: 5
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 4901538cb85c35c439c61aa5ff0d91a9, type: 3}
+    randomStart: 1
   - speakerName: Leon
     sentence: "Nice to meet you, Spike! Let\u2019s take this down, for freedom and
       for all the creatures still trapped."
     cameraIndex: 4
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 4b0f0aae31b43e04fa848004a8d48a9e, type: 3}
+    randomStart: 1
   - speakerName: Spike
     sentence: "Yeah, let\u2019s roll. We\u2019ve got more work to do."
     cameraIndex: 5
-    voiceClip: {fileID: 0}
-    randomStart: 0
+    voiceClip: {fileID: 8300000, guid: 4901538cb85c35c439c61aa5ff0d91a9, type: 3}
+    randomStart: 1
