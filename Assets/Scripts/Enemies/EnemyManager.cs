@@ -29,6 +29,7 @@ public class EnemyManager : MonoBehaviour
     private Renderer        enemyRenderer;
     private Animator        animator;
     private float           knockbackCooldown;
+    private int             maxHealth;
 
     public bool IsAlive => (health > 0);
 
@@ -39,6 +40,7 @@ public class EnemyManager : MonoBehaviour
         enemyRenderer       = GetComponentInChildren<Renderer>();
         animator            = GetComponent<Animator>();
         healthPickupsParent = GameObject.Find("HealthPickups");
+        maxHealth           = health;
     }
 
     public void TakeDamage(int damage)
@@ -163,6 +165,12 @@ public class EnemyManager : MonoBehaviour
         CancelInvoke(nameof(Deactivate));
 
         enemyRenderer.material = originalMaterial;
+    }
+
+    public void ResetEnemyAfterCutscene()
+    {
+        health = maxHealth;
+        ResetEnemy();
     }
 
     [System.Serializable]

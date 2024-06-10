@@ -1,22 +1,15 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class EnemySave : MonoBehaviour
 {
     private EnemyManager[]      enemyManagers;
     private EnemyController[]   enemyControllers;
-
-    // List of enemies inside the EnemySave object
     private List<GameObject>    enemies;
 
-    // Start is called before the first frame update
     void Start()
     {
-        // Take all the game object with tag "Enemy" and add them to the list in the EnemySave object
         enemies = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
-
-        Debug.Log("Enemies: " + enemies.Count);
 
         enemyManagers    = new EnemyManager[transform.childCount];
         enemyControllers = new EnemyController[transform.childCount];

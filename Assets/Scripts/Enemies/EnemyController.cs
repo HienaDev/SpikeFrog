@@ -230,6 +230,12 @@ public class EnemyController : MonoBehaviour
         menusManager?.UnregisterEnemyCombat(this);
     }
 
+    public void RespawnEnemyAfterCutscene()
+    {
+        pursuitRadius = 100f;
+        currentState = EnemyState.Pursuit;
+    }
+
     public Vector3 GetPlayerPosition() => player.position;
 
     public void StopAgent() => agent.isStopped = true;
