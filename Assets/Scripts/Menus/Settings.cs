@@ -7,18 +7,22 @@ using System.Linq;
 
 public class Settings : MonoBehaviour
 {
-    [SerializeField] private TMP_Dropdown   resolutionDropdown;
-    [SerializeField] private TMP_Dropdown   qualityDropdown;
-    [SerializeField] private Toggle         fullscreenToggle;
-    [SerializeField] private Slider         sensitivitySlider;
-    [SerializeField] private ControlCamera  controlCamera;
-    [SerializeField] private AudioMixer     audioMixer;
+    [SerializeField] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] private TMP_Dropdown qualityDropdown;
+    [SerializeField] private Toggle fullscreenToggle;
+    [SerializeField] private Slider sensitivitySlider;
+    [SerializeField] private ControlCamera controlCamera;
+    [SerializeField] private AudioMixer audioMixer;
 
     private Resolution[] _resolutions;
 
     private void Start()
-    {   
-        _resolutions = Screen.resolutions.Select(resolution => new Resolution { width = resolution.width, height = resolution.height }).Distinct().ToArray();
+    {
+        _resolutions = Screen.resolutions
+            .Where(resolution => Mathf.Approximately((float)resolution.width / resolution.height, 16f / 9f))
+            .Select(resolution => new Resolution { width = resolution.width, height = resolution.height })
+            .Distinct()
+            .ToArray();
 
         resolutionDropdown.ClearOptions();
 
@@ -29,7 +33,6 @@ public class Settings : MonoBehaviour
         for (int i = 0; i < _resolutions.Length; i++)
         {
             string option = _resolutions[i].width + "x" + _resolutions[i].height;
-
             options.Add(option);
 
             if (_resolutions[i].width == Screen.currentResolution.width &&
@@ -38,7 +41,7 @@ public class Settings : MonoBehaviour
                 currentResolutionIndex = i;
             }
         }
-        
+
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
@@ -64,7 +67,6 @@ public class Settings : MonoBehaviour
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = _resolutions[resolutionIndex];
-
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
@@ -81,9 +83,9 @@ public class Settings : MonoBehaviour
     [System.Serializable]
     public struct SaveData
     {
-        public int   qualityIndex;
-        public bool  isFullscreen;
-        public int   resolutionIndex;
+        public int qualityIndex;
+        public bool isFullscreen;
+        public int resolutionIndex;
         public float sensitivity;
         //public float volume;
     }
@@ -91,13 +93,11 @@ public class Settings : MonoBehaviour
     public SaveData GetSaveData()
     {
         SaveData saveData;
-
         saveData.qualityIndex = QualitySettings.GetQualityLevel();
         saveData.isFullscreen = Screen.fullScreen;
         saveData.resolutionIndex = resolutionDropdown.value;
         saveData.sensitivity = sensitivitySlider.value;
         //saveData.volume = 0f;
-
         return saveData;
     }
 
