@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class DialogManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private float           delayPerCharacter = 0.05f;
     [SerializeField] private float           delayBeforeNextLine = 2f;
     [SerializeField] private AudioSource     audioSource;
+    [SerializeField] private AudioMixerGroup dialogAudioMixerGroup;
     [SerializeField] private MenusManager    menusManager;
     [SerializeField] private GameObject[]    playerUI;
     [SerializeField] private List<CameraSetup> dialogCameras;
@@ -39,6 +41,8 @@ public class DialogManager : MonoBehaviour
     private void Start()
     {
         dialogLines = new Queue<DialogLine>();
+
+        audioSource.outputAudioMixerGroup = dialogAudioMixerGroup;
     }
 
     public void StartDialog(DialogSO dialog, DialogTrigger trigger)
@@ -89,23 +93,15 @@ public class DialogManager : MonoBehaviour
 
             audioSource.pitch = Random.Range(0.9f, 1.1f);
 
- 
             if (line.randomStart)
             {
-
-                //asd
                 audioSource.time = Random.Range(audioSource.clip.length / 2, audioSource.clip.length);
                 audioSource.SetScheduledEndTime(AudioSettings.dspTime + audioDuration);
-
-
             }
                 
-
             audioSource.Play();
         }
     }
-
- 
 
     IEnumerator TypeSentence(string sentence)
     {
@@ -197,8 +193,6 @@ public class DialogManager : MonoBehaviour
 
     private void Update()
     {
-
-
         if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && dialogBox.activeSelf && !menusManager.IsPaused)
         {
             if (isTyping)

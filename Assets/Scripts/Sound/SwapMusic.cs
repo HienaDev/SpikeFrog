@@ -1,14 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SwapMusic : MonoBehaviour
 {
-
     [SerializeField] private AudioSource normalMusic;
-    private float defaultVolume;
+    [SerializeField] private AudioMixerGroup normalMusicMixerGroup;
+
     [SerializeField] private AudioSource bossMusic;
-    private float bossVolume;
+    [SerializeField] private AudioMixerGroup bossMusicMixerGroup;
+
     [SerializeField] private float transitionTime;
+
+    private float defaultVolume;
+    private float bossVolume;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +22,9 @@ public class SwapMusic : MonoBehaviour
         bossVolume = bossMusic.volume;
 
         bossMusic.volume = 0;
+
+        normalMusic.outputAudioMixerGroup = normalMusicMixerGroup;
+        bossMusic.outputAudioMixerGroup = bossMusicMixerGroup;
     }
 
     // Update is called once per frame
@@ -33,12 +41,10 @@ public class SwapMusic : MonoBehaviour
         }
     }
 
-
     public IEnumerator ChangeMusic(bool boss, float duration)
     {
         if (boss)
         {
-
             bossMusic.time = 0;
             for (float t = 0f; t < duration; t += Time.deltaTime)
             {
@@ -46,7 +52,6 @@ public class SwapMusic : MonoBehaviour
                 normalMusic.volume = Mathf.Lerp(defaultVolume, 0, t / duration);
                 yield return null;
             }
-
         }
         else
         {
@@ -56,9 +61,6 @@ public class SwapMusic : MonoBehaviour
                 normalMusic.volume = Mathf.Lerp(0, defaultVolume, t / duration);
                 yield return null;
             }
-
-
         }
-
     }
 }

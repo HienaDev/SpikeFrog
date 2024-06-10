@@ -7,12 +7,15 @@ using System.Linq;
 
 public class Settings : MonoBehaviour
 {
-    [SerializeField] private TMP_Dropdown resolutionDropdown;
-    [SerializeField] private TMP_Dropdown qualityDropdown;
-    [SerializeField] private Toggle fullscreenToggle;
-    [SerializeField] private Slider sensitivitySlider;
-    [SerializeField] private ControlCamera controlCamera;
-    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private TMP_Dropdown   resolutionDropdown;
+    [SerializeField] private TMP_Dropdown   qualityDropdown;
+    [SerializeField] private Toggle         fullscreenToggle;
+    [SerializeField] private Slider         sensitivitySlider;
+    [SerializeField] private Slider         volumeSlider;
+    [SerializeField] private ControlCamera  controlCamera;
+    [SerializeField] private AudioMixer     playerAudioMixer;
+    [SerializeField] private AudioMixer     musicAudioMixer;
+    [SerializeField] private AudioMixer     dialogAudioMixer;
 
     private Resolution[] _resolutions;
 
@@ -52,6 +55,12 @@ public class Settings : MonoBehaviour
         fullscreenToggle.isOn = Screen.fullScreen;
 
         sensitivitySlider.value = controlCamera.GetSensitivity();
+
+        volumeSlider.onValueChanged.AddListener(SetVolume);
+        
+        float volume;
+        playerAudioMixer.GetFloat("Volume", out volume);
+        volumeSlider.value = volume;
     }
 
     public void SetQuality(int qualityIndex)
@@ -77,7 +86,9 @@ public class Settings : MonoBehaviour
 
     public void SetVolume(float volume)
     {
-        audioMixer.SetFloat("Volume", volume);
+        playerAudioMixer.SetFloat("Volume", volume);
+        musicAudioMixer.SetFloat("Volume", volume);
+        dialogAudioMixer.SetFloat("Volume", volume);
     }
 
     [System.Serializable]
@@ -87,7 +98,7 @@ public class Settings : MonoBehaviour
         public bool isFullscreen;
         public int resolutionIndex;
         public float sensitivity;
-        //public float volume;
+        public float volume;
     }
 
     public SaveData GetSaveData()
@@ -97,7 +108,7 @@ public class Settings : MonoBehaviour
         saveData.isFullscreen = Screen.fullScreen;
         saveData.resolutionIndex = resolutionDropdown.value;
         saveData.sensitivity = sensitivitySlider.value;
-        //saveData.volume = 0f;
+        saveData.volume = volumeSlider.value;
         return saveData;
     }
 
@@ -107,7 +118,7 @@ public class Settings : MonoBehaviour
         SetFullscreen(saveData.isFullscreen);
         SetResolution(saveData.resolutionIndex);
         SetSensitive(saveData.sensitivity);
-        //SetVolume(saveData.volume);
+        SetVolume(saveData.volume);
 
         qualityDropdown.value = saveData.qualityIndex;
         qualityDropdown.RefreshShownValue();
@@ -118,6 +129,6 @@ public class Settings : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         sensitivitySlider.value = saveData.sensitivity;
-        //volumeSlider.value = saveData.volume;
+        volumeSlider.value = saveData.volume;
     }
 }

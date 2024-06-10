@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2229388, g: 0.23234637, b: 0.41679582, a: 1}
+  m_IndirectSpecularColor: {r: 0.22293176, g: 0.23236662, b: 0.41701284, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16924,6 +16924,8 @@ MonoBehaviour:
   delayPerCharacter: 0.03
   delayBeforeNextLine: 2
   audioSource: {fileID: 738209150}
+  dialogAudioMixerGroup: {fileID: -1985099497535332527, guid: 4a73be81fd8de2b47bee98835723a3bc,
+    type: 2}
   menusManager: {fileID: 1742209876}
   playerUI:
   - {fileID: 647810482}
@@ -22250,8 +22252,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1529999, y: 0.36108452, z: 0.1565282}
-  m_Center: {x: 0.000000011175871, y: -0.054027922, z: -0.000000014901161}
+  m_Size: {x: 0.1529999, y: 0.35916975, z: 0.1565282}
+  m_Center: {x: 0.000000009536743, y: -0.054985244, z: -0.000000014305114}
 --- !u!1 &904191973 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ad8bea8991105194396cba5038e5fd97,
@@ -29204,8 +29206,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1529999, y: 0.36108452, z: 0.1565282}
-  m_Center: {x: 0.000000029802322, y: -0.054027922, z: 0.000000029802322}
+  m_Size: {x: 0.1529999, y: 0.35881346, z: 0.1565282}
+  m_Center: {x: 0.000000028610229, y: -0.055163343, z: 0.000000028610229}
 --- !u!1001 &1217708355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30643,8 +30645,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1529999, y: 0.36108452, z: 0.1565282}
-  m_Center: {x: -0.000000014901161, y: -0.054027922, z: 0.000000024214387}
+  m_Size: {x: 0.1529999, y: 0.35935292, z: 0.1565282}
+  m_Center: {x: -0.000000014305114, y: -0.054893624, z: 0.000000023841856}
 --- !u!1 &1268326348 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0ffcc25c859b79f49ac9382111dfd26f,
@@ -31199,7 +31201,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalMusic: {fileID: 1605847375}
+  normalMusicMixerGroup: {fileID: -928893481980574672, guid: 8f1b1c38a3e812b438024c6deaa89bb1,
+    type: 2}
   bossMusic: {fileID: 680429026}
+  bossMusicMixerGroup: {fileID: 411558999349826646, guid: 8f1b1c38a3e812b438024c6deaa89bb1,
+    type: 2}
   transitionTime: 2
 --- !u!4 &1327561413
 Transform:
@@ -33814,8 +33820,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1529999, y: 0.46914038, z: 0.1565282}
-  m_Center: {x: -0.000000029802322, y: 0, z: 0.000000024214387}
+  m_Size: {x: 0.1529999, y: 0.4675296, z: 0.1565282}
+  m_Center: {x: -0.000000028610229, y: -0.0008052058, z: 0.000000023841856}
 --- !u!1001 &1460617240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34125,8 +34131,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1529999, y: 0.36108452, z: 0.1565282}
-  m_Center: {x: 0, y: -0.054027922, z: 0.000000029802322}
+  m_Size: {x: 0.1529999, y: 0.35958925, z: 0.1565282}
+  m_Center: {x: 0, y: -0.05477558, z: 0.000000028610229}
 --- !u!1001 &1469049713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45106,8 +45112,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1529999, y: 0.46914038, z: 0.1565282}
-  m_Center: {x: 0, y: 0, z: 0.000000029802322}
+  m_Size: {x: 0.1529999, y: 0.46750823, z: 0.1565282}
+  m_Center: {x: 0, y: -0.00081604003, z: 0.000000028610229}
 --- !u!1 &1720471996 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0ffcc25c859b79f49ac9382111dfd26f,
@@ -45570,8 +45576,11 @@ MonoBehaviour:
   qualityDropdown: {fileID: 173408075}
   fullscreenToggle: {fileID: 1856771691}
   sensitivitySlider: {fileID: 2037943847}
+  volumeSlider: {fileID: 1642735781}
   controlCamera: {fileID: 224631021}
-  audioMixer: {fileID: 24100000, guid: 7a1df8121f8ef8f42b45bcb94224515b, type: 2}
+  playerAudioMixer: {fileID: 24100000, guid: 7a1df8121f8ef8f42b45bcb94224515b, type: 2}
+  musicAudioMixer: {fileID: 24100000, guid: 8f1b1c38a3e812b438024c6deaa89bb1, type: 2}
+  dialogAudioMixer: {fileID: 24100000, guid: 4a73be81fd8de2b47bee98835723a3bc, type: 2}
 --- !u!114 &1742209876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47303,8 +47312,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1529999, y: 0.36108452, z: 0.1565282}
-  m_Center: {x: 0, y: -0.054027922, z: 0.000000024214387}
+  m_Size: {x: 0.1529999, y: 0.35966644, z: 0.1565282}
+  m_Center: {x: 0, y: -0.05473716, z: 0.000000023841856}
 --- !u!1 &1841813338 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: 5d90e8c5929dd5448a20d6e559dfad22,
@@ -49098,8 +49107,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1529999, y: 0.46914038, z: 0.1565282}
-  m_Center: {x: 0, y: 0, z: 0.000000059604645}
+  m_Size: {x: 0.1529999, y: 0.467558, z: 0.1565282}
+  m_Center: {x: 0, y: -0.00079110725, z: 0.000000057220458}
 --- !u!1001 &1968474758
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51149,8 +51158,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1529999, y: 0.46914038, z: 0.1565282}
-  m_Center: {x: 0.000000029802322, y: 0, z: 0.000000029802322}
+  m_Size: {x: 0.1529999, y: 0.46712852, z: 0.1565282}
+  m_Center: {x: 0.000000028610229, y: -0.0010058689, z: 0.000000028610229}
 --- !u!1001 &2061952528
 PrefabInstance:
   m_ObjectHideFlags: 0

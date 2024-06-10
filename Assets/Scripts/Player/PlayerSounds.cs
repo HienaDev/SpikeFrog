@@ -19,13 +19,8 @@ public class PlayerSounds : MonoBehaviour
     private AudioSource audioSourceJump;
     [SerializeField] private AudioMixerGroup jumpMixer;
 
-
-
-
-
     private float justStep;
 
-    // Start is called before the first frame update
     void Start()
     {
         audioSourceSteps = gameObject.AddComponent<AudioSource>();
@@ -40,17 +35,11 @@ public class PlayerSounds : MonoBehaviour
         audioSourceJump = gameObject.AddComponent<AudioSource>();
         audioSourceJump.outputAudioMixerGroup = jumpMixer;
 
-
         audioSourcePunch.volume = 0.2f;
         audioSourceSteps.volume = 0.2f;
         audioSourceTongue.volume = 0.2f;
         audioSourceJump.volume = 0.2f;
-
-
     }
-
-
-
 
     public void PlayStepsSound()
     {
