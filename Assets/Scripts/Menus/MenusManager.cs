@@ -90,15 +90,17 @@ public class MenusManager : MonoBehaviour
         LoadLevel();
     }
 
-    private void LoadLevel()
+    public void LoadLevel()
     {
         mainMenuBackground.SetActive(false);
         mainMenu.SetActive(false);
         loadingScreen.SetActive(true);
-        saveManager.QuickLoadGame();
 
-        if (!saveManager.QuickLoadGame())
+        bool loadSuccessful = saveManager.QuickLoadGame();
+        if (!loadSuccessful)
+        {
             saveManager.QuickSaveGame();
+        }
 
         loadingScreen.SetActive(false);
         gameUI.SetActive(true);
@@ -106,6 +108,15 @@ public class MenusManager : MonoBehaviour
         Time.timeScale = 1;
 
         playerCombat.enabled = true;
+        controlCamera.enabled = true;
+
+        AudioListener.pause = false;
+        AudioSource musicSource = FindObjectOfType<AudioSource>();
+        if (musicSource != null && !musicSource.isPlaying)
+        {
+            musicSource.Play();
+        }
+
         isInGame = true;
     }
 
