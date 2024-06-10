@@ -53,7 +53,7 @@ public class EnemyController : MonoBehaviour
 
     private void UpdateLeonReference()
     {
-        leon = GameObject.FindGameObjectWithTag("Leon")?.transform;
+        leon = GameObject.FindGameObjectWithTag("LeonPivot")?.transform;
     }
 
     private void Update()

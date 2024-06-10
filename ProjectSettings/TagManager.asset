@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Ground
   - Leon
+  - LeonPivot
   layers:
   - Default
   - TransparentFX

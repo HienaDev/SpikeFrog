@@ -6,37 +6,36 @@ using UnityEngine.AI;
 public class LeonAttack : MonoBehaviour
 {
     [Header("[Electric Claw Settings]")]
-    [SerializeField] private int     electricClawDamage = 15;
-    [SerializeField] private float   radiusElectricClaw = 2.5f;
+    [SerializeField] private int electricClawDamage = 15;
+    [SerializeField] private float radiusElectricClaw = 2.5f;
     [SerializeField] private Vector3 electricClawBoxSize = new Vector3(5.0f, 2.0f, 5.0f);
     
-
     [Header("[Electro Roar Settings]")]
-    [SerializeField] private int        electroRoarDamage = 10;
-    [SerializeField] private float      radiusElectroRoar = 5.0f;
+    [SerializeField] private int electroRoarDamage = 10;
+    [SerializeField] private float radiusElectroRoar = 5.0f;
     [SerializeField] private GameObject electroRoarBallPrefab;
-    [SerializeField] private float      electroRoarExpandSpeed = 1.0f;
+    [SerializeField] private float electroRoarExpandSpeed = 1.0f;
 
     [Header("[Attack Cooldown]")]
     [SerializeField] private float attackCooldown = 2.0f;
     
-    private PlayerHealth    playerHealth;
-    private NavMeshAgent    agent;
-    private Animator        animator;
-    private bool            isElectroRoarActive;
-    private bool            isElectricClawActive;
+    private PlayerHealth playerHealth;
+    private NavMeshAgent agent;
+    private Animator animator;
+    private bool isElectroRoarActive;
+    private bool isElectricClawActive;
 
     public float AttackCooldown => attackCooldown;
     public bool IsOnAttack { get; private set; }
 
     void Start()
     {
-        playerHealth         = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
-        agent                = GetComponent<NavMeshAgent>();
-        animator             = GetComponentInChildren<Animator>();
-        isElectroRoarActive  = false;
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
+        isElectroRoarActive = false;
         isElectricClawActive = false;
-        IsOnAttack           = false;
+        IsOnAttack = false;
     }
 
     void Update()
@@ -84,9 +83,53 @@ public class LeonAttack : MonoBehaviour
     {
         if (!isElectricClawActive)
         {   
+            // Rotate Leon to face the target
+            RotateToFaceTarget(isControlled);
+
             animator.SetTrigger("ClawTrigger");
             StartCoroutine(ElectricClawRoutine(isControlled));
         }
+    }
+
+    private void RotateToFaceTarget(bool isControlled)
+    {
+        GameObject target = null;
+
+        if (isControlled)
+        {
+            target = GameObject.FindGameObjectWithTag("Player");
+        }
+        else
+        {
+            // Find the nearest enemy
+            target = FindClosestEnemy();
+        }
+
+        if (target != null)
+        {
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = lookRotation;
+        }
+    }
+
+    private GameObject FindClosestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closestEnemy = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < minDistance)
+            {
+                closestEnemy = enemy;
+                minDistance = distance;
+            }
+        }
+
+        return closestEnemy;
     }
 
     private IEnumerator ElectricClawRoutine(bool isControlled)
@@ -115,12 +158,10 @@ public class LeonAttack : MonoBehaviour
                     {
                         playerHealth.Damage(electricClawDamage);
                         damagedColliders.Add(hitCollider);
-                        Debug.Log("Hit player with Electric Claw");
                     }
                 }
                 else if (!isControlled && hitCollider.CompareTag("Enemy"))
                 {
-                    Debug.Log("Hit enemy with Electric Claw");
                     EnemyManager enemyManager = hitCollider.GetComponent<EnemyManager>();
 
                     if (enemyManager != null)
@@ -195,7 +236,6 @@ public class LeonAttack : MonoBehaviour
                     }
                     else if (!isControlled && hitCollider.CompareTag("Enemy"))
                     {
-                        Debug.Log("Hit enemy by Electro Roar");
                         EnemyManager enemyManager = hitCollider.GetComponent<EnemyManager>();
 
                         if (enemyManager != null)

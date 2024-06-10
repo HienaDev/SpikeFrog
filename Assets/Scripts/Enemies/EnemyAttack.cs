@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     [Header("[Attack Values]")]
-    [SerializeField] private float attackRadius = 2.5f;
+    [SerializeField] private float attackRadius = 2f;
     [SerializeField] private int   attackDamage = 10;
 
     private float attackCooldown;
@@ -35,9 +35,8 @@ public class EnemyAttack : MonoBehaviour
     }
 
     public float GetAttackRadius() => this.attackRadius;
-
     public float GetAttackCooldown() => this.attackCooldown;
-
+    public void SetAttackRadius(float radius) => this.attackRadius = radius;
     public void SetAttackCooldown(float cooldown) => this.attackCooldown = cooldown;
 
     private void OnDrawGizmosSelected()
