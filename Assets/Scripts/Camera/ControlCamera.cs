@@ -86,14 +86,10 @@ public class ControlCamera : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))//&& targetableObjects.Count > 0)
-            SwapCameras();
-
         if (!targetting)
         {
             UpdatePitch(); // Look up and down
             UpdateYaw(); // Look around
-
         }
 
         UpdateZoom();
