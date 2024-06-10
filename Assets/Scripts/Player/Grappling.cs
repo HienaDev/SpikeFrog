@@ -45,17 +45,14 @@ public class Grappling : MonoBehaviour
 
     public static Grappling instance;
 
-    private void Awake()
+    // Start is called before the first frame update
+    void Start()
     {
         activeCamera = cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
         targetableObjects = new HashSet<Transform>();
 
         instance = this;
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         playerMovement = GetComponentInParent<PlayerMovement>();
         grapplingRope = GetComponent<GrapplingRope>();
 
