@@ -27,7 +27,6 @@ public class EnemyAttack : MonoBehaviour
     {
         if (other.CompareTag("Player") && canAttack)
         {
-            Debug.Log("Collision with player");
             canAttack = false;
 
             this.lastAttackTime = Time.time;

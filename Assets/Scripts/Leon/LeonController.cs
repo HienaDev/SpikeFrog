@@ -96,8 +96,6 @@ public class LeonController : MonoBehaviour
     {
         if (!isStopped)
         {
-            Debug.Log("Leon stopped");
-
             agent.isStopped = true;
             agent.ResetPath();
             animator.Rebind();

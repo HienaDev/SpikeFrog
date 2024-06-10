@@ -260,7 +260,6 @@ public class PlayerMovement : MonoBehaviour
         {
             playerSounds.PlayJumpSound();
             jump = true;
-            Debug.Log("jump");
             animator.SetTrigger("Jump");
             
             rb.velocity = Vector2.zero;
