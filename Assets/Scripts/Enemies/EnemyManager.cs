@@ -58,7 +58,6 @@ public class EnemyManager : MonoBehaviour
 
     private void TriggerDamageEffects()
     {
-        StartCoroutine(Blink());
         StartCoroutine(Knockback());
     }
 
@@ -98,13 +97,6 @@ public class EnemyManager : MonoBehaviour
             healthDropInstance.transform.SetParent(healthPickupsParent.transform);
         }
 
-    }
-
-    private IEnumerator Blink()
-    {
-        enemyRenderer.material.SetColor("Color", Color.red);
-        yield return new WaitForSeconds(blinkDuration);
-        enemyRenderer.material.SetColor("Color", Color.white);
     }
 
     private IEnumerator Knockback()

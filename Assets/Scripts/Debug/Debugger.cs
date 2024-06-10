@@ -3,20 +3,17 @@ using UnityEngine.SceneManagement;
 
 public class Debugger : MonoBehaviour
 {
-    private PlayerHealth   playerHealth;
-    private LeonManager    leonManager;
-    private SaveManager    saveManager;
-    private TeleportToLab  teleportToLab;
+    [SerializeField] private LeonManager    leonManager;
+    [SerializeField] private SaveManager    saveManager;
+    [SerializeField] private TeleportToLab  teleportToLab;
+    [SerializeField] private DealDamage[]   dealDamages;
+    [SerializeField] private GameObject[]   doors;
 
-    [SerializeField] private DealDamage[] dealDamages;
-    [SerializeField] private GameObject[] doors;
+    private PlayerHealth   playerHealth;
 
     void Start()
     {
         playerHealth   = GetComponent<PlayerHealth>();
-        saveManager    = FindObjectOfType<SaveManager>();
-        leonManager    = FindObjectOfType<LeonManager>();
-        teleportToLab  = FindObjectOfType<TeleportToLab>();
     }
 
     void Update()

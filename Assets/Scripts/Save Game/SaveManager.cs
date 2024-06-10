@@ -4,20 +4,20 @@ using UnityEngine.SceneManagement;
 
 public class SaveManager : MonoBehaviour
 {
-    [SerializeField] private string saveFileName;
-    [SerializeField] private PlayerHealth playerHealth;
-    [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private PlayerCombat playerCombat;
-    [SerializeField] private ControlCamera controlCamera;
-    [SerializeField] private EnemySave enemySave;
-    [SerializeField] private HealthPickupSave healthPickupSave;
-    [SerializeField] private Settings settings;
-    [SerializeField] private LeonManager leonManager;
-    [SerializeField] private LeonController leonController;
-    [SerializeField] private DialogSave dialogSave;
+    [SerializeField] private string             saveFileName;
+    [SerializeField] private PlayerHealth       playerHealth;
+    [SerializeField] private PlayerMovement     playerMovement;
+    [SerializeField] private PlayerCombat       playerCombat;
+    [SerializeField] private ControlCamera      controlCamera;
+    [SerializeField] private EnemySave          enemySave;
+    [SerializeField] private HealthPickupSave   healthPickupSave;
+    [SerializeField] private Settings           settings;
+    [SerializeField] private LeonManager        leonManager;
+    [SerializeField] private LeonController     leonController;
+    [SerializeField] private DialogSave         dialogSave;
 
-    private GameSaveData gameSaveData;
-    private string saveFilePath;
+    private GameSaveData    gameSaveData;
+    private string          saveFilePath;
 
     public bool death = false;
 
@@ -79,16 +79,16 @@ public class SaveManager : MonoBehaviour
 
     private struct GameSaveData
     {
-        public PlayerHealth.SaveData playerHealth;
-        public PlayerMovement.SaveData playerMovement;
-        public PlayerCombat.SaveData playerCombat;
-        public ControlCamera.SaveData controlCamera;
-        public EnemySave.SaveData enemies;
-        public HealthPickupSave.SaveData healthPickups;
-        public Settings.SaveData settings;
-        public LeonManager.SaveData leonManager;
-        public LeonController.SaveData leonController;
-        public DialogSave.SaveData dialogSave;
+        public PlayerHealth.SaveData        playerHealth;
+        public PlayerMovement.SaveData      playerMovement;
+        public PlayerCombat.SaveData        playerCombat;
+        public ControlCamera.SaveData       controlCamera;
+        public EnemySave.SaveData           enemies;
+        public HealthPickupSave.SaveData    healthPickups;
+        public Settings.SaveData            settings;
+        public LeonManager.SaveData         leonManager;
+        public LeonController.SaveData      leonController;
+        public DialogSave.SaveData          dialogSave;
     }
 
     public void QuickSaveGame()
@@ -97,16 +97,16 @@ public class SaveManager : MonoBehaviour
 
         GameSaveData saveData;
 
-        saveData.playerHealth = playerHealth.GetSaveData();
-        saveData.playerMovement = playerMovement.GetSaveData();
-        saveData.playerCombat = playerCombat.GetSaveData();
-        saveData.controlCamera = controlCamera.GetSaveData();
-        saveData.enemies = enemySave.GetSaveData();
-        saveData.healthPickups = healthPickupSave.GetSaveData();
-        saveData.settings = settings.GetSaveData();
-        saveData.leonManager = leonManager.GetSaveData();
-        saveData.leonController = leonController.GetSaveData();
-        saveData.dialogSave = dialogSave.GetSaveData();
+        saveData.playerHealth       = playerHealth.GetSaveData();
+        saveData.playerMovement     = playerMovement.GetSaveData();
+        saveData.playerCombat       = playerCombat.GetSaveData();
+        saveData.controlCamera      = controlCamera.GetSaveData();
+        saveData.enemies            = enemySave.GetSaveData();
+        saveData.healthPickups      = healthPickupSave.GetSaveData();
+        saveData.settings           = settings.GetSaveData();
+        saveData.leonManager        = leonManager.GetSaveData();
+        saveData.leonController     = leonController.GetSaveData();
+        saveData.dialogSave         = dialogSave.GetSaveData();
 
         string jsonSaveData = JsonUtility.ToJson(saveData, true);
 
