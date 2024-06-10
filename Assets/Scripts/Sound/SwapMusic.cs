@@ -30,15 +30,15 @@ public class SwapMusic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            StartCoroutine(ChangeMusic(true, transitionTime));
-        }
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    StartCoroutine(ChangeMusic(true, transitionTime));
+        //}
 
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            StartCoroutine(ChangeMusic(false, transitionTime));
-        }
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    StartCoroutine(ChangeMusic(false, transitionTime));
+        //}
     }
 
     public IEnumerator ChangeMusic(bool boss, float duration)
@@ -63,4 +63,18 @@ public class SwapMusic : MonoBehaviour
             }
         }
     }
+
+    public void StartNormalNow()
+    {
+        StartNormal();
+    }
+
+    public void StartBossNow()
+    {
+        StartBoss();
+    }
+
+    private void StartNormal() => StartCoroutine(ChangeMusic(false, transitionTime));
+
+    private void StartBoss() => StartCoroutine(ChangeMusic(true, transitionTime));
 }
