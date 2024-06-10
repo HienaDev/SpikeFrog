@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MenusManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class MenusManager : MonoBehaviour
     [SerializeField] private GameObject     exitGameQuestion;
     [SerializeField] private GameObject     quitQuestion;
     [SerializeField] private GameObject     saveWarningText;
+    [SerializeField] private AudioSource    musicSource;
 
     private bool isInGame;
     private bool isPaused;
@@ -56,6 +58,11 @@ public class MenusManager : MonoBehaviour
         loadingScreen.SetActive(false);
 
         playerCombat.enabled = false;
+
+        if (mainMenu.activeSelf && musicSource != null && musicSource.isPlaying)
+        {
+            musicSource.Pause();
+        }
     }
 
     private void Update()
@@ -110,7 +117,6 @@ public class MenusManager : MonoBehaviour
         controlCamera.enabled = true;
 
         AudioListener.pause = false;
-        AudioSource musicSource = FindObjectOfType<AudioSource>();
         if (musicSource != null && !musicSource.isPlaying)
         {
             musicSource.Play();
@@ -118,7 +124,7 @@ public class MenusManager : MonoBehaviour
 
         isInGame = true;
     }
-    
+
     public void ExitGame()
     {
         exitGameQuestion.SetActive(true);
@@ -260,6 +266,11 @@ public class MenusManager : MonoBehaviour
         playerCombat.enabled = false;
         isInGame = false;
         isPaused = false;
+
+        if (musicSource != null && musicSource.isPlaying)
+        {
+            musicSource.Pause();
+        }
     }
 
     public void EndOfFinalCredits()
@@ -278,7 +289,6 @@ public class MenusManager : MonoBehaviour
 
         saveManager.QuickSaveGame();
     }
-
 
     public void SaveAndQuit()
     {
