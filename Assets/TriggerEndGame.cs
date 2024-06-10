@@ -1,7 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class DestroyAfterKill : MonoBehaviour
+public class TriggerEndGame : MonoBehaviour
 {
+
     [SerializeField] private GameObject[] enemiesToKill;
 
     private void FixedUpdate()
@@ -11,17 +15,17 @@ public class DestroyAfterKill : MonoBehaviour
         bool allDestroyed = true;
         foreach (GameObject obj in enemiesToKill)
         {
-             if (obj.activeSelf)
-             {
-                 allDestroyed = false;
-                 break;
-             }
+            if (obj.activeSelf)
+            {
+                allDestroyed = false;
+                break;
+            }
         }
 
         // If all objects are destroyed, perform the action
         if (allDestroyed)
         {
-            gameObject.SetActive(false);
+            SceneManager.LoadScene("Loading Celebration");
         }
     }
 }
