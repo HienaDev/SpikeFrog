@@ -3,6 +3,7 @@ using System.Collections;
 #if UNITY_EDITOR_WIN
 using UnityEditor;
 #endif
+
 [ExecuteInEditMode]
 public class MatchOrientation : MonoBehaviour {
 	public bool TrackInEditor = false;

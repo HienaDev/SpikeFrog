@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
+
 [ExecuteInEditMode]
 public class FaceCamera : MonoBehaviour {
 	public bool DebugReport = false;

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+
 [ExecuteInEditMode]
 public class SetRes : MonoBehaviour {
 	public static int pixelScale = 1;

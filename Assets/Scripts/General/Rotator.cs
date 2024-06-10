@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+
 [ExecuteInEditMode]
 public class Rotator : MonoBehaviour {
 	public float Rate = .25f;

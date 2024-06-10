@@ -2,9 +2,7 @@
 #if UNITY_EDITOR_WIN
 using UnityEditor;
 #endif
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
+
 [ExecuteInEditMode]
 public class CameraLocationTracker : MonoBehaviour {
 	public string RuntimeCamTag = "RenderCamera";
