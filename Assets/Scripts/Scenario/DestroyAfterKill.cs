@@ -4,7 +4,13 @@ public class DestroyAfterKill : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemiesToKill;
 
+    private Animator animator;
     private bool alreadyDestroyed = false;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void FixedUpdate()
     {
@@ -23,7 +29,8 @@ public class DestroyAfterKill : MonoBehaviour
         if (allDestroyed && !alreadyDestroyed)
         {
             alreadyDestroyed = true;
-            gameObject.SetActive(false);
+            // Play animation Open
+            animator.SetTrigger("Open");
         }
     }
 }
