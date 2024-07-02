@@ -40,6 +40,8 @@ public class SaveManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     private void LookForReferences()

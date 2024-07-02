@@ -7,6 +7,7 @@ public class TriggerEndGame : MonoBehaviour
 {
 
     [SerializeField] private GameObject[] enemiesToKill;
+    [SerializeField] private SaveManager saveManager;
 
     private void FixedUpdate()
     {
