@@ -3,9 +3,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.AI;
+
 public class Grappling : MonoBehaviour
 {
-
     private PlayerMovement playerMovement;
     [SerializeField] private Transform cam;
     [SerializeField] private Transform gunTip;
@@ -48,19 +48,64 @@ public class Grappling : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        activeCamera = cam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
-        targetableObjects = new HashSet<Transform>();
+        InitializeComponents();
+    }
 
-        instance = this;
+    void InitializeComponents()
+    {
+        if (cam == null)
+        {
+            cam = Camera.main.transform;
+        }
 
-        playerMovement = GetComponentInParent<PlayerMovement>();
-        grapplingRope = GetComponent<GrapplingRope>();
+        if (cam != null && activeCamera == null)
+        {
+            var brain = cam.GetComponent<CinemachineBrain>();
+            if (brain != null && brain.ActiveVirtualCamera != null)
+            {
+                var virtualCameraGameObject = brain.ActiveVirtualCamera.VirtualCameraGameObject;
+                if (virtualCameraGameObject != null)
+                {
+                    activeCamera = virtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
+                }
+            }
+        }
 
-        grappledObject = null;
+        if (activeCamera != null && playerMovement == null)
+        {
+            playerMovement = GetComponentInParent<PlayerMovement>();
+        }
 
-        defaultFov = activeCamera.m_Lens.FieldOfView;
+        if (playerMovement != null && grapplingRope == null)
+        {
+            grapplingRope = GetComponent<GrapplingRope>();
+        }
 
-        throwScript = GetComponentInParent<ThrowObjects>(); 
+        if (grapplingRope != null && throwScript == null)
+        {
+            throwScript = GetComponentInParent<ThrowObjects>();
+        }
+
+        if (throwScript != null && targetableObjects == null)
+        {
+            targetableObjects = new HashSet<Transform>();
+        }
+
+        if (activeCamera != null && defaultFov == 0)
+        {
+            defaultFov = activeCamera.m_Lens.FieldOfView;
+        }
+
+        if (activeCamera != null && playerMovement != null && grapplingRope != null && throwScript != null)
+        {
+            instance = this;
+            Debug.Log("All components initialized successfully.");
+        }
+        else
+        {
+            Debug.LogWarning("Some components are still not initialized. Trying again...");
+            Invoke(nameof(InitializeComponents), 0.5f); // Retry initialization after 0.5 seconds
+        }
     }
 
     public void UpdateCamera()
@@ -71,6 +116,10 @@ public class Grappling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (throwScript == null || activeCamera == null || playerMovement == null || grapplingRope == null)
+        {
+            return; // Components are not yet fully initialized
+        }
 
         if (Input.GetKeyDown(grappleKey) && throwScript.GetTarget() == null)
         {
@@ -98,7 +147,6 @@ public class Grappling : MonoBehaviour
 
         playerMovement.EnableGrapple();
 
-
         GetClosestObject();
 
         if (closestObject != null && posInViewPortClosestObjectToKeep.magnitude < (Vector2.one * 0.05f).magnitude)
@@ -112,7 +160,6 @@ public class Grappling : MonoBehaviour
         {
             grapplePoint = cam.position + cam.forward * maxGrappleDistance;
 
-
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }
     }
@@ -121,7 +168,6 @@ public class Grappling : MonoBehaviour
     {
         List<Transform> objects = new List<Transform>();
         posInViewPortClosestObjectToKeep = Vector2.zero;
-
 
         closestObject = null;
 
@@ -139,14 +185,11 @@ public class Grappling : MonoBehaviour
                         objects.Add(t);
                     }
                 }
-
             }
-
         }
 
         if (objects.Count > 0)
         {
-
             closestObject = objects[0];
 
             for (int i = 0; i <= objects.Count - 1; i++)
@@ -161,23 +204,19 @@ public class Grappling : MonoBehaviour
 
             posInViewPortClosestObjectToKeep = cam.GetComponent<Camera>().WorldToViewportPoint(closestObject.position) - new Vector3(0.5f, 0.5f, 0.5f);
 
-
             // Exception for enemies
             if (closestObject.GetComponentInParent<EnemyManager>() != null)
                 closestObject = closestObject.GetComponentInParent<EnemyManager>().gameObject.transform;
-
-
         }
 
         if (closestObject != null && posInViewPortClosestObjectToKeep.magnitude < (Vector2.one * 0.1f).magnitude)
-            return (closestObject);
-        else 
+            return closestObject;
+        else
             return null;
     }
 
     private void ExecuteGrapple()
     {
-
         StartCoroutine(GrabEnemy());
     }
 
@@ -187,7 +226,6 @@ public class Grappling : MonoBehaviour
         Vector3 initialPos = Vector3.zero;
         if (closestObject != null)
             initialPos = closestObject.position;
-
 
         float distanceForSpeed = Vector3.Distance(initialPos, transform.position);
 
@@ -199,10 +237,8 @@ public class Grappling : MonoBehaviour
         {
             closestObject.transform.position = Vector3.Lerp(initialPos, gameObject.transform.position, lerpValue);
             lerpValue += grabSpeed * Time.deltaTime;
-            //Debug.Log(lerpValue);
             yield return null;
         }
-
 
         // Exception for enemies
         if (closestObject.GetComponent<NavMeshAgent>() != null)
@@ -212,19 +248,17 @@ public class Grappling : MonoBehaviour
         }
         else
         {
-            //closestObject.gameObject.GetComponent<Collider>().enabled = false;
             closestObject.gameObject.GetComponent<Rigidbody>().isKinematic = true;
             throwScript.SetTarget(closestObject.gameObject);
         }
-            
 
         Invoke(nameof(StopGrapple), 0f);
     }
 
     private void StopGrapple()
     {
-        Debug.Log("GRapple stop");
-  
+        Debug.Log("Grapple stop");
+
         playerMovement.DisableGrapple();
 
         grapplingRope.ResetRope();
@@ -234,9 +268,7 @@ public class Grappling : MonoBehaviour
         grappledObject = null;
 
         Invoke(nameof(StopEnemyGrab), 1f);
-
     }
 
     private void StopEnemyGrab() => playerMovement.DisableEnemyGrab();
-
 }
