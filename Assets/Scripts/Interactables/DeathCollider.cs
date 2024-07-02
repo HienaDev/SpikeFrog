@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class DeathCollider : MonoBehaviour
 {
 
-    private SaveManager saveManager;
+    private PlayerHealth playerHealth;
 
     // Start is called before the first frame update
     void Start()
     {
-        saveManager = FindObjectOfType<SaveManager>();
+        playerHealth = FindObjectOfType<PlayerHealth>();
     }
 
     // Update is called once per frame
@@ -26,7 +25,7 @@ public class DeathCollider : MonoBehaviour
 
         if (playerCombat != null)
         {
-            saveManager.QuickLoadGame();
+            SceneManager.LoadScene("Loading Death");
         }
     }
 }

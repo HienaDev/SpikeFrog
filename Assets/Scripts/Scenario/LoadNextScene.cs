@@ -21,6 +21,5 @@ public class LoadNextScene : MonoBehaviour
     {
         justDied = Time.timeSinceLevelLoad;
         outsideTrigger = false;
-        
     }
 }

@@ -5,8 +5,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private UIManager uiManager;
     [SerializeField] private int       maxHealth;
 
-    private PlayerMovement playerScript;
+    private PlayerMovement playerMovement;
     private PlayerCombat   playerCombat;
+    private Grappling      playerGrappling;
     private Animator       animator;
     private int            health;
     private bool           dead;
@@ -17,8 +18,9 @@ public class PlayerHealth : MonoBehaviour
     {
         health = maxHealth;
 
-        playerScript = GetComponent<PlayerMovement>();
+        playerMovement = GetComponent<PlayerMovement>();
         playerCombat = GetComponentInChildren<PlayerCombat>();
+        playerGrappling = GetComponentInChildren<Grappling>();
         animator     = GetComponentInChildren<Animator>();
 
         dead = false;
@@ -53,15 +55,14 @@ public class PlayerHealth : MonoBehaviour
             health = Mathf.Max(health - amount, 0);
             playerSounds.PlayPunchSound();
         }
-            
-
 
         UpdateUI();
 
         if (health <= 0 && !dead)
         {
-            playerScript.enabled = false;
+            playerMovement.enabled = false;
             playerCombat.enabled = false;
+            playerGrappling.enabled = false;
             animator.SetTrigger("Death");
             dead = true;
         }
