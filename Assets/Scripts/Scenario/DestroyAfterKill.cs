@@ -37,10 +37,22 @@ public class DestroyAfterKill : MonoBehaviour
         {
             alreadyDestroyed = true;
             // Play animation Open
-            animator.SetTrigger("Open");
+            OpenDoor();
             // Play sound effect
             audioSource.clip = soundEffect;
             audioSource.Play();
         }
+    }
+
+    public void CloseDoor()
+    {
+        // Play animation Close
+        animator.SetTrigger("Close");
+    }
+
+    public void OpenDoor()
+    {
+        // Play animation Open
+        animator.SetTrigger("Open");
     }
 }
