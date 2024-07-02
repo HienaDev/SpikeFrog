@@ -1,8 +1,12 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class DestroyAfterKill : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemiesToKill;
+    private AudioSource  audioSource;
+    [SerializeField] private AudioMixerGroup audioMixer;
+    [SerializeField] private AudioClip    soundEffect;
 
     private Animator animator;
     private bool alreadyDestroyed = false;
@@ -10,6 +14,9 @@ public class DestroyAfterKill : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.outputAudioMixerGroup = audioMixer;
     }
 
     private void FixedUpdate()
@@ -31,6 +38,9 @@ public class DestroyAfterKill : MonoBehaviour
             alreadyDestroyed = true;
             // Play animation Open
             animator.SetTrigger("Open");
+            // Play sound effect
+            audioSource.clip = soundEffect;
+            audioSource.Play();
         }
     }
 }

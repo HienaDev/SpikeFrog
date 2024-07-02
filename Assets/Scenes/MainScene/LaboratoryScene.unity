@@ -2755,7 +2755,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: c17b02a0166cc8e4d8edba50b05b202f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: e28b5bb6cd3fbb848b97581904eda3fc, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &105448823
 Transform:
@@ -23926,6 +23926,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesToKill: []
+  audioMixer: {fileID: 0}
+  soundEffect: {fileID: 0}
 --- !u!208 &923118245
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -25208,6 +25210,9 @@ MonoBehaviour:
   - {fileID: 1279577969}
   - {fileID: 783963328}
   - {fileID: 1724508232}
+  audioMixer: {fileID: -6632441696127261869, guid: 7a1df8121f8ef8f42b45bcb94224515b,
+    type: 2}
+  soundEffect: {fileID: 8300000, guid: e286898a92354f94bab299bbed824f16, type: 3}
 --- !u!208 &963114659
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -25597,6 +25602,9 @@ MonoBehaviour:
   - {fileID: 946363875}
   - {fileID: 1730153387}
   - {fileID: 631882055}
+  audioMixer: {fileID: -6632441696127261869, guid: 7a1df8121f8ef8f42b45bcb94224515b,
+    type: 2}
+  soundEffect: {fileID: 8300000, guid: e286898a92354f94bab299bbed824f16, type: 3}
 --- !u!208 &976198732
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -26588,7 +26596,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.33333334
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: bdedccb214fecc74e8c4282e64d3688e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 2d15ecac52c0eb9469eed0817715f1ca, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &1049379865
 PrefabInstance:
