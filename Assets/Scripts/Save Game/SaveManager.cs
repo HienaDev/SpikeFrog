@@ -15,11 +15,12 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private LeonManager        leonManager;
     [SerializeField] private LeonController     leonController;
     [SerializeField] private DialogSave         dialogSave;
+    [SerializeField] private SaveMessageDisplay saveMessageDisplay;
 
     private GameSaveData    gameSaveData;
     private string          saveFilePath;
 
-    public bool death = false;
+    [HideInInspector] public bool death = false;
 
     public static SaveManager Instance { get; private set; }
 
@@ -63,6 +64,21 @@ public class SaveManager : MonoBehaviour
             leonController = FindObjectOfType<LeonController>();
         if (dialogSave == null)
             dialogSave = FindObjectOfType<DialogSave>();
+        if (saveMessageDisplay == null)
+            saveMessageDisplay = FindObjectOfType<SaveMessageDisplay>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            QuickSaveGame();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            QuickLoadGame();
+        }
     }
 
     // called second
@@ -113,6 +129,36 @@ public class SaveManager : MonoBehaviour
         File.WriteAllText(saveFileName, jsonSaveData);
 
         print("Game Saved");
+
+        // Trigger the save message display
+        if (saveMessageDisplay != null)
+        {
+            saveMessageDisplay.DisplaySaveMessage();
+        }
+    }
+
+    public void CreateNewGame()
+    {
+        LookForReferences();
+
+        GameSaveData saveData;
+
+        saveData.playerHealth = playerHealth.GetSaveData();
+        saveData.playerMovement = playerMovement.GetSaveData();
+        saveData.playerCombat = playerCombat.GetSaveData();
+        saveData.controlCamera = controlCamera.GetSaveData();
+        saveData.enemies = enemySave.GetSaveData();
+        saveData.healthPickups = healthPickupSave.GetSaveData();
+        saveData.settings = settings.GetSaveData();
+        saveData.leonManager = leonManager.GetSaveData();
+        saveData.leonController = leonController.GetSaveData();
+        saveData.dialogSave = dialogSave.GetSaveData();
+
+        string jsonSaveData = JsonUtility.ToJson(saveData, true);
+
+        File.WriteAllText(saveFileName, jsonSaveData);
+
+        print("Game Created");
     }
 
     public bool QuickLoadGame()

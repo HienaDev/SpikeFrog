@@ -105,7 +105,7 @@ public class MenusManager : MonoBehaviour
         bool loadSuccessful = saveManager.QuickLoadGame();
         if (!loadSuccessful)
         {
-            saveManager.QuickSaveGame();
+            saveManager.CreateNewGame();
         }
 
         loadingScreen.SetActive(false);
